@@ -1,0 +1,36 @@
+<Alloy>
+	<View class="container" layout="vertical" >
+		<View id="header" backgroundColor="#375540"  >
+			<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
+			<Label class="h1" id="appTitle">HOME</Label>
+			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+		</View>
+		<View class="content"  layout="vertical" id="content" >
+			<View layout="horizontal" width="100%" height="130" top="20" textAlign="CENTER">
+				<View onClick="goTo" mod="assignment" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#FCEEEE">
+					<Label mod="assignment" color="#565656" text="Assignment" />
+				</View>
+				<View onClick="goTo" mod="history" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#FCEEFA">
+					<Label mod="history" color="#565656" text="Scan History" />
+				</View>
+			</View>	
+			<View layout="horizontal" width="100%" height="130" top="10" textAlign="CENTER">
+				<View onClick="goTo" mod="news" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#E9F5FF">
+					<Label mod="news" color="#565656" text="News & Events" />
+				</View>
+				<View onClick="goTo" mod="inventory" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#E9FFF3">
+					<Label mod="inventory" color="#565656" text="Inventory Control" />
+				</View>
+			</View>	
+			<View layout="horizontal" width="100%" height="130" top="10" textAlign="CENTER">
+				<View onClick="goTo" mod="settings" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#F8FFE9">
+					<Label mod="settings" color="#565656" text="Settings" />
+				</View>
+				<View onClick="logout" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#FFF4E9">
+					<Label color="#565656" text="Logout" />
+				</View>
+			</View>		 
+		</View>
+		 
+	</View>
+</Alloy>

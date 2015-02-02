@@ -1,0 +1,65 @@
+
+"Label": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#ffffff"
+}
+
+"#label": {
+	font: {
+		fontSize: 12
+	}
+},
+"#username" : {
+	 height:'55dp',
+	 font:{
+		fontSize: '14dp'
+	},
+	 left:10,
+	 color: '#000000',
+	 bottom:75,
+	 backgroundColor: '#eee',
+	 width:'90%',
+	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
+     returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
+	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+},
+"#password" : {
+	 passwordMask:true,
+	 height:'55dp',
+	 font:{
+		fontSize: '14dp'
+	},
+	color: '#000000',
+	backgroundColor: '#eee',
+	 left:10,
+	 bottom:10,
+	 width:'90%',
+	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
+     returnKeyType: Titanium.UI.RETURNKEY_DONE  ,
+	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+},
+"#passwordhint" : {
+	 left:20,
+	 bottom: 30,
+	 font:{
+		fontSize: '14dp'
+	},
+	 width:'90%',
+	 color: "#333"
+},
+"#usernamehint" : {
+	 left:20,
+	 bottom: 95,
+	 font:{
+		fontSize: '14dp'
+	},
+	 width:'90%',
+	 color: "#333"
+}, 
+"#btnLogin" : {
+	backgroundColor : "#375540", 
+	width  : "60%" , 
+	height: Ti.UI.SIZE,
+	color: "#ffffff"
+} 

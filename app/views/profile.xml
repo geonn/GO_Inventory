@@ -1,0 +1,27 @@
+<Alloy>
+	<View class="container" id="profile">
+		<View id="header" backgroundColor="#375540"  >
+			<View height="50" width="50" left="0" onClick="back" >
+				<ImageView image="/images/back-button.png" height="30" left="8"  />
+			</View> 
+			<Label class="h1" id="appTitle">My Profile</Label>
+			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+		</View>
+		 
+        
+		<View id="pView"  layout="vertical"> 
+			<View backgroundColor="#fcfbfb" height="40">
+		        <Label class="label">Account Info</Label>
+		        <View class="line" />
+		    </View>
+			<View id="table1Container" height="150"></View>
+			
+	      	<View backgroundColor="#fcfbfb" height="40">
+		        <Label class="label">Password</Label>
+		        <View class="line" />
+		    </View>
+			<View id="table2Container" height="50"></View>
+			
+		</View> 
+	</View>
+</Alloy>

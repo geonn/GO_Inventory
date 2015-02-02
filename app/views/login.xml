@@ -1,0 +1,25 @@
+<Alloy>
+	
+	<View class="container" layout="vertical" id="loginView" >
+		<View id="header" backgroundColor="#375540"  > 
+			<Label class="h1" id="appTitle">LOGIN</Label>
+		</View>
+		
+		<View height="Ti.UI.FILL">
+			<View class="content"   layout="vertical" id="content" >
+				<ScrollView showVerticalScrollIndicator="true" showHorizontalScrollIndicator="true" height="320" width="100%">
+					<Label backgroundImage="/images/GO_inventory_hoz.png" width="120" height="120" bottom="150" />
+					<TextField id="username" focusable="true" /><Label id="usernamehint">Enter Username</Label>
+					<TextField id="password" focusable="true" /><Label id="passwordhint">Enter Password</Label>
+				</ScrollView>
+				<Button id="btnLogin" onClick="doLogin"  title="LOGIN" borderColor="#FAFAFA" borderRadius="10"  /> 
+			</View>
+			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
+			    <ActivityIndicator  id="activityIndicator" />
+				<Label top="5" text="Loading" color="#ffffff" />
+			</View> 
+		</View>
+	</View>
+	
+</Alloy>
+		

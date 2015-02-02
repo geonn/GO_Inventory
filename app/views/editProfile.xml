@@ -1,0 +1,20 @@
+<Alloy>
+	<View class="container" layout="vertical" id="editProfile">
+		<View id="header" backgroundColor="#375540"  >
+			<View height="50" width="50" left="0" onClick="back" >
+				<ImageView image="/images/back-button.png" height="30" left="8"  />
+			</View> 
+			<Label class="h1" id="appTitle">Edit Profile</Label>
+			<ImageView image="/images/more-button.png" onClick="menuToggle" right="2" />
+		</View>
+		<View  layout="vertical" height="30" top=10  >
+        	<Label text="" class="description_content" id="description"  />
+        </View>
+        
+        
+		<View id="main" layout="vertical" backgroundColor="#FFFFFF"   height="50" top=15 > 
+			<TextField id="editField" height="50"  value="" hintText="" width="100%" textAlign="center" />
+			<ActivityIndicator id="activityIndicator" color="#ffffff" message="Updating Info..."/>
+		</View> 
+	</View>
+</Alloy>

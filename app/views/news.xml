@@ -1,0 +1,18 @@
+<Alloy>
+	<View class="container" id="newsView">
+		<View id="header" backgroundColor="#375540"  >
+			<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
+			<Label class="h1" id="appTitle">NEWS & EVENTS</Label>
+			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+		</View>
+		 <View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15" backgroundColor="#2E2E2E" >
+        	<ActivityIndicator  id="activityIndicator" />
+        	<Label id="loading" top="5" text="Loading" color="#ffffff" />
+        </View>
+        
+		<View id="aView" top='50'  layout="vertical"> 
+			<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50" hintText="Search News & Events..." /> 
+		 	<ScrollView id="announcementScrollView" layout="horizontal" height="100%" width="100%" />
+		</View> 
+	</View>
+</Alloy>

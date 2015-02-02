@@ -1,0 +1,9 @@
+<Alloy>
+	<View class="container">
+		<View id="header" backgroundColor="#375540"  >
+			<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
+			<Label class="h1" id="appTitle">INVENTORY CONTROL</Label>
+			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+		</View>
+	</View>
+</Alloy>
