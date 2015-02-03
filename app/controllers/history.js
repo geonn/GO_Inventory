@@ -14,7 +14,7 @@ setTimeout(function(){
 }, 1000); 
 
 function displayProduct(products){
-	 
+	
 	var TheTable = Titanium.UI.createTableView({
 		width:'100%',
 		backgroundImage: "/images/bg.jpg",
@@ -131,9 +131,9 @@ function displayProduct(products){
 					syncButton.addEventListener('click', function(e){ 
 						syncScanToServer(entry.code,toSync);
 					});
+					row.add(syncButton);
 				}
 				
-			 	row.add(syncButton);
 				data.push(row);
 	   		});
 	   		

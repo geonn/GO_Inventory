@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 var pop;
 var MODULE = require("_assignment");
 var iCard =  Ti.App.Properties.getString("iCard");
+var mod_InventoryProd = Alloy.createCollection('product_inventory');
 var mod_products = Alloy.createCollection('products'); 
 var mod_resources = Alloy.createCollection('resources'); 
 
@@ -27,9 +28,10 @@ function populateData(){
 	removeAllChildren($.resource_info);
 	var det = mod_products.getProductDetails(iCard);
 	var res_det = mod_resources.getResourcesByicard(iCard);
-	 
- 	$.productImage.image = det.image;
-	$.iCard_info.text =  det.name + " ("+det.code+") at " + timeFormat(det.updated); 
+	var prod_det = mod_InventoryProd.getProductDetails(det.product); 
+	
+ 	$.productImage.image = prod_det.image;
+	$.iCard_info.text =  prod_det.name + " ("+det.code+") at " + timeFormat(det.updated); 
 	for(var i=0; i < res_det.length; i++){ 
 		var textColor = "#9D001D"; 
 		if(res_det[i].status == "2"){

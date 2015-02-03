@@ -104,7 +104,7 @@ exports.definition = {
 			getProductDetails : function(id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+id+"' " ;
-                
+        
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql); 
                 var arr = []; 
@@ -129,6 +129,7 @@ exports.definition = {
 					};
 					
 				} 
+				 
 				res.close();
                 db.close();
                 collection.trigger('sync');
