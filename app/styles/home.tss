@@ -7,5 +7,6 @@
 	borderRadius:"65",
 },
 ".bubble_text":{
-	color:"#565656"
+	color:"#565656",
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
 }

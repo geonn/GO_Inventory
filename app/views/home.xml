@@ -6,7 +6,7 @@
 			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
 		<View class="content">
-			<ScrollView layout="horizontal" width="Ti.UI.SIZE" height="Ti.UI.FILL" contentWidth="Ti.UI.SIZE" contentHeight="Ti.UI.SIZE" top="20" textAlign="CENTER">
+			<ScrollView layout="horizontal" width="Ti.UI.SIZE" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE" top="20" textAlign="CENTER">
 				<View onClick="goTo" mod="assignment" class="bubble" borderColor="#362D2D" backgroundColor="#FCEEEE">
 					<Label mod="assignment" class="bubble_text" text="Assignment" />
 				</View>
