@@ -37,6 +37,11 @@ Window :{
         fontWeight: 'bold'
     }
 },
+".h1":{
+	font: { 
+        fontWeight: 'bold'
+    }
+},
 ".white_text" :{
 	color: "#FFFFFF"
 },
@@ -52,6 +57,12 @@ Window :{
 ".small_text" :{
 	font: {
         fontSize: '10dp',
+        fontStyle: 'normal' 
+    }
+},
+".medium_text" :{
+	font: {
+        fontSize: '12dp',
         fontStyle: 'normal' 
     }
 },

@@ -1,18 +1,16 @@
 <Alloy>
 	<View class="container" top="0" layout="vertical" id="assignmentView" height="">
 		<View id="header" backgroundColor="#375540"  >
-			<ImageView zIndex="10" image="/images/GO_inventory_hoz.png" height="35" left="2" />
-			<Label zIndex="10" class="h1" id="appTitle">ASSIGNMENT</Label>
-			<ImageView zIndex="11" image="/images/more-button.png" onClick="menuToggle" right="2" />
+			<View backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>
+			<Label class="h1" id="appTitle">ASSIGNMENT</Label>
+			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
-		
-		<View height="15%" top="0"  layout="vertical" id="content" >
-			<Label class="black_text small_text">Please press "Start" to scan iCard or iResources</Label>
-			<View id="scanner" width="100%" height="60" ></View>
+		<View height="Ti.UI.SIZE" layout="vertical">
+			<Label class="black_text medium_text" height="34">Please press "Start" to scan iCard or iResources</Label>
+			<View id="scanner" width="Ti.UI.FILL" height="60" bottom="10" ></View>
 		</View>
- 		<View backgroundColor="#375540" height="5%"><Label class="white_text bold_text" >iCard Details</Label></View>
+ 		<View backgroundColor="#375540" height="5%"><Label class="white_text bold_text" >ICARD DETAILS</Label></View>
 		<ScrollView id="detailScrollView"  layout="vertical"   height="60%" top="10" left="10" right="10"> 
-			
 			<ImageView id="productImage" height="50" /> 
 			<View layout="horizontal" height=Ti.UI.SIZE>
 				<Label class="black_text bold_text" top="0" width="30%" >iCard No :</Label>
