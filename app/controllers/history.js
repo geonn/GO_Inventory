@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
 var pop;
+var mod_InventoryProd = Alloy.createCollection('product_inventory');
 var mod_products = Alloy.createCollection('products'); 
 var mod_resources = Alloy.createCollection('resources'); 
  
@@ -7,6 +8,7 @@ $.hView.height = Ti.Platform.displayCaps.platformHeight - 50;
 COMMON.construct($);
 COMMON.showLoading();
 var products = mod_products.getScanProduct(); 
+
 setTimeout(function(){ 
 	displayProduct(products); 
 }, 1000); 
@@ -39,7 +41,7 @@ function displayProduct(products){
 
 	   		products.forEach(function(entry) {
 	   			var toSync = mod_resources.getResourcesToSync({iCard: entry.code});
-	   			
+	   			var prodDetails = mod_InventoryProd.getProductDetails(entry.product); 
 	   			var row = Titanium.UI.createTableViewRow({
 			    touchEnabled: true,
 			    height: 70,
@@ -60,7 +62,7 @@ function displayProduct(products){
 				}); 
 				
 				var leftImage =  Titanium.UI.createImageView({
-					image:entry.image,
+					image:prodDetails.image,
 					source: entry.code,
 					width:"20%",
 					height:50,
@@ -69,7 +71,7 @@ function displayProduct(products){
 				});	
 		 
 				var popUpTitle = Titanium.UI.createLabel({
-					text:entry.name,
+					text:prodDetails.name,
 					font:{fontSize:16},
 					source: entry.code,
 					color: "#848484",

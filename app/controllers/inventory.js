@@ -1,2 +1,5 @@
 var args = arguments[0] || {};
-API.syncScanByUser();
+var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
+
+var details = mod_InventoryProd.getProductList();
+console.log(details);

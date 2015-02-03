@@ -11,3 +11,5 @@ function logout(){
 	
 }
 
+API.getInventoryProducts();
+API.syncScanByUser();

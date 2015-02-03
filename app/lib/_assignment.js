@@ -62,11 +62,11 @@ exports.openScanner = function() {
 			//Scan product
 			var mod_products = Alloy.createCollection('products'); 
 			mod_products.addUpdateProduct({
+				id : code['id'],
 				prefix : code['prefix'],
 				item_id : code['item_id'],
-				name : code['name'],
-				code : code['code'],
-				image : API.getDomain()+ code['image'],
+				product : code['product'],
+				code : code['code'], 
 				created : currentDateTime(),
 				updated : currentDateTime()
 			});

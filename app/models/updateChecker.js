@@ -3,7 +3,7 @@ CHECKER CONFIG
 ID       type Name
 ------------------------------------
 1		getAnnoucement	 
-2 		 	 
+2 		getInventoryProduct 	 
 3 		   
 4 			
 ************************************/

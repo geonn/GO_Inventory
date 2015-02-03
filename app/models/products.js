@@ -1,12 +1,11 @@
 exports.definition = {
 	config: {
 		columns: {
-			"id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+			"id": "INTEGER",
+			"product" : "TEXT",
 		    "prefix": "TEXT",
-		    "item_id": "INTEGER",
-		    "name": "TEXT",
-		    "code": "TEXT",
-		    "image": "TEXT",
+		    "item_id": "INTEGER", 
+		    "code": "TEXT", 
 		    "done" : "TEXT",
 		    "created" : "TEXT",
 		    "updated" : "TEXT"
@@ -39,9 +38,8 @@ exports.definition = {
 					    
 					    prefix: res.fieldByName('prefix'),
 					    item_id: res.fieldByName('item_id'),
-					    name: res.fieldByName('name'),
-					    code: res.fieldByName('code'),
-					    image: res.fieldByName('image'),
+					    product: res.fieldByName('product'),
+					    code: res.fieldByName('code'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
 					};
@@ -55,7 +53,7 @@ exports.definition = {
 			},
 			searchProducts : function(searchKey){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE name LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE item_id LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -65,10 +63,9 @@ exports.definition = {
 					arr[count] = {
 					    
 					    prefix: res.fieldByName('prefix'),
-					    item_id: res.fieldByName('item_id'),
-					    name: res.fieldByName('name'),
+					    item_id: res.fieldByName('item_id'), 
 					    code: res.fieldByName('code'),
-					    image: res.fieldByName('image'),
+					    product: res.fieldByName('product'),
 					    done : res.fieldByName('done'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -92,10 +89,9 @@ exports.definition = {
                 if (res.isValidRow()){
 					arr = {
 					    prefix: res.fieldByName('prefix'),
-					    item_id: res.fieldByName('item_id'),
-					    name: res.fieldByName('name'),
+					    item_id: res.fieldByName('item_id'), 
 					    code: res.fieldByName('code'),
-					    image: res.fieldByName('image'),
+					    product: res.fieldByName('product'),
 					    done : res.fieldByName('done'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -115,9 +111,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET image = '"+e.image+"', updated='"+e.updated+"' WHERE code='" +e.code+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  updated='"+e.updated+"' WHERE code='" +e.code+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (prefix, item_id, name,code,image,done, created, updated) VALUES ('"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"','"+e.image+"', 0, '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.created+"','"+e.updated+"')" ;
 				}
            		 
 	            db.execute(sql_query);

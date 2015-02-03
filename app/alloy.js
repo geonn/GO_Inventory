@@ -30,12 +30,23 @@ function DPUnitsToPixels(TheDPUnits){
 var getValueFromPipe = function(myCode){ 
 	var data = myCode.split("||");  
  	var obj = {};
-	obj['type'] = data[0];
-	obj['prefix'] = data[1];
-	obj['item_id'] = data[2];
-	obj['name'] = data[3];
-	obj['code'] = data[4];
-	obj['image'] = data[5]; 
+ 	
+ 	if(data[0] == "product"){
+ 		obj['type'] = data[0];
+		obj['id'] = data[1];
+		obj['prefix'] = data[3];
+		obj['item_id'] = data[3];
+		obj['product'] = data[4];
+		obj['code'] = data[5]; 
+ 		
+ 	}else{
+ 		obj['type'] = data[0];
+		obj['prefix'] = data[1];
+		obj['item_id'] = data[2];
+		obj['name'] = data[3];
+		obj['code'] = data[4]; 
+ 	}
+	
 	return obj;
 };
 

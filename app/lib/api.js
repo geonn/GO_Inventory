@@ -13,7 +13,8 @@ var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+
 var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY;
 var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY;
 var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+USER+"&key="+KEY;
- //http://175.143.113.177/webse/mytelelink.asp?REQTYPE=31&USERNAME=TESTWEBSEUID&PWD=TESTWEBSEPWD
+var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY;
+
 /*********************
 **** API FUNCTION*****
 **********************/
@@ -61,7 +62,7 @@ exports.login = function (ex){
 //check Announcement
 exports.getAnnouncement = function (ex){
 	var url = announcementUrl ;
-	  
+	  console.log(announcementUrl);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -191,6 +192,57 @@ exports.changePassword= function(ex){
 	 client.send(); 
 };
 
+exports.getInventoryProducts = function(ex){
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("2");
+	checker.updateModule("2","inventoryProduct",currentDateTime()); 
+	 
+	var url =inventoryProductsUrl+"&last_updated="+currentDateTime();
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	     	var res = JSON.parse(this.responseText);
+	       
+	        if(res.status == "success"){ 
+				var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
+				var product  = res.data;
+	         	product.forEach(function(prodDetail){
+	         	
+	         		mod_InventoryProd.addUpdateProduct({
+		       			id: prodDetail.id, 
+						name: prodDetail.name,
+						prodSet: prodDetail.set,
+						code: prodDetail.code,
+						category: prodDetail.category,
+						image: prodDetail.image,
+						depth: prodDetail.depth,
+						width: prodDetail.width,
+						height: prodDetail.height,
+						weight: prodDetail.weight,
+						surface_habitable: prodDetail.surface_habitable,
+						fabric_used: prodDetail.fabric_used,
+						qty: prodDetail.quantity,
+						created: prodDetail.created,
+						updated: prodDetail.updated
+	         			 
+	        		});	
+	         		
+	         	});
+	       		
+	        }
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
 exports.syncScanByUser= function(ex){
 	var url = syncScanByUserUrl + "&u_id="+Ti.App.Properties.getString("user_id");  
 	var client = Ti.Network.createHTTPClient({
@@ -202,16 +254,16 @@ exports.syncScanByUser= function(ex){
 	       		//console.log(res.data);
 	         	var mod_product = Alloy.createCollection('products'); 
 	         	var mod_resources = Alloy.createCollection('resources'); 
-	        	console.log(res);
+	         
 	         	var product  = res.data;
 	         	product.forEach(function(prodDetail){
-	         		console.log(prodDetail);
+	         		 
 	         		mod_product.addUpdateProduct({
+					    id: prodDetail.id,
 	         			prefix : prodDetail.prefix,
 					    item_id : prodDetail.item_id,
-					    name : prodDetail.name,
+					    product : prodDetail.product,
 					    code : prodDetail.code,
-					    image: prodDetail.image,
 					    created : prodDetail.updated,
 					    updated : prodDetail.updated,
 	         		});
@@ -246,77 +298,7 @@ exports.syncScanByUser= function(ex){
 	 // Send the request.
 	 client.send(); 
 };
-
-//favourite odds
-exports.favourite = function (ex){
-	var url = requestRaceFavouriteOdds;
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	console.log("favourite");
-	       	var res = getValueFromPipe(this.responseXML);
-	       console.log(res);
-	     
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	alert("An error occurs");
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
-};
-
-//raceCard
-exports.raceCard = function (ex){
-	var url = requestRaceCard;
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	var res = getValueFromDollarAndPipe(this.responseXML);
-	     	
-			//Insert to local DB
-			var raceCardInfo = Alloy.createModel('raceCardInfo', { 
-				id: res.id,
-				venue: res.venue, 
-				totalRunner: res.totalRunner
-			}); 
-			raceCardInfo.save(); 
-
-			for(var i = 1; i <= res['totalRunner']; i++){
-				var runner_id = res['runner'+i][0];
-				var runner_date = res['runner'+i][1];
-				var runner_time = res['runner'+i][2];
-				//console.log(runner_id+'=='+runner_date+"=="+runner_time);
-				
-				//Insert to local DB
-				var raceCardDetails = Alloy.createModel('raceCardDetails', { 
-					race_id:res.id,
-					runner_id: runner_id, 
-					runner_date: runner_date,
-					runner_time: runner_time
-				}); 
-				raceCardDetails.save(); 
-			}
-	
-	     	DRAWER.navigation(ex.title,1);
-	     
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	alert("An error occurs");
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
-};
-
+ 
 exports.getDomain = function(){
 	return "http://"+API_DOMAIN+"/";	
 };
