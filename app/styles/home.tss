@@ -1,4 +1,11 @@
-
-".container" : {
-  
+".bubble":{
+	width: "130",
+	right: "10",
+	left: "10",
+	bottom:"10",
+	height:"130",
+	borderRadius:"65",
+},
+".bubble_text":{
+	color:"#565656"
 }

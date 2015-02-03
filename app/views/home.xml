@@ -1,36 +1,31 @@
 <Alloy>
 	<View class="container" layout="vertical" >
 		<View id="header" backgroundColor="#375540"  >
-			<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
+			<View backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>
 			<Label class="h1" id="appTitle">HOME</Label>
-			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
-		<View class="content"  layout="vertical" id="content" >
-			<View layout="horizontal" width="100%" height="130" top="20" textAlign="CENTER">
-				<View onClick="goTo" mod="assignment" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#FCEEEE">
-					<Label mod="assignment" color="#565656" text="Assignment" />
+		<View class="content">
+			<ScrollView layout="horizontal" width="Ti.UI.SIZE" height="Ti.UI.FILL" contentWidth="Ti.UI.SIZE" contentHeight="Ti.UI.SIZE" top="20" textAlign="CENTER">
+				<View onClick="goTo" mod="assignment" class="bubble" borderColor="#362D2D" backgroundColor="#FCEEEE">
+					<Label mod="assignment" class="bubble_text" text="Assignment" />
 				</View>
-				<View onClick="goTo" mod="history" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#FCEEFA">
-					<Label mod="history" color="#565656" text="Scan History" />
+				<View onClick="goTo" mod="history" class="bubble" borderColor="#362D2D" backgroundColor="#FCEEFA">
+					<Label mod="history" class="bubble_text" text="Scan History" />
 				</View>
-			</View>	
-			<View layout="horizontal" width="100%" height="130" top="10" textAlign="CENTER">
-				<View onClick="goTo" mod="news" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#E9F5FF">
-					<Label mod="news" color="#565656" text="News & Events" />
+				<View onClick="goTo" mod="news" class="bubble" borderColor="#362D2D" backgroundColor="#E9F5FF">
+					<Label mod="news" class="bubble_text" text="News & Events" />
 				</View>
-				<View onClick="goTo" mod="inventory" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#E9FFF3">
-					<Label mod="inventory" color="#565656" text="Inventory Control" />
+				<View onClick="goTo" mod="inventory" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
+					<Label mod="inventory" class="bubble_text" text="Inventory Control" />
 				</View>
-			</View>	
-			<View layout="horizontal" width="100%" height="130" top="10" textAlign="CENTER">
-				<View onClick="goTo" mod="settings" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#F8FFE9">
-					<Label mod="settings" color="#565656" text="Settings" />
+				<View onClick="goTo" mod="settings" class="bubble" borderColor="#362D2D" backgroundColor="#F8FFE9">
+					<Label mod="settings" class="bubble_text" text="Settings" />
 				</View>
-				<View onClick="logout" width="43%" right="3%" left="3%" height="100%" borderRadius="65" borderColor="#362D2D" backgroundColor="#FFF4E9">
-					<Label color="#565656" text="Logout" />
+				<View onClick="logout" class="bubble" borderColor="#362D2D" backgroundColor="#FFF4E9">
+					<Label class="bubble_text" text="Logout" />
 				</View>
-			</View>		 
+			</ScrollView>		 
 		</View>
-		 
 	</View>
 </Alloy>
