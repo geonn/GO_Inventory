@@ -21,9 +21,10 @@
 	               <SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />
 	            	<View id="productView" />
 	            </View>
-	            <View id="view2" backgroundColor="#246">
-	             <Label>View 2321321</Label>
-	             </View>
+	            <View id="view2" layout="vertical">
+	            	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchResource" text="" top="0" height="50"  hintText="Search Resources..." />
+	            	<View id="resourceView" />
+	            </View>
 	             
 	        </ScrollableView>
 		</View>

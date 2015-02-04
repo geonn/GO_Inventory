@@ -32,7 +32,7 @@ function displayProduct(products){
 			 });
 			$.productView.add(noRecord);
 		}else{
-
+			var counter =1;
 	   		products.forEach(function(entry) {
 	   			 
 	   			var row = Titanium.UI.createTableViewRow({
@@ -100,7 +100,7 @@ function displayProduct(products){
 				
 				 
 				row.addEventListener('touchend', function(e) {
-				 	viewDetails(e);
+				 	viewDetails(e, counter);
 				});
 			 
 				row.add(leftImage);
@@ -109,12 +109,18 @@ function displayProduct(products){
 			 	tblView.add(distance);  
 			 	row.add(tblView);
 			 	data.push(row);
+			 	counter++;
 	   		});
 	   		
 	   		TheTable.setData(data); 
 			$.productView.add(TheTable);
 		} 
 };
+
+function viewDetails(e,position){
+	
+	DRAWER.navigation("productDetails",1,{position:position});
+}
 
 function refreshTableList(){
 	removeAllChildren($.productView);
