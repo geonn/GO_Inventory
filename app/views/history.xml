@@ -5,13 +5,13 @@
 			<Label class="h1" id="appTitle">SCAN HISTORY</Label>
 			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 		</View>
-		 <View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
+		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
         	<ActivityIndicator  id="activityIndicator" />
         	<Label top="5" text="Loading" color="#ffffff" />
         </View>
         
 		<View id="hView" top='50' layout="vertical"> 
-			<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50"  hintText="Search Products..." /> 
+			<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50"  hintText="Search Scan Code..." /> 
 		 	<ScrollView id="historyScrollView" layout="horizontal" height="100%" width="100%" />
 		</View> 
 	</View>

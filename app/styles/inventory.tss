@@ -1,4 +1,16 @@
 
 ".container" : {
   
-}
+},
+"#menu":{
+	height: Ti.UI.SIZE,
+	backgroundColor: "#fff",
+	layout: 'horizontal',
+},
+".menuItem":{
+	height: '34dp',
+	//width: '70dp',
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	// left: '5dp',
+	// right: '5dp',
+},

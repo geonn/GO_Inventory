@@ -1,9 +1,31 @@
 <Alloy>
-	<View class="container">
-		<View id="header" backgroundColor="#375540"  >
-			<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
-			<Label class="h1" id="appTitle">INVENTORY CONTROL</Label>
-			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+	<View>
+		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
+	        <ActivityIndicator  id="activityIndicator" />
+	    	<Label top="5" text="Loading" color="#ffffff" />
+	    </View>
+		<View class="container" id="inventoryView"  layout="vertical" >
+			
+			<View id="header" backgroundColor="#375540"  >
+				<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
+				<Label class="h1" id="appTitle">INVENTORY CONTROL</Label>
+				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+			</View>
+			
+			<View id="menu" width="100%">
+	    		<Label id="lbl_products" mod="0" width="49.9%" onTouchend="goSlide" class="menuItem" backgroundColor="#FFFFFF" color="#494949" borderColor="#FFFFFF" borderWidth="0.5">Products</Label>
+	    		<Label id="lbl_resources" mod="1" width="49.9%" onTouchend="goSlide" class="menuItem" backgroundColor="#D1D1D1" color="#838383" borderColor="#ADADAD" borderWidth="0.5">Resources</Label>
+	    	</View>
+			 <ScrollableView id="scrollableView" showPagingControl="false" scrollingEnabled="false">
+	            <View id="view1" layout="vertical" >
+	               <SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />
+	            	<View id="productView" />
+	            </View>
+	            <View id="view2" backgroundColor="#246">
+	             <Label>View 2321321</Label>
+	             </View>
+	             
+	        </ScrollableView>
 		</View>
 	</View>
 </Alloy>

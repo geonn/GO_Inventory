@@ -69,7 +69,7 @@ exports.definition = {
 			},
 			searchProducts : function(searchKey){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE item_id LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
