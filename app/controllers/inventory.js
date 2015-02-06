@@ -53,14 +53,14 @@ function displayProduct(products){
 			    	top: 5, 
 			    	right: 5,
 			    	bottom: 5,
-			    	height: 80,
+			    	height: Ti.UI.SIZE,
 			    	width: Ti.UI.FILL,
 			    	layout: "horizontal",
 				});
 				
 				var tblView = Ti.UI.createView({
 					layout: "vertical",
-					height:"80",
+					height: Ti.UI.SIZE,
 					width:"auto",
 				}); 
 				
@@ -80,7 +80,8 @@ function displayProduct(products){
 					width: Ti.UI.FILL,
 					height: Ti.UI.SIZE,
 					textAlign:Titanium.UI.TEXT_ALIGNMENT_LEFT,
-					
+					wordwrap: false,
+					ellipsize: true
 				});
 				
 				var category =  Titanium.UI.createLabel({
@@ -100,7 +101,8 @@ function displayProduct(products){
 					color: "#848484",
 					textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 					width: Ti.UI.FILL,
-					height: Ti.UI.SIZE,
+					height: 14,
+					ellipsize: true
 				}); 
 				
 				var quantity_view = Ti.UI.createView({
