@@ -1,10 +1,18 @@
 var args = arguments[0] || {};
+var PRODUCT = require('_products');
+var RESOURCE = require('_resources');
+
 var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
+var mod_InventoryRes  = Alloy.createCollection('resource_inventory'); 
+ 
 COMMON.construct($);
-var details = mod_InventoryProd.getProductList(); 
 COMMON.showLoading();
+PRODUCT.construct($);
+RESOURCE.construct($); 
+
 setTimeout(function(){  
-	displayProduct(details); 
+	PRODUCT.displayProduct(""); 
+	RESOURCE.displayResources(""); 
 }, 1000); 
 
 function displayProduct(products){
@@ -194,6 +202,7 @@ function goSlide(event){
 	} 
 	$.scrollableView.scrollToView(arrViews[index]);
 }
+
 /***SEARCH PRODUCTS***/
 $.searchProduct.addEventListener('focus', function(e){
 	$.searchProduct.showCancel =  true; 
@@ -210,21 +219,23 @@ $.searchProduct.addEventListener('cancel', function(e){
 	var str = $.searchProduct.getValue();
 	if(str == ""){
 		removeAllChildren($.productView);
-		displayProduct(details);	
+		PRODUCT.displayProduct(details);	
 	}
-		
 });
 
-var searchResult = function(){
+var searchProductResult = function(){
 	COMMON.showLoading();
 	$.searchProduct.blur();
 	var str = $.searchProduct.getValue();
-	 
 	var searchResult = mod_InventoryProd.searchProducts(str); 
 	removeAllChildren($.productView);
-	displayProduct(searchResult);		
+	PRODUCT.displayProduct(searchResult);		
 };
-$.searchProduct.addEventListener("return", searchResult);
+$.searchProduct.addEventListener("return", searchProductResult);
+
+var refreshTableList = function(){
+	PRODUCT.refreshTableList();
+};
 
 Ti.App.addEventListener('refreshTableList' , refreshTableList);
 $.productView.addEventListener('touchend', function(e){

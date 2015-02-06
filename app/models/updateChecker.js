@@ -4,7 +4,7 @@ ID       type Name
 ------------------------------------
 1		getAnnoucement	 
 2 		getInventoryProduct 	 
-3 		   
+3 		getInventoryResources
 4 			
 ************************************/
 

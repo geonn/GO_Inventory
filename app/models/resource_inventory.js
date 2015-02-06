@@ -3,23 +3,21 @@ exports.definition = {
 		columns: {
 			"id": "INTEGER",
 			"name" : "TEXT",
-		    "prodSet": "TEXT",
+		    "type": "TEXT",
 		    "code": "TEXT", 
-		    "category": "TEXT", 
 		    "depth": "TEXT", 
 		    "width": "TEXT", 
 		    "height": "TEXT", 
 		    "weight": "TEXT", 
-		    "surface_habitable": "TEXT", 
+		    "supplier": "TEXT", 
 		    "quantity": "TEXT", 
-		    "fabric_used": "TEXT", 
 		    "image": "TEXT",  
 		    "created" : "TEXT",
 		    "updated" : "TEXT"
 		},
 		adapter: {
 			type: "sql",
-			collection_name: "product_inventory"
+			collection_name: "resource_inventory"
 		}
 	},
 	extendModel: function(Model) {
@@ -32,7 +30,7 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
-			getProductList : function(){
+			getResourceList : function(){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC " ;
                 
@@ -45,16 +43,14 @@ exports.definition = {
 					    
 					    id: res.fieldByName('id'),
 						name : res.fieldByName('name'),
-						prodSet: res.fieldByName('prodSet'),
-						code: res.fieldByName('code'), 
-						category: res.fieldByName('category'), 
+						type: res.fieldByName('type'),
+						code: res.fieldByName('code'),  
 						depth: res.fieldByName('depth'), 
 						width: res.fieldByName('width'), 
 						height: res.fieldByName('height'), 
-						weight: res.fieldByName('weight'), 
-						surface_habitable: res.fieldByName('surface_habitable'), 
+						weight: res.fieldByName('weight'),  
 						quantity: res.fieldByName('quantity'), 
-						fabric_used: res.fieldByName('fabric_used'), 
+						supplier: res.fieldByName('supplier'), 
 						image: res.fieldByName('image'),  
 						position: count,
 						created : res.fieldByName('created'),
@@ -68,9 +64,9 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			searchProducts : function(searchKey){
+			searchResources : function(searchKey){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE name LIKE '%"+searchKey+"%' OR supplier LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -80,17 +76,16 @@ exports.definition = {
 					arr[count] = {
 					    id: res.fieldByName('id'),
 						name : res.fieldByName('name'),
-						prodSet: res.fieldByName('prodSet'),
-						code: res.fieldByName('code'), 
-						category: res.fieldByName('category'), 
+						type: res.fieldByName('type'),
+						code: res.fieldByName('code'),  
 						depth: res.fieldByName('depth'), 
 						width: res.fieldByName('width'), 
 						height: res.fieldByName('height'), 
-						weight: res.fieldByName('weight'), 
-						surface_habitable: res.fieldByName('surface_habitable'), 
+						weight: res.fieldByName('weight'),  
 						quantity: res.fieldByName('quantity'), 
-						fabric_used: res.fieldByName('fabric_used'), 
+						supplier: res.fieldByName('supplier'), 
 						image: res.fieldByName('image'),  
+						position: count,
 						created : res.fieldByName('created'),
 						updated : res.fieldByName('updated')
 					};
@@ -102,7 +97,7 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			getProductDetails : function(id){
+			getResourceDetails : function(id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+id+"' " ;
         
@@ -114,17 +109,16 @@ exports.definition = {
 					arr = {
 					    id: res.fieldByName('id'),
 						name : res.fieldByName('name'),
-						prodSet: res.fieldByName('prodSet'),
-						code: res.fieldByName('code'), 
-						category: res.fieldByName('category'), 
+						type: res.fieldByName('type'),
+						code: res.fieldByName('code'),  
 						depth: res.fieldByName('depth'), 
 						width: res.fieldByName('width'), 
 						height: res.fieldByName('height'), 
-						weight: res.fieldByName('weight'), 
-						surface_habitable: res.fieldByName('surface_habitable'), 
+						weight: res.fieldByName('weight'),  
 						quantity: res.fieldByName('quantity'), 
-						fabric_used: res.fieldByName('fabric_used'), 
+						supplier: res.fieldByName('supplier'), 
 						image: res.fieldByName('image'),  
+						position: count,
 						created : res.fieldByName('created'),
 						updated : res.fieldByName('updated')
 					};
@@ -136,7 +130,7 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			addUpdateProduct : function(e) {
+			addUpdateResource : function(e) {
                 var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;
                  
@@ -144,9 +138,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET   name='"+e.name+"',  prodSet='"+e.prodSet+"',code='"+e.code+"',category='"+e.category+"',depth='"+e.depth+"',width='"+e.width+"',height='"+e.height+"',weight='"+e.weight+"',surface_habitable='"+e.surface_habitable+"',quantity='"+e.quantity+"',fabric_used='"+e.fabric_used+"',image='"+e.image+"', created='"+e.created+"',updated='"+e.updated+"' WHERE code='" +e.code+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET   name='"+e.name+"',  type='"+e.type+"',code='"+e.code+"',supplier='"+e.supplier+"',depth='"+e.depth+"',width='"+e.width+"',height='"+e.height+"',weight='"+e.weight+"' ,quantity='"+e.quantity+"' ,image='"+e.image+"', created='"+e.created+"',updated='"+e.updated+"' WHERE id='" +e.id+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, name,prodSet,code, category, depth, width,height,weight,surface_habitable,quantity,fabric_used,image, created, updated) VALUES ('"+e.id+"','"+e.name+"','"+e.prodSet+"','"+e.code+"','"+e.category+"','"+e.depth+"','"+e.width+"','"+e.height+"','"+e.weight+"','"+e.surface_habitable+"','"+e.quantity+"','"+e.fabric_used+"','"+e.image+"' ,   '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, name,type,code, supplier, depth, width,height,weight ,quantity, image, created, updated) VALUES ('"+e.id+"','"+e.name+"','"+e.type+"','"+e.code+"','"+e.supplier+"','"+e.depth+"','"+e.width+"','"+e.height+"','"+e.weight+"' ,'"+e.quantity+"', '"+e.image+"' ,   '"+e.created+"','"+e.updated+"')" ;
 				}
            
 	            db.execute(sql_query);
