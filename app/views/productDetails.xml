@@ -5,9 +5,9 @@
 	    	<Label top="5" text="Loading" color="#ffffff" />
 	    </View>
 		<View class="container" id="inventoryView"  layout="vertical" >
-			
+		 
 			<View id="header" backgroundColor="#375540"  >
-				<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
+				<ImageView image="/images/back-button.png"  onClick="goBack" width="20" height="30"  left="2"/> 
 				<Label class="h1" id="appTitle">INVENTORY CONTROL</Label>
 				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 			</View>

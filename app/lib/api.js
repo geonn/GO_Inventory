@@ -14,7 +14,7 @@ var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+
 var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY;
 var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+USER+"&key="+KEY;
 var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY;
-
+var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
@@ -192,12 +192,69 @@ exports.changePassword= function(ex){
 	 client.send(); 
 };
 
+exports.getInventoryResources = function(ex){
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("3");
+	var last_updated ="";
+	 
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	var url =inventoryResourcesUrl+"&last_updated="+last_updated;
+ 
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	     	var res = JSON.parse(this.responseText);
+	    
+	        if(res.status == "success"){ 
+				var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
+				var resource  = res.data;
+	         	resource.forEach(function(resDetail){
+	     
+	         		mod_InventoryRes.addUpdateResource({
+		       			id: resDetail.id, 
+						name: resDetail.name,
+						type: resDetail.type,
+						code: resDetail.code,
+						supplier: resDetail.supplier,
+						image: resDetail.image,
+						depth: resDetail.depth,
+						width: resDetail.width,
+						height: resDetail.height,
+						weight: resDetail.weight,
+						quantity: resDetail.quantity,
+						created: resDetail.created,
+						updated: resDetail.updated
+	         			 
+	        		});	
+	         		
+	         	});
+	       		checker.updateModule("3","inventoryResources",currentDateTime()); 
+	        }
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
 exports.getInventoryProducts = function(ex){
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("2");
-	checker.updateModule("2","inventoryProduct",currentDateTime()); 
+	var last_updated ="";
+ 
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	}
 	 
-	var url =inventoryProductsUrl+"&last_updated="+currentDateTime();
+	var url =inventoryProductsUrl+"&last_updated="+last_updated;
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -221,14 +278,14 @@ exports.getInventoryProducts = function(ex){
 						weight: prodDetail.weight,
 						surface_habitable: prodDetail.surface_habitable,
 						fabric_used: prodDetail.fabric_used,
-						qty: prodDetail.quantity,
+						quantity: prodDetail.quantity,
 						created: prodDetail.created,
 						updated: prodDetail.updated
 	         			 
 	        		});	
 	         		
 	         	});
-	       		
+	       		checker.updateModule("2","inventoryProduct",currentDateTime()); 
 	        }
 	     },
 	     // function called when an error occurs, including a timeout
