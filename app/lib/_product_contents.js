@@ -28,8 +28,7 @@ exports.displayProductImage = function (image){
 	return prodImage;
 };
 
-exports.displayProductContents = function(items){
-	console.log(items);
+exports.displayProductContents = function(items){ 
 	var mainContentView = Titanium.UI.createView({
 		layout : "vertical", 
 		top:5, 

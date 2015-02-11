@@ -71,7 +71,7 @@ exports.definition = {
 			searchProducts : function(searchKey){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
-                console.log(sql);
+                
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 
@@ -91,13 +91,14 @@ exports.definition = {
 						quantity: res.fieldByName('quantity'), 
 						fabric_used: res.fieldByName('fabric_used'), 
 						image: res.fieldByName('image'),  
+						position: count,
 						created : res.fieldByName('created'),
 						updated : res.fieldByName('updated')
 					};
 					res.next();
 					count++;
 				} 
-				console.log(arr);
+			 
 				res.close();
                 db.close();
                 collection.trigger('sync');

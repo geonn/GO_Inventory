@@ -1,14 +1,21 @@
 var args = arguments[0] || {};
 var p_id = args.p_id || {};
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
-var items = mod_InventoryProd.getProductList(); 
+var presetSearch = Ti.App.Properties.getString("product_search") || "";
+var PRODUCT = require('_products');
+
 var PROD_CONTENTS = require('_product_contents');
 PROD_CONTENTS.construct($);
 COMMON.construct($);
 COMMON.showLoading(); 
 
 setTimeout(function(){  
-	getProductDetails(items); 
+	if(presetSearch != ""){
+		var items = mod_InventoryProd.searchProducts(presetSearch);  
+ 	}else{
+ 		var items = mod_InventoryProd.getProductList();  
+ 	}	
+ 	getProductDetails(items); 
 }, 1000); 
 
 var getProductDetails = function(items){

@@ -1,4 +1,6 @@
 var args = arguments[0] || {};
+var presetSearch = Ti.App.Properties.getString("product_search") || "";
+$.searchProduct.value = presetSearch;
 var PRODUCT = require('_products');
 var RESOURCE = require('_resources');
 
@@ -11,7 +13,13 @@ PRODUCT.construct($);
 RESOURCE.construct($); 
 
 setTimeout(function(){  
-	PRODUCT.displayProduct(1); 
+	if(presetSearch != ""){
+		var searchResult = mod_InventoryProd.searchProducts(presetSearch); 
+ 		PRODUCT.displayProduct(searchResult);
+	}else{
+		PRODUCT.displayProduct(1); 
+	}
+	
 	RESOURCE.displayResources(""); 
 }, 1000); 
  
@@ -60,6 +68,7 @@ $.searchProduct.addEventListener('blur', function(e){
 });
 
 $.searchProduct.addEventListener('cancel', function(e){
+	Ti.App.Properties.setString("product_search","");
 	COMMON.showLoading();
 	$.searchProduct.blur();  
 	var str = $.searchProduct.getValue();
@@ -73,6 +82,7 @@ var searchProductResult = function(){
 	COMMON.showLoading();
 	$.searchProduct.blur();
 	var str = $.searchProduct.getValue();
+	Ti.App.Properties.setString("product_search",str);
 	var searchResult = mod_InventoryProd.searchProducts(str); 
 	removeAllChildren($.productView);
 	PRODUCT.displayProduct(searchResult);		
