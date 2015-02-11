@@ -8,12 +8,17 @@
 		 
 			<View id="header" backgroundColor="#375540"  >
 				<ImageView image="/images/back-button.png"  onClick="goBack" width="20" height="30"  left="2"/> 
-				<Label class="h1" id="appTitle">INVENTORY CONTROL</Label>
+				<Label class="h1" id="appTitle">INVENTORY</Label>
 				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 			</View>
 			  
-	        <View id="item_Details"></View>
-	         
+			
+			
+			<ScrollView   id="detailScrollView"  layout="vertical"  height="Ti.UI.SIZE" top="5" left="5" right="5" > 
+		        <View id="item_Details" height="auto" top="5" left="5" right="5"  ></View>
+		       
+			</ScrollView>
+		
 		</View>
 	</View>
 </Alloy>

@@ -65,7 +65,7 @@ exports.definition = {
                 }else{
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (iCard, prefix, item_id, name,code, status, created, updated) VALUES ('"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
 				}
-           		console.log(sql_query);
+           		
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');
@@ -83,7 +83,7 @@ exports.definition = {
             	var collection = this;
                 var sql = "UPDATE " + collection.config.adapter.collection_name + " SET status='3', updated='"+currentDateTime()+"' WHERE prefix='" +e.prefix+"' AND item_id='"+e.item_id+"' ";
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                console.log(sql);
+               
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');

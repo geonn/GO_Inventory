@@ -2,6 +2,8 @@ var args = arguments[0] || {};
 var p_id = args.p_id || {};
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var items = mod_InventoryProd.getProductList(); 
+var PROD_CONTENTS = require('_product_contents');
+PROD_CONTENTS.construct($);
 COMMON.construct($);
 COMMON.showLoading(); 
 
@@ -21,27 +23,33 @@ var getProductDetails = function(items){
 		if(items[i].id == p_id){ 
 			position=  items[i].position;
 		}
-		adImage = Titanium.UI.createImageView({
-			image: items[i].image,
-			width:"100%"
-		});
-		
+		 
 		var scrollView = Ti.UI.createScrollView({
 			contentWidth: 'auto',
-		  	contentHeight: 'auto',
-		   
+		  	contentHeight: 'auto', 
 		  	height: Ti.UI.SIZE,
 		  	width: '100%'
 		});
 	
-		row = $.UI.create('View', {classes: ["row"], id:"view"+items[i].position});
+		row = $.UI.create('View', {
+			classes: ["row"], 
+			id:"view"+items[i].position,
+			layout: "vertical"
+		});
 		
 		$.item_Details.title=items[i].name;
-		row.add(adImage);
-		//row.add(img_caption);
+		
+		/***Create and Add Product Image***/
+		row.add(PROD_CONTENTS.displayProductImage(items[i].image));
+		
+		/***Create and Add Header***/
+		row.add(PROD_CONTENTS.displayHeader()); 
+		
+		/***Create and Add Product Contents***/
+		row.add(PROD_CONTENTS.displayProductContents(items[i])); 
+		
 		scrollView.add(row);
 		the_view.push(scrollView); 
-		 
 	} 
 
 	var scrollableView = Ti.UI.createScrollableView({

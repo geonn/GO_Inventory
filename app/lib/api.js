@@ -255,6 +255,7 @@ exports.getInventoryProducts = function(ex){
 	}
 	 
 	var url =inventoryProductsUrl+"&last_updated="+last_updated;
+	 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

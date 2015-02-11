@@ -17,7 +17,7 @@
 					<Label mod="news" class="bubble_text" text="News & Events" />
 				</View>
 				<View onClick="goTo" mod="inventory" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
-					<Label mod="inventory" class="bubble_text" text="Inventory Control" />
+					<Label mod="inventory" class="bubble_text" text="Inventory" />
 				</View>
 				<View onClick="goTo" mod="settings" class="bubble" borderColor="#362D2D" backgroundColor="#F8FFE9">
 					<Label mod="settings" class="bubble_text" text="Settings" />

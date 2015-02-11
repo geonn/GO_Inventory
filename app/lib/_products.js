@@ -8,7 +8,7 @@ exports.construct = function(mv){
  
 exports.displayProduct = function(products){
 
-	if(products == ""){
+	if(products == "1"){
 		products = details;
 	}
  
