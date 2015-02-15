@@ -14,4 +14,4 @@ Ti.App.addEventListener("app:refreshMenu", function(e) {
 
 API.updateSettings();
 API.getAnnouncement();
-
+API.getCategory();

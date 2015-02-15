@@ -6,22 +6,27 @@ var RESOURCE = require('_resources');
 
 var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
 var mod_InventoryRes  = Alloy.createCollection('resource_inventory'); 
- 
+var mod_Category  = Alloy.createCollection('category'); 
+var allType = mod_Category.getCategoryByType("product");
+
+
 COMMON.construct($);
 COMMON.showLoading();
 PRODUCT.construct($);
+
 RESOURCE.construct($); 
 
 setTimeout(function(){  
-	if(presetSearch != ""){
+	PRODUCT.clearData();
+	if(presetSearch != ""){  
 		var searchResult = mod_InventoryProd.searchProducts(presetSearch); 
  		PRODUCT.displayProduct(searchResult);
-	}else{
+	}else{  
 		PRODUCT.displayProduct(1); 
 	}
 	
 	RESOURCE.displayResources(""); 
-}, 1000); 
+}, 300); 
  
 
 function refreshTableList(){
@@ -54,6 +59,10 @@ function goSlide(event){
 			break;
 	} 
 	$.scrollableView.scrollToView(arrViews[index]);
+}
+
+function addProduct(){ 
+	DRAWER.navigation("addProductForm",1);
 }
 
 /***SEARCH PRODUCTS***/
@@ -96,4 +105,12 @@ var refreshTableList = function(){
 Ti.App.addEventListener('refreshTableList' , refreshTableList);
 $.productView.addEventListener('touchend', function(e){
     $.searchProduct.blur(); 
+});
+
+$.productView.addEventListener('touchend', function(e){
+    $.searchProduct.blur(); 
+});
+
+$.productView.addEventListener('scroll', function(e) {  
+	PRODUCT.reloadFromScroll(e);
 });

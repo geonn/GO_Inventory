@@ -32,10 +32,18 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
-			getProductList : function(){
+			getProductList : function(contentOffset){
+				if(contentOffset == ""){
+					contentOffset = 0;
+				}
+				
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC " ;
-                
+				if(contentOffset == "all"){
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC";
+				}else{
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC LIMIT "+contentOffset +", 30" ;
+                }
+                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 

@@ -3,6 +3,14 @@ Window :{
 	navHidderBar : true,
 	fullscreen  : true,
 },
+TextField : {
+	 height : 30, 
+	 width : Ti.UI.FILL,
+	 font:"{fontSize:12dp}" ,
+	 borderColor:"#E4E4E4",
+	 backgroundColor : "#ffffff",
+	 paddingLeft : 5
+},
 ".menuTable" : {
   separatorColor : "#454545",
   backgroundColor : "#262626",

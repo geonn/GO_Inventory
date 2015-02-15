@@ -13,7 +13,7 @@ setTimeout(function(){
 	if(presetSearch != ""){
 		var items = mod_InventoryProd.searchProducts(presetSearch);  
  	}else{
- 		var items = mod_InventoryProd.getProductList();  
+ 		var items = mod_InventoryProd.getProductList("all");  
  	}	
  	getProductDetails(items); 
 }, 1000); 

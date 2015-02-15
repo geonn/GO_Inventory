@@ -1,23 +1,17 @@
 var mainView = null;
 var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
-var details = mod_InventoryProd.getProductList(); 
+var details = mod_InventoryProd.getProductList(0); 
+var data=[]; 
+var defaultContentHeight = 2266;
+var distance = 2700;
+var contentOffset = 30;
+var dataSet = 1;
 
-exports.construct = function(mv){
-	mainView = mv;
-};
- 
-exports.displayProduct = function(products){
-
+function displayProduct(products){
 	if(products == "1"){
 		products = details;
 	}
- 
-	var TheTable = Titanium.UI.createTableView({
-		width:'100%',
-		backgroundImage: "/images/bg.jpg",
-		separatorColor: '#375540'
-	});
-	var data=[]; 
+ 	 
 	//hide loading bar
 	COMMON.hideLoading();
    	var counter = 0;
@@ -160,9 +154,17 @@ exports.displayProduct = function(products){
 		 	counter++;
 		});
 		
-		TheTable.setData(data); 
-		mainView.productView.add(TheTable);
+		mainView.prodTable.setData(data); 
+		mainView.productView.add(mainView.prodTable);
 	}
+} 
+
+exports.construct = function(mv){
+	mainView = mv;
+};
+
+exports.displayProduct = function(products){
+	displayProduct(products);
 };
 
 function viewDetails(e){
@@ -172,4 +174,81 @@ function viewDetails(e){
 exports.refreshTableList = function(){
 	removeAllChildren(mainView.productView);
 	displayProduct(products);	  
+};
+
+exports.hideProductFormKeyboard = function(e){
+	if (e.source.id != 'TextField'  ) {
+    	 
+    	if(e.source.id == 'name'){
+			return false;
+		}
+		if(e.source.id == 'prodCode'){
+			return false;
+		}
+		if(e.source.id == 'prodSet'){
+			return false;
+		}
+		if(e.source.id == 'prodDepth'){
+			return false;
+		}
+		if(e.source.id == 'prodWidth'){
+			return false;
+		}
+		if(e.source.id == 'prodHeight'){
+			return false;
+		}
+		if(e.source.id == 'prodWeight'){
+			return false;
+		}
+		if(e.source.id == 'prodHab'){
+			return false;
+		}
+		if(e.source.id == 'prodFab'){
+			return false;
+		}
+		if(e.source.id == 'categoryLabel'){
+			return false;
+		}
+		mainView.name.blur();
+		mainView.prodCode.blur();
+		mainView.prodSet.blur();
+		mainView.prodDepth.blur();
+		mainView.prodWidth.blur();
+		mainView.prodHeight.blur();
+		mainView.prodWeight.blur();
+		mainView.prodHab.blur();
+		mainView.prodFab.blur();
+		closeCategory();
+	}
+};
+
+exports.reloadFromScroll = function(e){
+	 
+	if(defaultContentHeight == e.contentOffset.y){
+		defaultContentHeight += distance;
+		var co = dataSet * contentOffset;
+		details = mod_InventoryProd.getProductList(co); 
+		displayProduct(details);
+		dataSet++;
+	}
+};
+
+function closeCategory(){
+	mainView.categoryView.height = 0;
+	mainView.categoryView.setVisible(false);  
+	mainView.categoryPicker.setVisible(false);
+	return false;
+}
+
+function clearData(){
+	data=[];
+	defaultContentHeight = 2266;
+	distance = 2700;
+	contentOffset = 30;
+	dataSet = 1;
+	details = mod_InventoryProd.getProductList(0); 
+}
+
+exports.clearData = function(){
+	clearData();
 };

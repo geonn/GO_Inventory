@@ -11,10 +11,13 @@ var KEY   = '06b53047cf294f7207789ff5293ad2dc';
 var loginUrl            = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
 var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY;
 var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY;
+var categoryUrl         = "http://"+API_DOMAIN+"/api/getCategory?user="+USER+"&key="+KEY;
 var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY;
 var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+USER+"&key="+KEY;
 var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY;
 var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY;
+var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY;
+
 /*********************
 **** API FUNCTION*****
 **********************/
@@ -59,10 +62,40 @@ exports.login = function (ex){
 	 client.send(); 
 };
 
+//Add product
+exports.addProduct = function(ex){
+	var url = addProductUrl + "&name="+ex.name + "&code="+ex.code + "&set="+ex.set + "&category="+ex.category + "&depth="+ex.depth
+			  + "&width="+ex.width + "&height="+ex.height + "&surface_habitable="+ex.surface_habitable + "&weight="+ex.weight 
+			  + "&fabric_used="+ex.fabric_used;
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	      
+	        if(res.status == "success"){
+	        	 DRAWER.navigation("inventory",1);
+	        }else{
+				COMMON.createAlert('Fail Add Product',res.data);
+			}
+			COMMON.hideLoading();
+	     
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
 //check Announcement
 exports.getAnnouncement = function (ex){
 	var url = announcementUrl ;
-	  console.log(announcementUrl);
+	  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -70,8 +103,7 @@ exports.getAnnouncement = function (ex){
 	       
 	        if(res.status == "success"){
 	        	var checker = Alloy.createCollection('updateChecker'); 
-				var isUpdate = checker.getCheckerById("1");
-				console.log("isUpdate "+isUpdate);
+				var isUpdate = checker.getCheckerById("1"); 
 			 	 if(isUpdate	 !== "" || (res.last_updated != isUpdate.updated)){ 
 			 		checker.updateModule("1","announcement",res.last_updated);
 			 		/**reset current category**/
@@ -90,7 +122,53 @@ exports.getAnnouncement = function (ex){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	alert("An error occurs");
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
+//check Category
+exports.getCategory = function (ex){
+	var url = categoryUrl ;
+	  
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	       
+	        if(res.status == "success"){	 
+			 	/**reset current category**/
+			    var library = Alloy.createCollection('category'); 
+				library.resetCategory();
+					
+				/**load new set of category from API**/
+			    var categoriestypes = res.data; 
+			    for (var key in categoriestypes) {
+			    	
+			    	var arrList = categoriestypes[key]; 
+			    	//for(var i=1; i <= arrList.length; i++) {
+			     	for (var sub in arrList) { 
+				    	var category_type = Alloy.createModel('category', { 
+							cateType: key, 
+							cateKey: sub,
+							cateValue: arrList[sub]
+						}); 
+						category_type.save();  
+			    	}  
+			    }
+			      
+			 	 
+	        }
+	     
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
@@ -119,7 +197,7 @@ exports.updatedCombination = function(ex){
 	var count = 0;
 	res_data.forEach(function(reso) { 
 		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.item_id+"&updated="+reso.updated+"&u_id="+Ti.App.Properties.getString("user_id") ;
-  		console.log(url);
+  		 
 		var client = Ti.Network.createHTTPClient({
 		     // function called when the response data is available
 		     onload : function(e) {
@@ -142,7 +220,7 @@ exports.updatedCombination = function(ex){
 		     },
 		     // function called when an error occurs, including a timeout
 		     onerror : function(e) {
-		     	alert("An error occurs");
+		     	//alert("An error occurs");
 		     },
 		     timeout : 10000  // in milliseconds
 		 });
@@ -235,7 +313,7 @@ exports.getInventoryResources = function(ex){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	alert("An error occurs");
+	     	//alert("An error occurs");
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
@@ -291,7 +369,7 @@ exports.getInventoryProducts = function(ex){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	alert("An error occurs");
+	     	//alert("An error occurs");
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
@@ -340,14 +418,12 @@ exports.syncScanByUser= function(ex){
 		         		});
 	         		});
 	         	});
-	         
 	       }
-	      
 	      
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	alert("An error occurs");
+	     	//alert("An error occurs");
 	     },
 	     timeout : 10000  // in milliseconds
 	 });

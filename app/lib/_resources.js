@@ -11,7 +11,7 @@ exports.displayResources = function(resource){
 	if(resource == ""){
 		resource = details;
 	}
- 	console.log(resource);
+ 
 	var TheTable = Titanium.UI.createTableView({
 		width:'100%',
 		backgroundImage: "/images/bg.jpg",

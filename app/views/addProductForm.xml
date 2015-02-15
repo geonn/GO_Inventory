@@ -1,0 +1,64 @@
+<Alloy>
+	
+	<View class="container"  id="productFormView" >
+		<View zIndex="11" layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
+			    <ActivityIndicator  id="activityIndicator" />
+				<Label top="5" text="Loading" color="#ffffff" />
+		</View> 
+		<View id="header" backgroundColor="#375540" top="0" height="50">
+				<View height="50" width="50" left="2" onClick="back" >
+				<ImageView image="/images/back-button.png" height="30" left="8"  />
+			</View> 
+				<Label class="h1" id="appTitle">ADD NEW PRODUCT</Label> 
+				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+		</View>
+		
+		<View height="Ti.UI.FILL" top="55">
+			<View class="content"   layout="vertical" id="content" >
+				<ScrollView  layout="vertical"  showVerticalScrollIndicator="true" showHorizontalScrollIndicator="true" height="Ti.UI.SIZE" width="100%">
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="10">
+						<Label width="40%" class="gray_text">Product Name</Label>
+						<TextField id="name" width="Ti.UI.FILL" hintText="Name of Product" />
+					</View>
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="10">
+						<Label width="40%" class="gray_text">Product Code</Label>
+						<TextField id="prodCode" width="Ti.UI.FILL" hintText="Code of Product"  />
+					</View>
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="10">
+						<Label width="40%" class="gray_text">Product Set</Label>
+						<TextField id="prodSet" width="Ti.UI.FILL" hintText="Set of Product"  />
+					</View>
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="10">
+						<Label width="40%" class="gray_text">Category</Label>
+						<Label id="categoryLabel" height="30" width="Ti.UI.FILL"  backgroundColor="#ffffff" borderColor="#E4E4E4"  onClick="showCategory" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" class="gray_text" color="#C0C0C0" text="  [Select Category]" />
+						<View id="categoryView" height="0" width="100%" visible="false" > 
+							<Picker id="categoryPicker" onChange="hideCategory" top="5"  /> 
+						</View>  
+					</View>
+					
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="10">
+						<Label width="40%"  class="gray_text" top="0"  >Product Size</Label>
+						<View layout="vertical"  width="Ti.UI.FILL" height="Ti.UI.SIZE" left="0">
+							<TextField id="prodDepth" hintText="Depth of Product"   />
+							<TextField id="prodWidth" hintText="Width of Product"  top="5"   />
+							<TextField id="prodHeight" hintText="Height of Product" top="5"   />
+							<TextField id="prodWeight" hintText="Weight of Product" top="5"   />
+						</View>
+					</View>
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="10">
+						<Label width="40%" class="gray_text">Surface Hab.</Label>
+						<TextField id="prodHab" hintText="Surface Habitable"  />
+					</View>
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="10">
+						<Label width="40%" class="gray_text">Fabric Used</Label>
+						<TextField id="prodFab" hintText="Fabric Used of Product"  />
+					</View>
+				</ScrollView>
+				<Button id="btnLogin" onClick="addProd"  title="ADD" borderColor="#FAFAFA" borderRadius="10"  /> 
+			</View>
+			
+		</View>
+	</View>
+	
+</Alloy>
+		

@@ -9,6 +9,7 @@
 			<View id="header" backgroundColor="#375540"  >
 				<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
 				<Label class="h1" id="appTitle">INVENTORY</Label>
+				<ImageView image="/images/add.png" onClick="addProduct"   right="50" height="30" />
 				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 			</View>
 			
@@ -18,8 +19,12 @@
 	    	</View>
 			 <ScrollableView id="scrollableView" showPagingControl="false" scrollingEnabled="false">
 	            <View id="view1" layout="vertical" >
-	               <SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />
-	            	<View id="productView" />
+	              
+	               	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />
+	            	<View id="productView">
+						<TableView width="100%" id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+					</View>
+	            	
 	            </View>
 	            <View id="view2" layout="vertical">
 	            	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchResource" text="" top="0" height="50"  hintText="Search Resources..." />
@@ -27,6 +32,7 @@
 	            </View>
 	             
 	        </ScrollableView>
+	       
 		</View>
 	</View>
 </Alloy>
