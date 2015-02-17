@@ -32,6 +32,65 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
+			getProductCategory : function(){ 
+				var collection = this;
+				var sql = "SELECT category,COUNT(1) AS total FROM " + collection.config.adapter.collection_name + " GROUP BY category" ;
+                
+                console.log(sql);
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					arr[count] = { 
+						category: res.fieldByName('category'),
+						total: res.fieldByName('total')
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getProductByCategory : function(cate){
+				 
+				var collection = this;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE category='"+cate+"' " ;
+                
+                console.log(sql);
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					arr[count] = { 
+						id: res.fieldByName('id'),
+						name : res.fieldByName('name'),
+						prodSet: res.fieldByName('prodSet'),
+						code: res.fieldByName('code'), 
+						category: res.fieldByName('category'), 
+						depth: res.fieldByName('depth'), 
+						width: res.fieldByName('width'), 
+						height: res.fieldByName('height'), 
+						weight: res.fieldByName('weight'), 
+						surface_habitable: res.fieldByName('surface_habitable'), 
+						quantity: res.fieldByName('quantity'), 
+						fabric_used: res.fieldByName('fabric_used'), 
+						image: res.fieldByName('image'),  
+						position: count,
+						created : res.fieldByName('created'),
+						updated : res.fieldByName('updated')
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getProductList : function(contentOffset){
 				if(contentOffset == ""){
 					contentOffset = 0;
@@ -43,7 +102,7 @@ exports.definition = {
 				}else{
 					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC LIMIT "+contentOffset +", 30" ;
                 }
-                console.log(sql);
+                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 
@@ -76,10 +135,10 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			searchProducts : function(searchKey){
+			searchProducts : function(searchKey,cate){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
-                
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (category='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
+                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 

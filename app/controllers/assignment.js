@@ -24,6 +24,11 @@ if(iCard !== null){
 
 function populateData(){
 	iCard = Ti.App.Properties.getString("iCard");
+ 
+	if(iCard !== null && iCard != "undefined"){
+		return false;	
+	}
+	
 	checkActionEligible();
 	removeAllChildren($.resource_info);
 	var det = mod_products.getProductDetails(iCard);
@@ -31,6 +36,8 @@ function populateData(){
 	var prod_det = mod_InventoryProd.getProductDetails(det.product); 
 	
  	$.productImage.image = prod_det.image;
+ 	// console.log(prod_det);
+ 	// console.log(det);
 	$.iCard_info.text =  prod_det.name + " ("+det.code+") at " + timeFormat(det.updated); 
 	for(var i=0; i < res_det.length; i++){ 
 		var textColor = "#9D001D"; 
@@ -54,7 +61,9 @@ function populateData(){
 
 function checkActionEligible(){
 	iCard = Ti.App.Properties.getString("iCard");
-	if(iCard !== null){
+	  
+	if(iCard !== null && iCard != "undefined"){
+	 
 		var lastScan = mod_resources.getLastScan({code:iCard });
 		if(lastScan != ""){
 			$.undo_btn.visible = true;

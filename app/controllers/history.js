@@ -14,7 +14,6 @@ setTimeout(function(){
 }, 1000); 
 
 function displayProduct(products){
-	
 	var TheTable = Titanium.UI.createTableView({
 		width:'100%',
 		backgroundImage: "/images/bg.jpg",

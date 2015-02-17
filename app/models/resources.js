@@ -63,7 +63,7 @@ exports.definition = {
                 if (res.isValidRow()){
              		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE code='"+ e.code + "' AND iCard='"+e.iCard+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (iCard, prefix, item_id, name,code, status, created, updated) VALUES ('"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (iCard, prefix, item_id, name,code, `status`, created, updated) VALUES ('"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
 				}
            		
 	            db.execute(sql_query);
@@ -72,7 +72,7 @@ exports.definition = {
             },
             confirmScan : function(e){
             	var collection = this;
-                var sql = "UPDATE " + collection.config.adapter.collection_name + " SET status='2', updated='"+currentDateTime()+"' WHERE iCard='" +e.code+"'";
+                var sql = "UPDATE " + collection.config.adapter.collection_name + " SET `status`='2', updated='"+currentDateTime()+"' WHERE iCard='" +e.code+"'";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                  
                 db.execute(sql);
@@ -81,7 +81,7 @@ exports.definition = {
             },
             updatedSync : function(e){
             	var collection = this;
-                var sql = "UPDATE " + collection.config.adapter.collection_name + " SET status='3', updated='"+currentDateTime()+"' WHERE prefix='" +e.prefix+"' AND item_id='"+e.item_id+"' ";
+                var sql = "UPDATE " + collection.config.adapter.collection_name + " SET `status`='3', updated='"+currentDateTime()+"' WHERE prefix='" +e.prefix+"' AND item_id='"+e.item_id+"' ";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                
                 db.execute(sql);
@@ -117,7 +117,7 @@ exports.definition = {
             },
             getLastScan : function(e){
             	var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE iCard='"+ e.code + "' AND status='1' ORDER BY updated DESC LIMIT 1 " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE iCard='"+ e.code + "' AND `status`='1' ORDER BY updated DESC LIMIT 1 " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
               	var res = db.execute(sql); 

@@ -7,8 +7,8 @@
 		</View> 
 		<View id="header" backgroundColor="#375540" top="0" height="50">
 				<View height="50" width="50" left="2" onClick="back" >
-				<ImageView image="/images/back-button.png" height="30" left="8"  />
-			</View> 
+					<ImageView image="/images/back-button.png" height="30" left="8"  />
+				</View> 
 				<Label class="h1" id="appTitle">ADD NEW PRODUCT</Label> 
 				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 		</View>

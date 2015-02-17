@@ -18,12 +18,13 @@
 	    		<Label id="lbl_resources" mod="1" width="49.9%" onTouchend="goSlide" class="menuItem" backgroundColor="#D1D1D1" color="#838383" borderColor="#ADADAD" borderWidth="0.5">Resources</Label>
 	    	</View>
 			 <ScrollableView id="scrollableView" showPagingControl="false" scrollingEnabled="false">
-	            <View id="view1" layout="vertical" >
+	            <View id="view1" layout="vertical" height="Ti.UI.SIZE">
 	              
-	               	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />
-	            	<View id="productView">
-						<TableView width="100%" id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-					</View>
+	               <!--<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />-->
+	            	<ScrollView id="productView">
+						<TableView width="100%"  id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+	            	
+					</ScrollView>
 	            	
 	            </View>
 	            <View id="view2" layout="vertical">
