@@ -10,7 +10,7 @@
 				<View height="50" width="50" left="2" onClick="back" >
 					<ImageView image="/images/back-button.png" height="30" left="8"  />
 				</View>
-				<Label class="h1" id="appTitle">INVENTORY</Label> 
+				<Label class="h1" id="appTitle"></Label> 
 				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 			</View>
 			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">

@@ -58,8 +58,7 @@ exports.definition = {
 				 
 				var collection = this;
 				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE category='"+cate+"' " ;
-                
-                console.log(sql);
+                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 
@@ -138,7 +137,6 @@ exports.definition = {
 			searchProducts : function(searchKey,cate){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (category='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
-                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 

@@ -12,7 +12,7 @@
 				<ImageView image="/images/add.png" onClick="addProduct"   right="50" height="30" />
 				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 			</View>
-			
+			 
 			<View id="menu" width="100%">
 	    		<Label id="lbl_products" mod="0" width="49.9%" onTouchend="goSlide" class="menuItem" backgroundColor="#FFFFFF" color="#494949" borderColor="#FFFFFF" borderWidth="0.5">Products</Label>
 	    		<Label id="lbl_resources" mod="1" width="49.9%" onTouchend="goSlide" class="menuItem" backgroundColor="#D1D1D1" color="#838383" borderColor="#ADADAD" borderWidth="0.5">Resources</Label>
@@ -23,13 +23,14 @@
 	               <!--<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />-->
 	            	<ScrollView id="productView">
 						<TableView width="100%"  id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-	            	
-					</ScrollView>
-	            	
+	            	</ScrollView>
 	            </View>
 	            <View id="view2" layout="vertical">
-	            	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchResource" text="" top="0" height="50"  hintText="Search Resources..." />
-	            	<View id="resourceView" />
+	            	<!--<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchResource" text="" top="0" height="50"  hintText="Search Resources..." />-->
+	            	 
+	            	<ScrollView id="resourceView">
+						<TableView width="100%"  id="resTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+	            	</ScrollView>
 	            </View>
 	             
 	        </ScrollableView>

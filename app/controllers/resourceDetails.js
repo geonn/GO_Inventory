@@ -3,21 +3,20 @@ var p_id = args.p_id || {};
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var presetSearch = Ti.App.Properties.getString("product_search") || "";
 var PRODUCT = require('_products');
-var curCate;
+
 var PROD_CONTENTS = require('_product_contents');
 PROD_CONTENTS.construct($);
 COMMON.construct($);
 COMMON.showLoading(); 
-var prodDetails = mod_InventoryProd.getProductDetails(p_id);
- 
+
 setTimeout(function(){  
 	if(presetSearch != ""){
 		var items = mod_InventoryProd.searchProducts(presetSearch);  
  	}else{
- 		var items = mod_InventoryProd.getProductByCategory(prodDetails.category);  
+ 		var items = mod_InventoryProd.getProductList("all");  
  	}	
  	getProductDetails(items); 
-}, 100); 
+}, 1000); 
 
 var getProductDetails = function(items){
 	 
@@ -29,9 +28,7 @@ var getProductDetails = function(items){
 	for (var i=0; i< items.length; i++) {
 	 
 		if(items[i].id == p_id){ 
-			position = items[i].position;
-			curCate  = items[i].category;
-			$.appTitle.text = curCate;
+			position=  items[i].position;
 		}
 		 
 		var scrollView = Ti.UI.createScrollView({
@@ -46,7 +43,6 @@ var getProductDetails = function(items){
 			id:"view"+items[i].position,
 			layout: "vertical"
 		});
-		
 		
 		$.item_Details.title=items[i].name;
 		
@@ -75,5 +71,5 @@ var getProductDetails = function(items){
 };
 
 function goBack(){
-	DRAWER.navigation("productLists",1,{category:curCate});
+	DRAWER.navigation("inventory",1);
 }

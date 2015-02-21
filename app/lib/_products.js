@@ -96,7 +96,7 @@ function displayProduct(products){
 		products = details;
 	}
  	var data=[]; 
-	//hide loading bar
+	 //hide loading bar
 	COMMON.hideLoading();
    	var counter = 0;
    	if(products.length < 1){

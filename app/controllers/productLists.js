@@ -7,6 +7,7 @@ var PRODUCT = require('_products');
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var mod_Category  = Alloy.createCollection('category'); 
 var allType = mod_Category.getCategoryByType("product");
+$.appTitle.text = cate;
 // var lastDistance = 0; 
 // $.productView.addEventListener('scroll', function(e) { 
 	 // PRODUCT.reloadFromScroll(e);
@@ -34,7 +35,7 @@ function refreshTableList(){
 }
  
 function back(e){ 
-	DRAWER.navigation("inventory",1); 
+	DRAWER.navigation("inventory",1,{tab:"0"}); 
 };
 /***SEARCH PRODUCTS***/
 $.searchProduct.addEventListener('focus', function(e){

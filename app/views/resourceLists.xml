@@ -5,19 +5,23 @@
 	    	<Label top="5" text="Loading" color="#ffffff" />
 	    </View>
 		<View class="container" id="inventoryView"  layout="vertical" >
-		 
+			
 			<View id="header" backgroundColor="#375540"  >
-				<View height="50" width="50" left="2" onClick="goBack" >
+				<View height="50" width="50" left="2" onClick="back" >
 					<ImageView image="/images/back-button.png" height="30" left="8"  />
 				</View>
-				<Label class="h1" id="appTitle">Loading...</Label>
+				<Label class="h1" id="appTitle"></Label> 
 				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
 			</View>
-			<ScrollView   id="detailScrollView"  layout="vertical"  height="Ti.UI.SIZE" top="5" left="5" right="5" > 
-		        <View id="item_Details" height="auto" top="5" left="5" right="5"  ></View>
-		       
-			</ScrollView>
-		
+			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">
+	        	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchResource" text="" top="0" height="50"  hintText="Search Resources..." /> 
+	            <ScrollView id="resourceView">
+					<TableView width="100%" top="0"  id="resTable" height="Ti.UI.SIZE" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+	            </ScrollView>
+	            		
+	        </View>
+			 
+	       
 		</View>
 	</View>
 </Alloy>

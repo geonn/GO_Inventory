@@ -1,12 +1,16 @@
 var args = arguments[0] || {}; 
+var pageTab = args.tab || "0";
 //$.searchProduct.value = presetSearch;
 var PRODUCT = require('_products');
 var RESOURCE = require('_resources');
-
+ 
 var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
 var mod_InventoryRes  = Alloy.createCollection('resource_inventory'); 
 var mod_Category  = Alloy.createCollection('category'); 
 var allType = mod_Category.getCategoryByType("product");
+var resourcesType = mod_Category.getCategoryByType("resource");
+//$.scrollableView.scrollToView(pageTab);
+changeSlideTab(pageTab);
 var lastDistance = 0; 
 // $.productView.addEventListener('scroll', function(e) { 
 	 // PRODUCT.reloadFromScroll(e);
@@ -19,8 +23,10 @@ RESOURCE.construct($);
 
 setTimeout(function(){   
 	PRODUCT.displayCategory(); 
-	
-	RESOURCE.displayResources(""); 
+	RESOURCE.displayCategory(); 
+	//RESOURCE.displayResources(""); 
+	//hide loading bar
+	COMMON.hideLoading();
 }, 300); 
  
 
@@ -31,10 +37,13 @@ function refreshTableList(){
 
 //products and resources tab
 function goSlide(event){
-	var index = event.source.mod;
+	var index = event.source.mod; 
+	changeSlideTab(index); 
+}
+
+function changeSlideTab(no){
 	var arrViews = $.scrollableView.getViews();
-	
-	switch(index){
+	switch(no){
 		case "0":
 			$.lbl_products.backgroundColor = "#FFFFFF";
 			$.lbl_products.color = "#494949";
@@ -53,7 +62,7 @@ function goSlide(event){
 			$.lbl_resources.borderColor = "#FFFFFF";
 			break;
 	} 
-	$.scrollableView.scrollToView(arrViews[index]);
+	$.scrollableView.scrollToView(arrViews[no]);
 }
 
 function addProduct(){ 

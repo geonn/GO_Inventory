@@ -1,13 +1,103 @@
 var mainView = null;
 var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
-var details = mod_InventoryRes.getResourceList(); 
+
+
+function displayCategory(){
+	var data=[]; 
+	var category = mod_InventoryRes.getResourcesCategory(); 
+	 
+	if(category.length < 1){
+		var noRecord = Ti.UI.createLabel({ 
+			text: "No record found", 
+			color: '#375540', 
+			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		 	font:{fontSize:14,fontStyle:'italic'},
+			top: 15,
+			width: "100%"
+		});
+		mainView.productView.add(noRecord);
+	}else{
+		var counter =1;
+		
+		category.forEach(function(entry) {
+			 
+			var row = Titanium.UI.createTableViewRow({
+		    touchEnabled: true,
+		    source: entry.type,  
+		    backgroundColor: "#ffffff",
+		    selectedBackgroundColor: "#ECFFF9",
+			backgroundGradient: {
+			      type: 'linear',
+			      colors: ['#fff','#F7F7F6'],
+			      startPoint: {x:0,y:0},
+			      endPoint:{x:"100%",y:0},
+			      backFillStart:false
+			    },
+		    });
+			
+			var row_view = Ti.UI.createView({
+				left: 5,
+		    	top: 5, 
+		    	right: 5,
+		    	bottom: 5,
+		    	height: 30,
+		    	width: Ti.UI.FILL,
+		    	source: entry.type,  
+		    	layout: "horizontal",
+			});
+			
+			var tblView = Ti.UI.createView({
+				layout: "vertical",
+				source: entry.type,  
+				height:"30",
+				width: "90%",
+			}); 
+			
+			 
+			var popUpTitle = Titanium.UI.createLabel({
+				text:entry.type + " ("+entry.total+")",
+				font:{fontSize:14, fontWeight:'bold'},
+				source: entry.type,
+				color: "#848484",
+				width: "90%",
+				height: Ti.UI.SIZE,
+				textAlign:Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				wordwrap: false,
+				ellipsize : true
+			});
+			
+			var rightImage =  Titanium.UI.createImageView({
+				image:"/images/btn-forward",
+				source: entry.type,
+				width: 20,
+				right: 10,
+				height: 20,
+			});	
+			
+			row.addEventListener('click', function(e) {
+			 	viewResourcesList(e);
+			});
+		 	
+			tblView.add(popUpTitle); 
+		 	
+		 	row_view.add(tblView);
+		 	row_view.add(rightImage);
+		 	row.add(row_view);
+		 	data.push(row);
+		  
+		});
+	 
+		mainView.resTable.setData(data); 
+		mainView.resourceView.add(mainView.resTable);
+	}
+}
 
 exports.construct = function(mv){
 	mainView = mv;
 };
  
 exports.displayResources = function(resource){
- 
+ 	var details = mod_InventoryRes.getResourceList(0); 
 	if(resource == ""){
 		resource = details;
 	}
@@ -165,9 +255,17 @@ exports.displayResources = function(resource){
 	}
 };
 
+function viewResourcesList(e){
+	DRAWER.navigation("resourceLists",1 ,{type: e.source.source});
+}
+
 function viewDetails(e){
 	DRAWER.navigation("resourceDetails",1 ,{p_id: e.source.source});
 }
+
+exports.displayCategory = function(){
+	displayCategory();	
+};
 
 exports.refreshTableList = function(){
 	removeAllChildren(mainView.resourceView);
