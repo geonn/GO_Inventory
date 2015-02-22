@@ -1,27 +1,27 @@
 var args = arguments[0] || {};
 var p_id = args.p_id || {};
-var mod_InventoryProd = Alloy.createCollection('product_inventory');  
-var presetSearch = Ti.App.Properties.getString("product_search") || "";
-var PRODUCT = require('_products');
-
-var PROD_CONTENTS = require('_product_contents');
-PROD_CONTENTS.construct($);
+var mod_InventoryRes = Alloy.createCollection('resource_inventory');  
+var presetSearch = Ti.App.Properties.getString("resource_search") || "";
+var RESOURCE = require('_resources');
+var RES_CONTENTS = require('_resource_contents');
+var curCate;
+RES_CONTENTS.construct($);
 COMMON.construct($);
 COMMON.showLoading(); 
 
+var resDetails = mod_InventoryRes.getResourceDetails(p_id);
+
 setTimeout(function(){  
 	if(presetSearch != ""){
-		var items = mod_InventoryProd.searchProducts(presetSearch);  
+		var items = mod_InventoryRes.searchResources(presetSearch);  
  	}else{
- 		var items = mod_InventoryProd.getProductList("all");  
+ 		var items = mod_InventoryRes.getResourceByCategory(resDetails.type);  
  	}	
- 	getProductDetails(items); 
-}, 1000); 
+ 	getResourceDetails(items); 
+}, 200); 
 
-var getProductDetails = function(items){
-	 
-	var imagepath, adImage, row = '', position;
-	var my_page = 0;
+var getResourceDetails = function(items){
+	var row = '', position; 
 	   		
 	/***Set ads items***/
 	var the_view = []; 
@@ -29,6 +29,8 @@ var getProductDetails = function(items){
 	 
 		if(items[i].id == p_id){ 
 			position=  items[i].position;
+			curCate  = items[i].type;
+			$.appTitle.text = curCate;
 		}
 		 
 		var scrollView = Ti.UI.createScrollView({
@@ -47,13 +49,13 @@ var getProductDetails = function(items){
 		$.item_Details.title=items[i].name;
 		
 		/***Create and Add Product Image***/
-		row.add(PROD_CONTENTS.displayProductImage(items[i].image));
+		row.add(RES_CONTENTS.displayResourceImage(items[i].image));
 		
 		/***Create and Add Header***/
-		row.add(PROD_CONTENTS.displayHeader()); 
+		row.add(RES_CONTENTS.displayHeader()); 
 		
 		/***Create and Add Product Contents***/
-		row.add(PROD_CONTENTS.displayProductContents(items[i])); 
+		row.add(RES_CONTENTS.displayResourceContents(items[i])); 
 		
 		scrollView.add(row);
 		the_view.push(scrollView); 
@@ -71,5 +73,5 @@ var getProductDetails = function(items){
 };
 
 function goBack(){
-	DRAWER.navigation("inventory",1);
+	DRAWER.navigation("resourceLists",1,{type:curCate});
 }

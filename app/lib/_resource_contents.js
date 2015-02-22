@@ -12,37 +12,38 @@ exports.displayHeader = function(){
 	 
 	 var titleLabel = mainView.UI.create('Label',{
 	 	classes: ['white_text'],
-		text: "PRODUCT DETAILS" 
+		text: "RESOURCE DETAILS" 
 	});	
 	
 	titleLabelView.add(titleLabel);
 	return titleLabelView;
 };
  
-exports.displayProductImage = function (image){
+exports.displayResourceImage = function (image){
+ 
 	var imageContainer = Ti.UI.createView({
 		height:"40%",
 		top: 0,
 		width:"90%" 
 	});
 	if(image == ""){
-		var prodImage = Ti.UI.createImageView({
+		var resImage = Ti.UI.createImageView({
 			image: "/images/noImage.png", 
 			top:0,
 			width:"80%"
 		});
 	}else{
-		var prodImage = Titanium.UI.createImageView({
+		var resImage = Titanium.UI.createImageView({
 			image: image, 
 			top:0,
 			width:"80%"
 		});
 	}
-	imageContainer.add(prodImage);
+	imageContainer.add(resImage);
 	return imageContainer;
 };
 
-exports.displayProductContents = function(items){ 
+exports.displayResourceContents = function(items){ 
 	var mainContentView = Titanium.UI.createView({
 		layout : "vertical", 
 		top:5, 
@@ -51,55 +52,48 @@ exports.displayProductContents = function(items){
 		height:Ti.UI.SIZE
 	});
 	 
- 	/*** PRODUCT NAME***/
+ 	/*** RESOURCE NAME***/
  	var contentView = horizontalView(); 
-	contentView.add(contentTitleLabel("Product Name"));
+	contentView.add(contentTitleLabel("Resource Name"));
 	contentView.add(contentLabel(items.name));
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
 	
-	/*** PRODUCT SET***/
+	/*** RESOURCE CODE***/
 	var contentView = horizontalView(); 
-	contentView.add(contentTitleLabel("Product Set"));
-	contentView.add(contentLabel(items.prodSet));
-	mainContentView.add(contentView); 
-	mainContentView.add(saperatorLine());
-
-	/*** PRODUCT CODE***/
-	var contentView = horizontalView(); 
-	contentView.add(contentTitleLabel("Product Code"));
+	contentView.add(contentTitleLabel("Resource Code"));
 	contentView.add(contentLabel(items.code));
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
 	
-	/*** PRODUCT CATEGORY***/
+	/*** RESOURCE CATEGORY***/
 	var contentView  = horizontalView(); 
-	contentView.add(contentTitleLabel("Product Category"));
-	contentView.add(contentLabel(items.category));
+	contentView.add(contentTitleLabel("Resource Type"));
+	contentView.add(contentLabel(items.type));
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
 	
-	/*** PRODUCT SIZE***/
+	/*** RESOURCE SIZE***/
 	var  depth =  items.depth || "-";
 	var  width =  items.width || "-";
 	var  height = items.height || "-";
 	var sizeText = "(Depth)"+depth + ", (Width)"+width + ", (Height)"+height;
 	var contentView  = horizontalView(); 
-	contentView.add(contentTitleLabel("Product Size"));
+	contentView.add(contentTitleLabel("Resource Size"));
 	contentView.add(contentLabel(sizeText));
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
 	
-	/*** PRODUCT SURFACE HABITABLE***/
+	/*** RESOURCE SUPPLIER***/
 	var contentView  = horizontalView(); 
-	contentView.add(contentTitleLabel("Product Habitable"));
-	contentView.add(contentLabel(items.surface_habitable));
+	contentView.add(contentTitleLabel("Resource Supplier"));
+	contentView.add(contentLabel(items.supplier));
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
 	
-	/*** PRODUCT STOCK QUANTITY***/
+	/*** RESOURCE STOCK QUANTITY***/
 	var contentView  = horizontalView(); 
-	contentView.add(contentTitleLabel("Product Stock Quantity"));
+	contentView.add(contentTitleLabel("Resource Stock Quantity"));
 	contentView.add(contentLabel(items.quantity));
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());

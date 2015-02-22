@@ -1,7 +1,6 @@
 var mainView = null;
 var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
 
-
 function displayCategory(){
 	var data=[]; 
 	var category = mod_InventoryRes.getResourcesCategory(); 
@@ -97,16 +96,12 @@ exports.construct = function(mv){
 };
  
 exports.displayResources = function(resource){
- 	var details = mod_InventoryRes.getResourceList(0); 
-	if(resource == ""){
+ 	 
+	if(resource == "1"){
+		var details = mod_InventoryRes.getResourceList(0); 
 		resource = details;
 	}
  
-	var TheTable = Titanium.UI.createTableView({
-		width:'100%',
-		backgroundImage: "/images/bg.jpg",
-		separatorColor: '#375540'
-	});
 	var data=[]; 
 	//hide loading bar
 	COMMON.hideLoading();
@@ -155,14 +150,28 @@ exports.displayResources = function(resource){
 				width:"auto",
 			}); 
 			
-			var leftImage =  Titanium.UI.createImageView({
-				image:entry.image,
-				source: entry.id,
-				width: 112,
-				right: 10,
-				height: 80,
-			});	
-		
+			var imageContainer = Ti.UI.createView({
+				height:80,
+				source: entry.id, 
+				width:112 
+			});
+			
+			if(entry.image == ""){
+				var leftImage = Ti.UI.createImageView({
+					image: "/images/noImage.png", 
+					source: entry.id, 
+					width:"80%"
+				});
+			}else{
+				var leftImage = Ti.UI.createImageView({
+					image: entry.image, 
+					source: entry.id, 
+					width:"80%"
+				});
+			}
+			
+			imageContainer.add(leftImage);
+			  
 			var popUpTitle = Titanium.UI.createLabel({
 				text:entry.name,
 				font:{fontSize:14, fontWeight:'bold'},
@@ -185,7 +194,7 @@ exports.displayResources = function(resource){
 				height: Ti.UI.SIZE,
 			});
 			
-			var distance =  Titanium.UI.createLabel({
+			var supplier =  Titanium.UI.createLabel({
 				text:entry.supplier,
 				source: entry.id,
 				font:{fontSize:11},
@@ -240,18 +249,18 @@ exports.displayResources = function(resource){
 		 	
 			tblView.add(popUpTitle);
 			tblView.add(category);
-		 	tblView.add(distance);  
+		 	tblView.add(supplier);  
 		 	tblView.add(quantity_view);
 		 	
-		 	row_view.add(leftImage);
+		 	row_view.add(imageContainer);
 		 	row_view.add(tblView);
 		 	row.add(row_view);
 		 	data.push(row);
 		 	counter++;
 		});
 		
-		TheTable.setData(data); 
-		mainView.resourceView.add(TheTable);
+		mainView.resTable.setData(data); 
+		mainView.resourceView.add(mainView.resTable);
 	}
 };
 

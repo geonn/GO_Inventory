@@ -1,4 +1,21 @@
 <Alloy>
-	<View class="container">
+	<View>
+		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
+	        <ActivityIndicator  id="activityIndicator" />
+	    	<Label top="5" text="Loading" color="#ffffff" />
+	    </View>
+		<View class="container" id="inventoryView"  layout="vertical" > 
+			<View id="header" backgroundColor="#375540"  >
+				<View height="50" width="50" left="2" onClick="goBack" >
+					<ImageView image="/images/back-button.png" height="30" left="8"  />
+				</View>
+				<Label class="h1" id="appTitle">Loading...</Label>
+				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+			</View>
+			<ScrollView id="detailScrollView"  layout="vertical"  height="Ti.UI.SIZE" top="5" left="5" right="5" > 
+		        <View id="item_Details" height="auto" top="5" left="5" right="5"  ></View> 
+			</ScrollView>
+		
+		</View>
 	</View>
 </Alloy>

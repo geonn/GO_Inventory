@@ -145,13 +145,26 @@ function displayProduct(products){
 				width:"auto",
 			}); 
 			
-			var leftImage =  Titanium.UI.createImageView({
-				image:entry.image,
-				source: entry.id,
-				width: 112,
-				right: 10,
-				height: 80,
-			});	
+			var imageContainer = Ti.UI.createView({
+				height:80,
+				source: entry.id, 
+				width:112 
+			});
+			
+			if(entry.image == ""){
+				var leftImage = Ti.UI.createImageView({
+					image: "/images/noImage.png", 
+					source: entry.id, 
+					width:"80%"
+				});
+			}else{
+				var leftImage = Ti.UI.createImageView({
+					image: entry.image, 
+					source: entry.id, 
+					width:"80%"
+				});
+			}
+			imageContainer.add(leftImage); 
 		
 			var popUpTitle = Titanium.UI.createLabel({
 				text:entry.name,
@@ -175,7 +188,7 @@ function displayProduct(products){
 				height: Ti.UI.SIZE,
 			});
 			
-			var distance =  Titanium.UI.createLabel({
+			var pCode =  Titanium.UI.createLabel({
 				text:entry.code,
 				source: entry.id,
 				font:{fontSize:11},
@@ -196,6 +209,7 @@ function displayProduct(products){
 				width: Ti.UI.SIZE,
 				height: Ti.UI.SIZE,
 				source: entry.id,
+				source: entry.id,
 				backgroundColor: "#375540",
 			});
 			 
@@ -215,6 +229,7 @@ function displayProduct(products){
 				editable: false,
 				borderColor: "#375540",
 				height: 20,
+				source: entry.id,
 				width: Ti.UI.FILL,
 				value: entry.quantity,
 				textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
@@ -230,10 +245,10 @@ function displayProduct(products){
 		 	
 			tblView.add(popUpTitle);
 			tblView.add(category);
-		 	tblView.add(distance);  
+		 	tblView.add(pCode);  
 		 	tblView.add(quantity_view);
 		 	
-		 	row_view.add(leftImage);
+		 	row_view.add(imageContainer);
 		 	row_view.add(tblView);
 		 	row.add(row_view);
 		 	data.push(row);

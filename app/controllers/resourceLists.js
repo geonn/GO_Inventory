@@ -31,7 +31,8 @@ setTimeout(function(){
 
 function refreshTableList(){
 	removeAllChildren($.resourceView);
-	RESOURCE.displayResources(products);	  
+	var cateResult = mod_InventoryRes.getResourceByCategory(cate); 
+	RESOURCE.displayResources(cateResult);	  
 }
  
 function back(e){ 
@@ -64,10 +65,10 @@ var searchResourceResult = function(){
 	COMMON.showLoading();
 	$.searchResource.blur();
 	var str = $.searchResource.getValue();
-	Ti.App.Properties.setString("product_search",str);
+	Ti.App.Properties.setString("resource_search",str);
 	var searchResult = mod_InventoryRes.searchResources(str,cate); 
 	removeAllChildren($.resourceView);
-	RESOURCE.displayProduct(searchResult);		
+	RESOURCE.displayResources(searchResult);		
 };
 $.searchResource.addEventListener("return", searchResourceResult);
 

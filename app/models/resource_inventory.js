@@ -126,9 +126,9 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			searchResources : function(searchKey){
+			searchResources : function(searchKey,cate){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE name LIKE '%"+searchKey+"%' OR supplier LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (`type`='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR supplier LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -154,6 +154,7 @@ exports.definition = {
 					res.next();
 					count++;
 				} 
+		 
 				res.close();
                 db.close();
                 collection.trigger('sync');
@@ -179,8 +180,7 @@ exports.definition = {
 						weight: res.fieldByName('weight'),  
 						quantity: res.fieldByName('quantity'), 
 						supplier: res.fieldByName('supplier'), 
-						image: res.fieldByName('image'),  
-						position: count,
+						image: res.fieldByName('image'),   
 						created : res.fieldByName('created'),
 						updated : res.fieldByName('updated')
 					};

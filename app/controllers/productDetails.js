@@ -19,10 +19,8 @@ setTimeout(function(){
  	getProductDetails(items); 
 }, 100); 
 
-var getProductDetails = function(items){
-	 
-	var imagepath, adImage, row = '', position;
-	var my_page = 0;
+var getProductDetails = function(items){ 
+	var row = '', position; 
 	   		
 	/***Set ads items***/
 	var the_view = []; 
