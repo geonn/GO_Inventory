@@ -35,21 +35,24 @@ function back(e){
 };
 
 function hideCategory(e) { 
-	 
-	prodCateKey = e.row.key;
-	$.categoryLabel.text = e.selectedValue[0];
-	$.categoryLabel.color = "#000000"; 
-	$.categoryView.height = 0;
-	$.categoryView.setVisible(false);  
-	$.categoryPicker.setVisible(false);
+	if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){ 
+		prodCateKey = e.row.key;
+		$.categoryLabel.text = e.selectedValue[0];
+		$.categoryLabel.color = "#000000"; 
+		$.categoryView.height = 0;
+		$.categoryView.setVisible(false);  
+		$.categoryPicker.setVisible(false);
+	}
 	return false;
 }
 
 function showCategory() {
-	$.categoryView.height = 140;
-	$.categoryView.setVisible(true);  
-	$.categoryPicker.setVisible(true);
-	//$.categoryPicker.setSelectedRow(0,0,true);
+	if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){
+		$.categoryView.height = 140;
+		$.categoryView.setVisible(true);  
+		$.categoryPicker.setVisible(true);
+		//$.categoryPicker.setSelectedRow(0,0,true);
+	}
 	return false;
 }
 

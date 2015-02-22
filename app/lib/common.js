@@ -31,6 +31,7 @@ exports.showLoading = function(){
 exports.createAlert = function(tt,msg){
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,
+		ok: 'Okay',
 		message: msg
 	});
 	box.show();

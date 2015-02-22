@@ -7,10 +7,11 @@ var RES_CONTENTS = require('_resource_contents');
 var curCate;
 RES_CONTENTS.construct($);
 COMMON.construct($);
-COMMON.showLoading(); 
-
+COMMON.showLoading();  
 var resDetails = mod_InventoryRes.getResourceDetails(p_id);
-
+if(Ti.Platform.osname == "android"){ 
+	$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -50;  
+}
 setTimeout(function(){  
 	if(presetSearch != ""){
 		var items = mod_InventoryRes.searchResources(presetSearch);  

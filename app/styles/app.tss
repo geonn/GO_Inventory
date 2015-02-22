@@ -95,8 +95,7 @@ TextField : {
 	height: Ti.UI.SIZE,
 	color: "#ffffff"
 },
-"#activityIndicator" : {
-	 style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
+"#activityIndicator" : { 
 	 top:30,
 	 left:30,
 	 width:60,

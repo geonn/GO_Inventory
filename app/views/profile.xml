@@ -5,10 +5,9 @@
 				<ImageView image="/images/back-button.png" height="30" left="8"  />
 			</View> 
 			<Label class="h1" id="appTitle">My Profile</Label>
-			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
-		 
-        
+		  
 		<View id="pView"  layout="vertical"> 
 			<View backgroundColor="#fcfbfb" height="40">
 		        <Label class="label">Account Info</Label>

@@ -5,7 +5,7 @@
 				<ImageView image="/images/back-button.png" height="30" left="8"  />
 			</View> 
 			<Label class="h1" id="appTitle">Edit Profile</Label>
-			<ImageView image="/images/more-button.png" onClick="menuToggle" right="2" />
+			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
 		<View  layout="vertical" height="30" top=10  >
         	<Label text="" class="description_content" id="description"  />

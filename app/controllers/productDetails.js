@@ -9,7 +9,11 @@ PROD_CONTENTS.construct($);
 COMMON.construct($);
 COMMON.showLoading(); 
 var prodDetails = mod_InventoryProd.getProductDetails(p_id);
- 
+
+if(Ti.Platform.osname == "android"){ 
+	$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -50;  
+}
+		 
 setTimeout(function(){  
 	if(presetSearch != ""){
 		var items = mod_InventoryProd.searchProducts(presetSearch);  
@@ -21,7 +25,7 @@ setTimeout(function(){
 
 var getProductDetails = function(items){ 
 	var row = '', position; 
-	   		
+	console.log(items);	
 	/***Set ads items***/
 	var the_view = []; 
 	for (var i=0; i< items.length; i++) {
@@ -43,8 +47,7 @@ var getProductDetails = function(items){
 			classes: ["row"], 
 			id:"view"+items[i].position,
 			layout: "vertical"
-		});
-		
+		}); 
 		
 		$.item_Details.title=items[i].name;
 		

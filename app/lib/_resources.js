@@ -24,7 +24,7 @@ function displayCategory(){
 		    touchEnabled: true,
 		    source: entry.type,  
 		    backgroundColor: "#ffffff",
-		    selectedBackgroundColor: "#ECFFF9",
+		    backgroundSelectedColor: "#ECFFF9",
 			backgroundGradient: {
 			      type: 'linear',
 			      colors: ['#fff','#F7F7F6'],
@@ -124,7 +124,7 @@ exports.displayResources = function(resource){
 		    touchEnabled: true,
 		    source: entry.id,
 		    position: counter,
-		    selectedBackgroundColor: "#ECFFF9",
+		    backgroundSelectedColor: "#ECFFF9",
 			backgroundGradient: {
 			      type: 'linear',
 			      colors: ['#fff','#F7F7F6'],

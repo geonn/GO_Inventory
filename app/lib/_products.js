@@ -23,7 +23,7 @@ function displayCategory(){
 		    touchEnabled: true,
 		    source: entry.category,  
 		    backgroundColor: "#ffffff",
-		    selectedBackgroundColor: "#ECFFF9",
+		    backgroundSelectedColor: "#ECFFF9",
 			backgroundGradient: {
 			      type: 'linear',
 			      colors: ['#fff','#F7F7F6'],
@@ -111,7 +111,7 @@ function displayProduct(products){
 		mainView.productView.add(noRecord);
 	}else{
 		var counter =1;
-		
+		 	
 		products.forEach(function(entry) {
 			 
 			var row = Titanium.UI.createTableViewRow({
@@ -119,7 +119,7 @@ function displayProduct(products){
 		    source: entry.id, 
 		    position: counter,
 		    backgroundColor: "#ffffff",
-		    selectedBackgroundColor: "#ECFFF9",
+		    backgroundSelectedColor: "#ECFFF9",
 			backgroundGradient: {
 			      type: 'linear',
 			      colors: ['#fff','#F7F7F6'],
@@ -254,7 +254,10 @@ function displayProduct(products){
 		 	data.push(row);
 		 	counter++; 
 		});
-	 
+	 	
+	 	if(Ti.Platform.osname == "android"){ 
+			mainView.prodTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
+		}
 		//mainView.prodTable.height = rowHeight + 150;
 		//mainView.productView.height = rowHeight + 150;
 		mainView.prodTable.setData(data); 
@@ -329,7 +332,9 @@ exports.hideProductFormKeyboard = function(e){
 		mainView.prodWeight.blur();
 		mainView.prodHab.blur();
 		mainView.prodFab.blur();
-		closeCategory();
+		if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){ 
+			closeCategory();
+		}
 	}
 };
 

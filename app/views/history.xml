@@ -3,7 +3,7 @@
 		<View id="header" backgroundColor="#375540"  >
 			<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
 			<Label class="h1" id="appTitle">SCAN HISTORY</Label>
-			<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
 		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
         	<ActivityIndicator  id="activityIndicator" />

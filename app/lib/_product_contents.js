@@ -95,8 +95,7 @@ exports.displayProductContents = function(items){
 	contentView.add(contentTitleLabel("Product Habitable"));
 	contentView.add(contentLabel(items.surface_habitable));
 	mainContentView.add(contentView); 
-	mainContentView.add(saperatorLine());
-	
+	mainContentView.add(saperatorLine()); 
 	/*** PRODUCT STOCK QUANTITY***/
 	var contentView  = horizontalView(); 
 	contentView.add(contentTitleLabel("Product Stock Quantity"));

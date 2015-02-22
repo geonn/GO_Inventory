@@ -11,10 +11,10 @@
 					<ImageView image="/images/back-button.png" height="30" left="8"  />
 				</View>
 				<Label class="h1" id="appTitle">Loading...</Label>
-				<ImageView image="/images/more-button.png" onClick="menuToggle"   right="2" />
+				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
-			<ScrollView   id="detailScrollView"  layout="vertical"  height="Ti.UI.SIZE" top="5" left="5" right="5" > 
-		        <View id="item_Details" height="auto" top="5" left="5" right="5"  ></View>
+			<ScrollView id="detailScrollView"  layout="vertical"  height="Ti.UI.SIZE" top="5" left="5" right="5" > 
+		        <View id="item_Details" height="" top="5" left="5" right="5"  ></View>
 		       
 			</ScrollView>
 		
