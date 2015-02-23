@@ -159,7 +159,7 @@ function displayProduct(products){
 				});
 			}else{
 				var leftImage = Ti.UI.createImageView({
-					image: entry.image, 
+					image: entry.image,  
 					source: entry.id, 
 					width:"80%"
 				});
@@ -345,7 +345,7 @@ exports.reloadFromScroll = function(e){
 	}else{
 		var position = e.contentOffset.y;
 	}
-	 console.log(position);
+ 
 	if(defaultContentHeight == position){
 		defaultContentHeight += distance;
 		var co = dataSet * contentOffset; 

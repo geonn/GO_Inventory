@@ -29,6 +29,10 @@ setTimeout(function(){
 }, 300); 
  
 
+function addProduct(){ 
+	DRAWER.navigation("addProductForm",1,{category:cate});
+}
+
 function refreshTableList(){
 	removeAllChildren($.productView);
 	PRODUCT.displayProduct(products);	  

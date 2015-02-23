@@ -1,4 +1,5 @@
 var args = arguments[0] || {};
+var cate = args.category || "";
 var mod_category = Alloy.createCollection('category'); 
 var cateList  = mod_category.getCategoryByType("product");
 var PRODUCT = require('_products');
@@ -30,7 +31,7 @@ function addProd(){
 }
 
 function back(e){ 
-	DRAWER.navigation("inventory",1);
+	DRAWER.navigation("productLists",1,{category: cate});
 	$.productFormView.removeEventListener('click', PRODUCT.hideProductFormKeyboard);
 };
 
@@ -63,6 +64,10 @@ function generateCategoryPicker(){
 		var key = cateList[i].cateKey;
 		var data = Ti.UI.createPickerRow({title:"  "+title ,key:key });  
 		$.categoryPicker.add(data);
+		if(title == cate){
+			$.categoryPicker.setSelectedRow(0,i,false);
+		}
+		
 	}
 	
 }

@@ -1,6 +1,6 @@
 var args = arguments[0] || {}; 
 var pop;
-var MODULE = require("_assignment");
+var MODULE = require("scanner");
 var iCard =  Ti.App.Properties.getString("iCard");
 var mod_InventoryProd = Alloy.createCollection('product_inventory');
 var mod_products = Alloy.createCollection('products'); 
@@ -280,7 +280,7 @@ var button = Titanium.UI.createButton({
 });
 
 button.addEventListener('click', function() {
-	MODULE.openScanner();
+	MODULE.openScanner("1");
 });
 
 if(Ti.Platform.osname == "android"){

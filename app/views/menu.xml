@@ -18,6 +18,12 @@
 				<Label text="Inventory" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
 			<TableViewRow height=50>
+				<Label text="Stock Out" class="menuLabel" color="#ffffff" apiName="Button" />
+			</TableViewRow>
+			<TableViewRow height=50>
+				<Label text="View Product" class="menuLabel" color="#ffffff" apiName="Button" />
+			</TableViewRow>
+			<TableViewRow height=50>
 				<Label text="Settings" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
 			<TableViewRow height=50>

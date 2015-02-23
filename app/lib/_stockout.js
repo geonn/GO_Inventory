@@ -1,0 +1,221 @@
+var mainView = null;
+exports.construct = function(mv){
+	mainView = mv;
+};
+
+function viewDetails(e){
+	DRAWER.navigation("stockoutDetails",1 ,{order: e.source.source});
+}
+
+function displayList(list){
+	var data=[]; 
+	 //hide loading bar
+	COMMON.hideLoading();
+   	var counter = 0;
+   	if(list.length < 1){
+		var noRecord = Ti.UI.createLabel({ 
+			text: "No record found", 
+			color: '#375540', 
+			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		 	font:{fontSize:14,fontStyle:'italic'},
+			top: 15,
+			width: "100%"
+		});
+		mainView.orderView.add(noRecord);
+	}else{
+		var counter =1;
+		 	
+		list.forEach(function(entry) {
+			 
+			var row = Titanium.UI.createTableViewRow({
+		    touchEnabled: true,
+		    source: entry.id, 
+		    position: counter,
+		    backgroundColor: "#ffffff",
+		    backgroundSelectedColor: "#ECFFF9",
+			backgroundGradient: {
+			      type: 'linear',
+			      colors: ['#fff','#F7F7F6'],
+			      startPoint: {x:0,y:0},
+			      endPoint:{x:"100%",y:0},
+			      backFillStart:false
+			    },
+		    });
+			
+			var row_view = Ti.UI.createView({
+				source: entry.id, 
+				left: 5,
+		    	top: 5, 
+		    	right: 5,
+		    	bottom: 5,
+		    	height: 80,
+		    	width: Ti.UI.FILL,
+		    	layout: "horizontal",
+			});
+			
+			var horiView = Ti.UI.createView({
+				source: entry.id, 
+				layout: "horizontal",
+				height:"40",
+				width:"auto",
+			}); 
+			
+			var tblViewLeft = Ti.UI.createView({
+				source: entry.id, 
+				layout: "vertical",
+				left: 10,
+				height:"80",
+				width:"69%",
+			}); 
+			
+			var tblViewRight = Ti.UI.createView({
+				source: entry.id, 
+				layout: "vertical",
+				height:"40",
+				top: 0,
+				width:"20%",
+			}); 
+			
+			var tblViewBottom = Ti.UI.createView({
+				source: entry.id, 
+				layout: "vertical",
+				left: 10,
+				height:"40",
+				width:"100%",
+			}); 
+			
+			var orderLabel =  Titanium.UI.createLabel({
+				text:"ORDER #",
+				source: entry.id,
+				font:{fontSize:11},
+				color: "#848484",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				width: Ti.UI.FILL,
+				height: Ti.UI.SIZE,
+			});
+			  
+			var popUpTitle = Titanium.UI.createLabel({
+				text:entry.sales_order,
+				font:{fontSize:14, fontWeight:'bold'},
+				source: entry.id,
+				color: "#848484",
+				width: Ti.UI.FILL,
+				height: Ti.UI.SIZE,
+				textAlign:Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				wordwrap: false,
+				ellipsize : true
+			});
+			
+			var customer =  Titanium.UI.createLabel({
+				text:entry.customer_name,
+				source: entry.id,
+				font:{fontSize:13},
+				color: "#848484",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				width: Ti.UI.FILL,
+				height: Ti.UI.SIZE,
+			});
+			
+			var company =  Titanium.UI.createLabel({
+				text:entry.company_name,
+				source: entry.id,
+				font:{fontSize:11},
+				color: "#848484",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				width: Ti.UI.FILL,
+				height: Ti.UI.SIZE,
+			}); 
+			
+			var lastUpdatedHoriView = Ti.UI.createView({
+				layout: "horizontal",
+				height:20,
+				width:"100%" 
+			}); 
+			
+			var lastUpdatedLabel =  Titanium.UI.createLabel({
+				text:"Last Updated",
+				source: entry.id,
+				font:{fontSize:11},
+				color: "#848484",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				width: "30%",
+				height: Ti.UI.SIZE 
+			});
+			
+			var lastUpdated =  Titanium.UI.createLabel({
+				text: " : " +timeFormat(entry.updated),
+				source: entry.id,
+				font:{fontSize:11},
+				color: "#848484",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				width: Ti.UI.SIZE,
+				height: Ti.UI.SIZE 
+			});  
+			var deliveryOrderHoriView = Ti.UI.createView({
+				layout: "horizontal",
+				source: entry.id, 
+				height:20,
+				width:"100%",
+			}); 
+			var deliveryOrderLabel =  Titanium.UI.createLabel({
+				text:"Delivery Order #",
+				source: entry.id,
+				font:{fontSize:11},
+				color: "#848484",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				width: "30%",
+				height: Ti.UI.SIZE,
+			});
+			
+			if(entry.delivery_order == ""){
+				entry.delivery_order = "N/A";
+			}
+			var deliveryOrder =  Titanium.UI.createLabel({
+				text:" : " +entry.delivery_order,
+				source: entry.id,
+				font:{fontSize:11},
+				color: "#848484",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+				width: Ti.UI.SIZE,
+				height: Ti.UI.SIZE,
+			}); 
+			
+			row.addEventListener('click', function(e) {
+			 	viewDetails(e);
+			});
+		 	
+		 	tblViewLeft.add(customer);
+		 	tblViewLeft.add(company); 
+		 	tblViewRight.add(orderLabel);
+			tblViewRight.add(popUpTitle);
+			horiView.add(tblViewLeft); 
+			horiView.add(tblViewRight); 
+			lastUpdatedHoriView.add(lastUpdatedLabel);
+			lastUpdatedHoriView.add(lastUpdated);
+			deliveryOrderHoriView.add(deliveryOrderLabel);
+			deliveryOrderHoriView.add(deliveryOrder); 
+		 	tblViewBottom.add(lastUpdatedHoriView); 
+		 	tblViewBottom.add(deliveryOrderHoriView);
+		 	
+		 	row_view.add(horiView);
+		 	row_view.add(tblViewBottom);
+		 	row.add(row_view);
+		 	data.push(row);
+		 	counter++; 
+		});
+	 	
+	 	if(Ti.Platform.osname == "android"){ 
+			mainView.orderTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
+		}
+		//mainView.prodTable.height = rowHeight + 150;
+		//mainView.productView.height = rowHeight + 150;
+		mainView.orderTable.setData(data); 
+		mainView.orderView.add(mainView.orderTable);
+	}
+}
+
+exports.displayList = function(list){
+	displayList(list);
+};
+ 
+ 

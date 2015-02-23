@@ -17,6 +17,7 @@ var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+U
 var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY;
 var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY;
 var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY;
+var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY;
 
 /*********************
 **** API FUNCTION*****
@@ -161,8 +162,6 @@ exports.getCategory = function (ex){
 						category_type.save();  
 			    	}  
 			    }
-			      
-			 	 
 	        }
 	     
 	     },
@@ -379,6 +378,70 @@ exports.getInventoryProducts = function(ex){
 	 client.send(); 
 };
 
+exports.getStockOutList = function(ex){
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("4");
+	var last_updated ="";
+ 
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	}
+	 
+	var url =stockOutUrl+"&last_updated="+last_updated;
+	 
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	     	var res = JSON.parse(this.responseText);
+	       
+	        if(res.status == "success"){ 
+				var mod_stockout = Alloy.createCollection('stockout'); 
+				var mod_product = Alloy.createCollection('products'); 
+				var stockOut  = res.data;
+	         	stockOut.forEach(function(entry){ 
+	         		mod_stockout.addUpdateStockOut({
+		       			id: entry.id, 
+						sales_order: entry.sales_order,
+						delivery_order: entry.delivery_order,
+						customer_name: entry.customer_name,
+						company_name: entry.company_name,
+						remark: entry.remark, 
+						created: entry.created,
+						updated: entry.updated
+	         			 
+	        		});	
+	         	 	
+	         	 	var productInfo  = entry.product;
+	         	 
+	         		productInfo.forEach(function(prodDetail){
+	         		 
+		         		mod_product.addUpdateProduct({
+						    id: prodDetail.id,
+		         			prefix : prodDetail.prefix,
+						    item_id : prodDetail.itemId,
+						    product : prodDetail.product,
+						    code : prodDetail.code,
+						    order : prodDetail.order,
+						    created : prodDetail.updated,
+						    updated : prodDetail.updated,
+		         		});
+	         		});
+	         	});
+	       		checker.updateModule("4","stockOut",currentDateTime()); 
+	        }
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
 exports.syncScanByUser= function(ex){
 	var url = syncScanByUserUrl + "&u_id="+Ti.App.Properties.getString("user_id");  
 	var client = Ti.Network.createHTTPClient({
@@ -400,6 +463,7 @@ exports.syncScanByUser= function(ex){
 					    item_id : prodDetail.item_id,
 					    product : prodDetail.product,
 					    code : prodDetail.code,
+					    order : prodDetail.order,
 					    created : prodDetail.updated,
 					    updated : prodDetail.updated,
 	         		});

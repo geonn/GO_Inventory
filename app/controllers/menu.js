@@ -18,9 +18,15 @@ function navMenu(e){
 	 		DRAWER.navigation("inventory",2);
 			break;
 		case 5: 
-			DRAWER.navigation("settings",2);
+	 		DRAWER.navigation("stockOut",2);
 			break;
 		case 6: 
+	 		DRAWER.navigation("viewProduct",2);
+			break;
+		case 7: 
+			DRAWER.navigation("settings",2);
+			break;
+		case 8: 
 			Ti.App.Properties.setString("user_id","" );
 			Ti.App.Properties.setString('module',"");
 			DRAWER.navigation("login",2);

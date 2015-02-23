@@ -58,10 +58,6 @@ function changeSlideTab(no){
 	} 
 	$.scrollableView.scrollToView(arrViews[no]);
 }
-
-function addProduct(){ 
-	DRAWER.navigation("addProductForm",1);
-}
  
 var refreshTableList = function(){
 	PRODUCT.refreshTableList();

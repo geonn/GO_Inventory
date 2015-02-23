@@ -20,7 +20,11 @@ exports.closeScanner = function(){
 };
 /***Public function***/
 // Sets up the scanner and starts it in a new window.
-exports.openScanner = function() {
+/*********
+ * 1 - scan and assigned resources and finish goods
+ * 2 - scan to check the product info
+ */
+exports.openScanner = function(scanType) {
 	 
 	// Instantiate the Scandit SDK Barcode Picker view
 	picker = scanditsdk.createView({
@@ -37,45 +41,51 @@ exports.openScanner = function() {
 	// Set callback functions for when scanning succeedes and for when the 
 	// scanning is canceled.
 	picker.setSuccessCallback(function(e) { 
-		 
-		iCard = Ti.App.Properties.getString("iCard");
-		var code = getValueFromPipe(e.barcode);   
-		if(code['type'] == "resource"){ 
-			if(iCard === null){
-				alert("Please scan product first.");
-				return false;
-			}else{
-				var mod_resources = Alloy.createCollection('resources'); 
-				mod_resources.addUpdateResources({
-					iCard  : iCard,
+		// 1 - scan and assigned resources and finish goods
+		if(scanType == "1"){
+			iCard = Ti.App.Properties.getString("iCard");
+			var code = getValueFromPipe(e.barcode);   
+			if(code['type'] == "resource"){ 
+				if(iCard === null){
+					alert("Please scan product first.");
+					return false;
+				}else{
+					var mod_resources = Alloy.createCollection('resources'); 
+					mod_resources.addUpdateResources({
+						iCard  : iCard,
+						prefix : code['prefix'],
+						item_id : code['item_id'],
+						name : code['name'],
+						code : code['code'],
+						status : 1,
+						created : currentDateTime(),
+						updated : currentDateTime()
+					});
+				}
+				Ti.App.fireEvent('populateData');
+			}else if(code['type'] == "product"){
+				//Scan product
+				var mod_products = Alloy.createCollection('products'); 
+				mod_products.addUpdateProduct({
+					id : code['id'],
 					prefix : code['prefix'],
 					item_id : code['item_id'],
-					name : code['name'],
-					code : code['code'],
-					status : 1,
+					product : code['product'],
+					code : code['code'], 
 					created : currentDateTime(),
 					updated : currentDateTime()
 				});
+				Ti.App.Properties.setString("iCard", code['code']); 
+				Ti.App.fireEvent('populateData');
+			}else{
+				alert("Invalid Code.");
 			}
-			Ti.App.fireEvent('populateData');
-		}else if(code['type'] == "product"){
-			//Scan product
-			var mod_products = Alloy.createCollection('products'); 
-			mod_products.addUpdateProduct({
-				id : code['id'],
-				prefix : code['prefix'],
-				item_id : code['item_id'],
-				product : code['product'],
-				code : code['code'], 
-				created : currentDateTime(),
-				updated : currentDateTime()
-			});
-			Ti.App.Properties.setString("iCard", code['code']); 
-			Ti.App.fireEvent('populateData');
-		}else{
-			alert("Invalid Code.");
-		}
+		} 
 		
+		// 2 - scan to check the product info
+		if(scanType == "2"){
+			alert("this is 2");
+		}
 		closeScanner();
 	});
 	picker.setCancelCallback(function(e) { 

@@ -5,7 +5,7 @@ ID       type Name
 1		getAnnoucement	 
 2 		getInventoryProduct 	 
 3 		getInventoryResources
-4 			
+4 		getStockOut	
 ************************************/
 
 exports.definition = {
