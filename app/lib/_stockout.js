@@ -1,10 +1,12 @@
 var mainView = null;
+var mod_InventoryProd = Alloy.createCollection('product_inventory');  
+
 exports.construct = function(mv){
 	mainView = mv;
 };
 
-function viewDetails(e){
-	DRAWER.navigation("stockoutDetails",1 ,{order: e.source.source});
+function viewDetails(e, orderNo){
+	DRAWER.navigation("stockoutDetails",1 ,{order: e.source.source, orderNo: orderNo});
 }
 
 function displayList(list){
@@ -181,7 +183,7 @@ function displayList(list){
 			}); 
 			
 			row.addEventListener('click', function(e) {
-			 	viewDetails(e);
+			 	viewDetails(e, entry.sales_order);
 			});
 		 	
 		 	tblViewLeft.add(customer);
@@ -214,8 +216,139 @@ function displayList(list){
 	}
 }
 
+function displayDetails(list){
+	var data=[]; 
+	var compile = [];
+	 //hide loading bar
+	COMMON.hideLoading();
+   	var counter = 0;
+   	if(list.length < 1){
+		var noRecord = Ti.UI.createLabel({ 
+			text: "No record found", 
+			color: '#375540', 
+			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		 	font:{fontSize:14,fontStyle:'italic'},
+			top: 15,
+			width: "100%"
+		});
+		mainView.orderView.add(noRecord);
+	}else{
+		var mainContentView = Titanium.UI.createView({
+			layout : "vertical",  
+			backgroundColor: "#ffffff",
+			top:0,
+			height:Ti.UI.SIZE
+		});
+		var counter =1;
+		var obj = {}; 	
+		var tableData = [];
+		list.forEach(function(entry) { 
+			var product_id = entry.product;  
+			 if(typeof obj[product_id] === 'undefined'){
+			   obj[product_id]= []; 
+			 }
+			obj[product_id].push(entry.code);
+		});
+		
+		for (var k in obj){
+			var productInfo = mod_InventoryProd.getProductDetails(k);
+			console.log(productInfo);
+			var row = Titanium.UI.createTableViewRow({
+			    touchEnabled: false,  
+			    backgroundColor: "#ffffff",
+			    backgroundSelectedColor: "#ffffff",
+		    });
+			 
+			var horiView = Ti.UI.createView({ 
+				layout: "horizontal",
+				top : 2,
+				height:"50",
+				width:"100%" 
+			}); 
+			
+			var imageContainer = Ti.UI.createView({
+				height:"100%",
+				top: 0,
+				width:"20%" ,
+				left: 0 
+			});
+			var prodImage = Titanium.UI.createImageView({
+				image: productInfo.image, 
+				top:0,
+				left:0,
+				width:"100%"
+			});
+			
+			var titleLabelView = Titanium.UI.createView({
+				backgroundColor: "#375540", 
+				top:0,
+				width: "55%",
+				height:"100%"
+			});
+			 
+			 var titleLabel = mainView.UI.create('Label',{
+			 	classes: ['white_text'],
+				text:  productInfo.name,  
+			});	
+			
+			var qtyLabelView = Titanium.UI.createView({ 
+				top:0,
+				width: "25%",
+				height:"100%"
+			});
+			 
+			var qtyLabel = mainView.UI.create('Label',{
+			 	classes: ['gray_text'],
+			 	font: { fontSize:26 },
+				text:  obj[k].length,  
+			});	
+			qtyLabelView.add(qtyLabel);
+			titleLabelView.add(titleLabel);
+			imageContainer.add(prodImage);
+			horiView.add(imageContainer); 
+			horiView.add(titleLabelView);
+			horiView.add(qtyLabelView);
+			row.add(horiView);
+			tableData.push(row);  
+			for(var i=0; i < obj[k].length; i++){
+				var row2 = Titanium.UI.createTableViewRow({
+				    touchEnabled: false,  
+				    height:30,
+				    backgroundColor: "#ffffff",
+				    backgroundSelectedColor: "#ECFFF9",
+			    });
+				var icardView = Ti.UI.createView({
+					layout: "vertical",
+					height:30,
+					width:"100%" 
+				}); 
+				
+				var icardLabel =  Titanium.UI.createLabel({
+					text: obj[k][i], 
+					font:{fontSize:13},
+					color: "#848484",
+					textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+					width: "80%",
+					top:5,
+					left: 10,
+					height: Ti.UI.SIZE 
+				});
+				icardView.add(icardLabel);
+				row2.add(icardView);
+				tableData.push(row2);
+			}
+			
+		}  
+		mainView.orderDetailsTable.setData(tableData);
+		mainView.orderDetailsView.add(mainView.orderDetailsTable);
+	}
+}
+
 exports.displayList = function(list){
 	displayList(list);
 };
- 
+
+exports.displayDetails = function(list){
+	displayDetails(list);
+};
  

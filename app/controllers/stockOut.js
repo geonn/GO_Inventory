@@ -17,5 +17,4 @@ setTimeout(function(){
 	STOCKOUT.displayList(list);  
 	COMMON.hideLoading();
 }, 300);
-
-console.log(list);
+ 

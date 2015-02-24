@@ -4,7 +4,7 @@
 	        <ActivityIndicator  id="activityIndicator" />
 	    	<Label top="5" text="Loading" color="#ffffff" />
 	    </View>
-		<View class="container" id="inventoryView"  layout="vertical" >
+		<View class="container" id="orderView"  layout="vertical" >
 			
 			<View id="header" backgroundColor="#375540"  >
 				<View height="50" width="50" left="2" onClick="goBack" >
@@ -14,7 +14,7 @@
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">
-	        	<ScrollView id="orderDetailsView">
+	        	<ScrollView id="orderDetailsView" >
 					<TableView width="100%" top="0"  id="orderDetailsTable" height="Ti.UI.SIZE" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	            </ScrollView> 
 	        </View>

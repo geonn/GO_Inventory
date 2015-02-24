@@ -411,10 +411,8 @@ exports.getStockOutList = function(ex){
 	         			 
 	        		});	
 	         	 	
-	         	 	var productInfo  = entry.product;
-	         	 
-	         		productInfo.forEach(function(prodDetail){
-	         		 
+	         	 	var productInfo  = entry.product; 
+	         		productInfo.forEach(function(prodDetail){ 
 		         		mod_product.addUpdateProduct({
 						    id: prodDetail.id,
 		         			prefix : prodDetail.prefix,

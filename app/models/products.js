@@ -147,7 +147,7 @@ exports.definition = {
                 }else{
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.created+"','"+e.updated+"')" ;
 				}
-           		 	console.log(sql_query);
+           		  
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');
