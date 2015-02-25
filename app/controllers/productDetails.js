@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
 var p_id = args.p_id || {};
+var from = args.from || "";
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var presetSearch = Ti.App.Properties.getString("product_search") || "";
 var PRODUCT = require('_products');
@@ -25,7 +26,7 @@ setTimeout(function(){
 
 var getProductDetails = function(items){ 
 	var row = '', position; 
-	console.log(items);	
+	
 	/***Set ads items***/
 	var the_view = []; 
 	for (var i=0; i< items.length; i++) {
@@ -59,7 +60,7 @@ var getProductDetails = function(items){
 		
 		/***Create and Add Product Contents***/
 		row.add(PROD_CONTENTS.displayProductContents(items[i])); 
-		
+			
 		scrollView.add(row);
 		the_view.push(scrollView); 
 	} 
@@ -69,12 +70,17 @@ var getProductDetails = function(items){
 		  views:the_view,
 		  showPagingControl:false
 	});
-	COMMON.hideLoading();
+	
 	$.item_Details.add(scrollableView);
- 
 	scrollableView.scrollToView(position, true);  
+	COMMON.hideLoading();
 };
 
 function goBack(){
-	DRAWER.navigation("productLists",1,{category:curCate});
+	if(from != ""){
+		DRAWER.navigation(from,1);
+	}else{
+		DRAWER.navigation("productLists",1,{category:curCate});
+	}
+	
 }

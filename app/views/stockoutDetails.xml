@@ -15,7 +15,7 @@
 			</View>
 			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">
 	        	<ScrollView id="orderDetailsView" >
-					<TableView width="100%" top="0"  id="orderDetailsTable" height="Ti.UI.SIZE" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+					<TableView width="100%" top="0"  id="orderDetailsTable"  backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	            </ScrollView> 
 	        </View>
 			  

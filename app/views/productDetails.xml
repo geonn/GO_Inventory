@@ -14,7 +14,7 @@
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			<ScrollView id="detailScrollView"  layout="vertical"  height="Ti.UI.SIZE" top="5" left="5" right="5" > 
-		        <View id="item_Details" height="" top="5" left="5" right="5"  ></View>
+		        <View id="item_Details" height="Ti.UI.SIZE" top="5" left="5" right="5"  ></View>
 		       
 			</ScrollView>
 		

@@ -1,6 +1,7 @@
 // load the Scandit SDK module
 var scanditsdk = require("com.mirasense.scanditsdk");
-
+var mod_products = Alloy.createCollection('products'); 
+var mod_invProducts = Alloy.createCollection('product_inventory'); 
 var iCard;
 var picker;
 var window;
@@ -15,10 +16,26 @@ var closeScanner = function() {
 	window.close();
 };
 
+
+/***Public function***/
 exports.closeScanner = function(){
 	closeScanner();
 };
-/***Public function***/
+
+exports.createScannerWindow = function(){
+	return Titanium.UI.createWindow({   
+		navBarHidden:true,
+		fullscreen : true,
+	});
+};
+
+exports.createScannerButton = function(e){
+	return Titanium.UI.createButton({
+		"width":200,
+		"height": 80,
+		"title": e.title
+	});
+};
 // Sets up the scanner and starts it in a new window.
 /*********
  * 1 - scan and assigned resources and finish goods
@@ -47,7 +64,7 @@ exports.openScanner = function(scanType) {
 			var code = getValueFromPipe(e.barcode);   
 			if(code['type'] == "resource"){ 
 				if(iCard === null){
-					alert("Please scan product first.");
+					COMMON.createAlert("Error","Please scan product first.");
 					return false;
 				}else{
 					var mod_resources = Alloy.createCollection('resources'); 
@@ -65,7 +82,7 @@ exports.openScanner = function(scanType) {
 				Ti.App.fireEvent('populateData');
 			}else if(code['type'] == "product"){
 				//Scan product
-				var mod_products = Alloy.createCollection('products'); 
+				
 				mod_products.addUpdateProduct({
 					id : code['id'],
 					prefix : code['prefix'],
@@ -78,13 +95,22 @@ exports.openScanner = function(scanType) {
 				Ti.App.Properties.setString("iCard", code['code']); 
 				Ti.App.fireEvent('populateData');
 			}else{
-				alert("Invalid Code.");
+				COMMON.createAlert("Error","Invalid Code.");
 			}
 		} 
 		
 		// 2 - scan to check the product info
 		if(scanType == "2"){
-			alert("this is 2");
+			
+			var code = getValueFromPipe(e.barcode);   
+			if(code['type'] == "resource"){ 
+				//tempararily hide
+				COMMON.createAlert("Error","This is not valid product.");
+			}else if(code['type'] == "product"){ 
+				//var det = mod_invProducts.getProductDetails(code['product']);
+				//console.log(det);
+				DRAWER.navigation("productDetails",1 ,{p_id: code['product'], from: "viewProduct"});
+			}
 		}
 		closeScanner();
 	});

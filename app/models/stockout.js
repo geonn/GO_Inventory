@@ -54,7 +54,7 @@ exports.definition = {
 			},
 			searchStockOut : function(searchKey){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE sales_order LIKE '%"+searchKey+"%' OR delivery_order LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE sales_order LIKE '%"+searchKey+"%' OR delivery_order LIKE '%"+searchKey+"%' OR customer_name LIKE '%"+searchKey+"%' OR company_name LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);

@@ -4,7 +4,7 @@
 	        <ActivityIndicator  id="activityIndicator" />
 	    	<Label top="5" text="Loading" color="#ffffff" />
 	    </View>
-		<View class="container" id="inventoryView"  layout="vertical" >
+		<View class="container" id="stockOutView"  layout="vertical" >
 			
 			<View id="header" backgroundColor="#375540"  >
 				<View backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>

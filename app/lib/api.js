@@ -500,8 +500,7 @@ exports.getDomain = function(){
 };
 
 //private function
-function onErrorCallback(e) {
-	var common = require('common');
+function onErrorCallback(e) { 
 	// Handle your errors in here
-	common.createAlert("Error", e);
+	COMMON.createAlert("Error", e);
 };

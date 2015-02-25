@@ -96,8 +96,7 @@ function displayProduct(products){
 		products = details;
 	}
  	var data=[]; 
-	 //hide loading bar
-	COMMON.hideLoading();
+	
    	var counter = 0;
    	if(products.length < 1){
 		var noRecord = Ti.UI.createLabel({ 
@@ -263,6 +262,9 @@ function displayProduct(products){
 		mainView.prodTable.setData(data); 
 		mainView.productView.add(mainView.prodTable);
 	}
+	
+	//hide loading bar
+	COMMON.hideLoading();
 } 
 
 exports.construct = function(mv){

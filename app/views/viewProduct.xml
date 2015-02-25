@@ -6,11 +6,10 @@
 			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
 		<View height="Ti.UI.SIZE" layout="vertical">
-			<Label class="black_text medium_text" height="34">Please press "Start" to scan iCard or iResources</Label>
+			<Label class="black_text medium_text" height="34" width="80%">Please press "Check Product" button below to scan iCard to check product details.</Label>
 			<View id="scanner" width="Ti.UI.FILL" height="60" bottom="10" ></View>
 		</View>
- 		<View backgroundColor="#375540" height="5%"><Label class="white_text bold_text" >PRODUCT DETAILS</Label></View>
-		 
+ 		 
 	</View>
 	
 </Alloy>

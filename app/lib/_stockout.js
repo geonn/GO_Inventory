@@ -1,6 +1,6 @@
 var mainView = null;
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
-
+var mod_product = Alloy.createCollection('products'); 
 exports.construct = function(mv){
 	mainView = mv;
 };
@@ -55,11 +55,15 @@ function displayList(list){
 		    	layout: "horizontal",
 			});
 			
+			var horiViewHeight = "40";
+			if(Ti.Platform.osname == "android"){ 
+				horiViewHeight = "60";	
+			} 
 			var horiView = Ti.UI.createView({
 				source: entry.id, 
 				layout: "horizontal",
-				height:"40",
-				width:"auto",
+				height:horiViewHeight,
+				width:"auto" 
 			}); 
 			
 			var tblViewLeft = Ti.UI.createView({
@@ -216,7 +220,8 @@ function displayList(list){
 	}
 }
 
-function displayDetails(list){
+function displayDetails(order_id){
+	var list = mod_product.getProductByOrder(order_id); 
 	var data=[]; 
 	var compile = [];
 	 //hide loading bar

@@ -267,17 +267,10 @@ function addClickEvent(myView, popView,data){
 
 /***Create Scanner View***/
 // Create a window to add the picker to and display it. 
-var window = Titanium.UI.createWindow({   
-		navBarHidden:true,
-		fullscreen : true,
-});
+var window = MODULE.createScannerWindow();
 
 // create start scanner button
-var button = Titanium.UI.createButton({
-	"width":200,
-	"height": 80,
-	"title": "START"
-});
+var button = MODULE.createScannerButton({title: "START"});
 
 button.addEventListener('click', function() {
 	MODULE.openScanner("1");

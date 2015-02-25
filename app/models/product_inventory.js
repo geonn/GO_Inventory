@@ -36,7 +36,6 @@ exports.definition = {
 				var collection = this;
 				var sql = "SELECT category,COUNT(1) AS total FROM " + collection.config.adapter.collection_name + " GROUP BY category" ;
                 
-                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 

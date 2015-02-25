@@ -105,7 +105,7 @@ function displayProduct(products){
 				}); 
 				
 				 
-				row.addEventListener('touchend', function(e) {
+				row.addEventListener('click', function(e) {
 				 	viewDetails(e);
 				});
 			 
