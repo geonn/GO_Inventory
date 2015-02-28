@@ -13,7 +13,8 @@ exports.definition = {
 		    "surface_habitable": "TEXT", 
 		    "quantity": "TEXT", 
 		    "fabric_used": "TEXT", 
-		    "image": "TEXT",  
+		    "image": "TEXT", 
+		    "status": "TEXT",  
 		    "created" : "TEXT",
 		    "updated" : "TEXT"
 		},
@@ -34,7 +35,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getProductCategory : function(){ 
 				var collection = this;
-				var sql = "SELECT category,COUNT(1) AS total FROM " + collection.config.adapter.collection_name + " GROUP BY category" ;
+				var sql = "SELECT category,COUNT(1) AS total FROM " + collection.config.adapter.collection_name + " WHERE (`status` = 1)  GROUP BY category" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -56,7 +57,7 @@ exports.definition = {
 			getProductByCategory : function(cate){
 				 
 				var collection = this;
-				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE category='"+cate+"' " ;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (`status` = 1) AND category='"+cate+"' " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -96,9 +97,9 @@ exports.definition = {
 				
 				var collection = this;
 				if(contentOffset == "all"){
-					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC";
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `status` = 1 ORDER BY updated DESC";
 				}else{
-					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC LIMIT "+contentOffset +", 30" ;
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `status` = 1 ORDER BY updated DESC LIMIT "+contentOffset +", 30" ;
                 }
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
@@ -135,7 +136,7 @@ exports.definition = {
 			},
 			searchProducts : function(searchKey,cate){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (category='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (`status` = 1) AND (category='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR category LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 var arr = []; 
@@ -211,9 +212,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET   name='"+e.name+"',  prodSet='"+e.prodSet+"',code='"+e.code+"',category='"+e.category+"',depth='"+e.depth+"',width='"+e.width+"',height='"+e.height+"',weight='"+e.weight+"',surface_habitable='"+e.surface_habitable+"',quantity='"+e.quantity+"',fabric_used='"+e.fabric_used+"',image='"+e.image+"', created='"+e.created+"',updated='"+e.updated+"' WHERE code='" +e.code+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET   name='"+e.name+"',  prodSet='"+e.prodSet+"',code='"+e.code+"',category='"+e.category+"',depth='"+e.depth+"',width='"+e.width+"',height='"+e.height+"',weight='"+e.weight+"',surface_habitable='"+e.surface_habitable+"',quantity='"+e.quantity+"',fabric_used='"+e.fabric_used+"',image='"+e.image+"',status='"+e.status+"', created='"+e.created+"',updated='"+e.updated+"' WHERE code='" +e.code+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, name,prodSet,code, category, depth, width,height,weight,surface_habitable,quantity,fabric_used,image, created, updated) VALUES ('"+e.id+"','"+e.name+"','"+e.prodSet+"','"+e.code+"','"+e.category+"','"+e.depth+"','"+e.width+"','"+e.height+"','"+e.weight+"','"+e.surface_habitable+"','"+e.quantity+"','"+e.fabric_used+"','"+e.image+"' ,   '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, name,prodSet,code, category, depth, width,height,weight,surface_habitable,quantity,fabric_used,image,status, created, updated) VALUES ('"+e.id+"','"+e.name+"','"+e.prodSet+"','"+e.code+"','"+e.category+"','"+e.depth+"','"+e.width+"','"+e.height+"','"+e.weight+"','"+e.surface_habitable+"','"+e.quantity+"','"+e.fabric_used+"','"+e.image+"','"+e.status+"' ,   '"+e.created+"','"+e.updated+"')" ;
 				}
            
 	            db.execute(sql_query);

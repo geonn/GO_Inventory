@@ -11,6 +11,7 @@
 					<ImageView image="/images/back-button.png" height="30" left="8"  />
 				</View>
 				<Label class="h1" id="appTitle"></Label> 
+				<View backgroundImage="/images/add.png" height="30" width="40" onClick="addResource" right="50"></View>
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">

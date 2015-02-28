@@ -1,5 +1,8 @@
 var args = arguments[0] || {}; 
 $.appTitle.text = "HOME";
+COMMON.construct($);
+COMMON.showLoading();
+
 function goTo(e){ 
 	DRAWER.navigation(e.source.mod,1);
 }

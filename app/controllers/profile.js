@@ -3,7 +3,12 @@ var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString("user_id");
 var mod_users = Alloy.createCollection('user'); 
 var details = mod_users.getUserById(u_id); 
-loadTable();
+COMMON.construct($);
+COMMON.showLoading();
+setTimeout(function(){   
+	loadTable();
+}, 300);  
+
 
 var back =  function (){
 	DRAWER.navigation("settings",1);
@@ -11,7 +16,7 @@ var back =  function (){
 
 function loadTable(){
 	details  = mod_users.getUserById(u_id);
-	
+	console.log(details);
 	var RegArr = [
 	{ title:'Username', value:details.username, mod: "username",  hasChild:false  },
 	{ title:'Fullname', value:details.fullname, mod:"fullname", hasChild:true },
@@ -61,7 +66,7 @@ function loadTable(){
 			text: RegArr[j].value ,
 			titles: RegArr[j].title ,  
 			mod: RegArr[j].mod,   
-			font:{fontSize:12 },
+			font:{fontSize:14 },
 			color: "#848484",
 			width:'auto',
 			textAlign:'left',
@@ -110,41 +115,42 @@ function loadTable(){
 		      endPoint:{x:0,y:50},
 		      backFillStart:false},
 		  });
-		var title = Titanium.UI.createLabel({
+	var title = Titanium.UI.createLabel({
 			text: "Change Password", 
 			font:{fontSize:16 },
 			color: "#848484",
 			width:'auto',
 			textAlign:'left',
 			left:10
-		});
+	});
 		
-		var label = Titanium.UI.createLabel({
+	var label = Titanium.UI.createLabel({
 			
-			font:{fontSize:12 },
+			font:{fontSize:14 },
 			color: "#848484",
 			width:'auto',
 			textAlign:'left',
 			right:50
-		});
+	});
 	
-		rightRegBtn =  Titanium.UI.createImageView({
+	rightRegBtn =  Titanium.UI.createImageView({
 				image:"/images/btn-forward.png",
 				width:15,
 				height:15,
 				right:20,
 				top:20
-		});	
+	});	
 		
-		passRow.addEventListener('click',  function(event){ 
+	passRow.addEventListener('click',  function(event){ 
 			DRAWER.navigation("editPassword",1,{username: details.username});
-		});
-		passRow.add(title);
-		passRow.add(label);
-		passRow.add(rightRegBtn);
-		passData.push(passRow);
-		PassTable.setData(passData);
-		$.table2Container.add(PassTable);  
+	});
+	passRow.add(title);
+	passRow.add(label);
+	passRow.add(rightRegBtn);
+	passData.push(passRow);
+	PassTable.setData(passData);
+	$.table2Container.add(PassTable);  
+	COMMON.hideLoading();
 }
 
 

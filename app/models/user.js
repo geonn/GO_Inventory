@@ -49,6 +49,16 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			changeProfile : function(e){
+				var collection = this; 
+                var sql_query =  "";
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET "+e.field+"='"+e.value+"' WHERE id='" +e.id+"'";
+       
+	            db.execute(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+			},
 			changePassword : function(e){
 				var collection = this; 
                 var sql_query =  "";

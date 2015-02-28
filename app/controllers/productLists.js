@@ -23,11 +23,8 @@ setTimeout(function(){
 	}else{  
 		var cateResult = mod_InventoryProd.getProductByCategory(cate); 
 		PRODUCT.displayProduct(cateResult); 
-	}
-	
-	 
-}, 300); 
- 
+	} 
+}, 300);  
 
 function addProduct(){ 
 	DRAWER.navigation("addProductForm",1,{category:cate});

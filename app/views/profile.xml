@@ -1,5 +1,5 @@
 <Alloy>
-	<View class="container" id="profile">
+	<View class="container" id="profile"  > 
 		<View id="header" backgroundColor="#375540"  >
 			<View height="50" width="50" left="0" onClick="back" >
 				<ImageView image="/images/back-button.png" height="30" left="8"  />
@@ -7,20 +7,23 @@
 			<Label class="h1" id="appTitle">My Profile</Label>
 			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
-		  
-		<View id="pView"  layout="vertical"> 
-			<View backgroundColor="#fcfbfb" height="40">
-		        <Label class="label">Account Info</Label>
+		   
+		<View id="pView"  layout="vertical" top="50"> 
+			<View backgroundColor="#375540" height="40">
+		        <Label class="white_text bold_text">Account Info</Label>
 		        <View class="line" />
 		    </View>
 			<View id="table1Container" height="150"></View>
 			
-	      	<View backgroundColor="#fcfbfb" height="40">
-		        <Label class="label">Password</Label>
+	      	<View backgroundColor="#375540" height="40">
+		        <Label class="white_text bold_text">Password</Label>
 		        <View class="line" />
 		    </View>
 			<View id="table2Container" height="50"></View>
-			
 		</View> 
+		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
+	        <ActivityIndicator  id="activityIndicator" />
+	    	<Label top="5" text="Loading" color="#ffffff" />
+	    </View>
 	</View>
 </Alloy>

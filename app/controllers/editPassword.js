@@ -60,9 +60,7 @@ var doSave = function(){
 $.editPassword.addEventListener('load', function(e) {
 	$.currentPasswordField.focus();
 });
-
-Ti.App.addEventListener('showLoading', showLoading);
-Ti.App.addEventListener('hideLoading', hideLoading);
+ 
 
 /** close all editProfile eventListener when close the page**/
 $.editPassword.addEventListener("close", function(){

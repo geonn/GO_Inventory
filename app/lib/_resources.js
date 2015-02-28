@@ -280,3 +280,51 @@ exports.refreshTableList = function(){
 	removeAllChildren(mainView.resourceView);
 	displayResources(details);	  
 };
+
+
+exports.hideProductFormKeyboard = function(e){
+	if (e.source.id != 'TextField'  ) {
+    	 
+    	if(e.source.id == 'name'){
+			return false;
+		}
+		if(e.source.id == 'prodCode'){
+			return false;
+		} 
+		if(e.source.id == 'prodDepth'){
+			return false;
+		}
+		if(e.source.id == 'prodWidth'){
+			return false;
+		}
+		if(e.source.id == 'prodHeight'){
+			return false;
+		}
+		if(e.source.id == 'prodWeight'){
+			return false;
+		} 
+		if(e.source.id == 'prodSupplier'){
+			return false;
+		}
+		if(e.source.id == 'categoryLabel'){
+			return false;
+		}
+		mainView.name.blur();
+		mainView.prodCode.blur(); 
+		mainView.prodDepth.blur();
+		mainView.prodWidth.blur();
+		mainView.prodHeight.blur();
+		mainView.prodWeight.blur(); 
+		mainView.prodSupplier.blur();
+		if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){ 
+			closeCategory();
+		}
+	}
+};
+
+function closeCategory(){
+	mainView.categoryView.height = 0;
+	mainView.categoryView.setVisible(false);  
+	mainView.categoryPicker.setVisible(false);
+	return false;
+} 

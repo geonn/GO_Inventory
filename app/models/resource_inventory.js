@@ -12,6 +12,7 @@ exports.definition = {
 		    "supplier": "TEXT", 
 		    "quantity": "TEXT", 
 		    "image": "TEXT",  
+		    "status": "TEXT",  
 		    "created" : "TEXT",
 		    "updated" : "TEXT"
 		},
@@ -32,7 +33,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getResourcesCategory : function(){ 
 				var collection = this;
-				var sql = "SELECT `type`,COUNT(1) AS total FROM " + collection.config.adapter.collection_name + " GROUP BY `type`" ;
+				var sql = "SELECT `type`,COUNT(1) AS total FROM " + collection.config.adapter.collection_name + " WHERE `status` = 1 GROUP BY `type`" ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -53,7 +54,7 @@ exports.definition = {
 			},
 			getResourceByCategory : function(cate){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `type`='"+cate+"' " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `type`='"+cate+"' AND `status` = 1 " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -92,9 +93,9 @@ exports.definition = {
 				
 				var collection = this;
 				if(contentOffset == "all"){
-					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC";
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `status` = 1 ORDER BY updated DESC";
 				}else{
-					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC LIMIT "+contentOffset +", 30" ;
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `status` = 1 ORDER BY updated DESC LIMIT "+contentOffset +", 30" ;
                 }
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
@@ -128,7 +129,7 @@ exports.definition = {
 			},
 			searchResources : function(searchKey,cate){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (`type`='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR supplier LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (`status` = 1) AND (`type`='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR supplier LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -200,9 +201,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET   name='"+e.name+"',  type='"+e.type+"',code='"+e.code+"',supplier='"+e.supplier+"',depth='"+e.depth+"',width='"+e.width+"',height='"+e.height+"',weight='"+e.weight+"' ,quantity='"+e.quantity+"' ,image='"+e.image+"', created='"+e.created+"',updated='"+e.updated+"' WHERE id='" +e.id+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET   name='"+e.name+"',  type='"+e.type+"',code='"+e.code+"',supplier='"+e.supplier+"',depth='"+e.depth+"',width='"+e.width+"',height='"+e.height+"',weight='"+e.weight+"' ,quantity='"+e.quantity+"' ,image='"+e.image+"',status='"+e.status+"', created='"+e.created+"',updated='"+e.updated+"' WHERE id='" +e.id+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, name,type,code, supplier, depth, width,height,weight ,quantity, image, created, updated) VALUES ('"+e.id+"','"+e.name+"','"+e.type+"','"+e.code+"','"+e.supplier+"','"+e.depth+"','"+e.width+"','"+e.height+"','"+e.weight+"' ,'"+e.quantity+"', '"+e.image+"' ,   '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, name,type,code, supplier, depth, width,height,weight ,quantity, image,status, created, updated) VALUES ('"+e.id+"','"+e.name+"','"+e.type+"','"+e.code+"','"+e.supplier+"','"+e.depth+"','"+e.width+"','"+e.height+"','"+e.weight+"' ,'"+e.quantity+"', '"+e.image+"', '"+e.status+"' , '"+e.created+"','"+e.updated+"')" ;
 				}
            
 	            db.execute(sql_query);

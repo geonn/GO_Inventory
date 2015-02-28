@@ -10,6 +10,7 @@ var USER  = 'goInventory';
 var KEY   = '06b53047cf294f7207789ff5293ad2dc'; 
 var loginUrl            = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
 var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY;
+var updateProfileUrl    = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
 var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY;
 var categoryUrl         = "http://"+API_DOMAIN+"/api/getCategory?user="+USER+"&key="+KEY;
 var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY;
@@ -17,6 +18,7 @@ var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+U
 var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY;
 var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY;
 var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY;
+var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="+KEY;
 var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY;
 
 /*********************
@@ -77,6 +79,37 @@ exports.addProduct = function(ex){
 	        	 DRAWER.navigation("inventory",1);
 	        }else{
 				COMMON.createAlert('Fail Add Product',res.data);
+			}
+			COMMON.hideLoading();
+	     
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
+//Add Resource
+exports.addResource = function(ex){
+	var url = addResourceUrl + "&name="+ex.name + "&code="+ex.code + "&type="+ex.category + "&depth="+ex.depth
+			  + "&width="+ex.width + "&height="+ex.height + "&supplier="+ex.supplier + "&weight="+ex.weight ;
+	 
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	      
+	        if(res.status == "success"){
+	        	 API.getInventoryResources(); 
+	        	 DRAWER.navigation("resourceLists",1 ,{type: ex.curCate});
+	        }else{
+				COMMON.createAlert('Fail Add Resource',res.data);
 			}
 			COMMON.hideLoading();
 	     
@@ -232,6 +265,42 @@ exports.updatedCombination = function(ex){
 	
 };
 
+exports.updateUserProfile = function(ex){
+	var url = updateProfileUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&field="+ex.field+"&value="+ex.value;
+ 
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	         var res = JSON.parse(this.responseText);
+	         
+	         if(res.status == "success"){
+	         	
+				var mod_users = Alloy.createCollection('user'); 
+				var details = mod_users.changeProfile({
+					id: Ti.App.Properties.getString("user_id"),
+					field :  ex.field,
+					value :  ex.value
+				}); 
+	         	 
+	         	COMMON.hideLoading();
+	         }else{
+	         	COMMON.createAlert('Update failed',res.data.error_msg);
+	         }
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	COMMON.hideLoading();
+	     	isSubmit = 0;
+	        COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
 exports.changePassword= function(ex){
 	
 	var url = changePwdUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&current_password="+ex.current_password+"&password="+ex.password;
@@ -249,15 +318,14 @@ exports.changePassword= function(ex){
 					password :  ex.password
 				}); 
 	         	COMMON.createAlert('Change Password','Password updated successfully.');
-	         	Ti.App.fireEvent('hideLoading');
+	         	COMMON.hideLoading();
 	         }else{
 	         	COMMON.createAlert('Update failed',res.data.error_msg);
 	         }
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	$.activityIndicator.hide();
-	     	$.loadingBar.opacity = "0";
+	     	COMMON.hideLoading();
 	     	isSubmit = 0;
 	        COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
 	     },
@@ -278,7 +346,7 @@ exports.getInventoryResources = function(ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url =inventoryResourcesUrl+"&last_updated="+last_updated;
- 
+ 	 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -300,6 +368,7 @@ exports.getInventoryResources = function(ex){
 						width: resDetail.width,
 						height: resDetail.height,
 						weight: resDetail.weight,
+						status: resDetail.status,
 						quantity: resDetail.quantity,
 						created: resDetail.created,
 						updated: resDetail.updated
@@ -308,6 +377,7 @@ exports.getInventoryResources = function(ex){
 	         		
 	         	});
 	       		checker.updateModule("3","inventoryResources",currentDateTime()); 
+	       		COMMON.hideLoading();
 	        }
 	     },
 	     // function called when an error occurs, including a timeout
@@ -357,6 +427,7 @@ exports.getInventoryProducts = function(ex){
 						surface_habitable: prodDetail.surface_habitable,
 						fabric_used: prodDetail.fabric_used,
 						quantity: prodDetail.quantity,
+						status: prodDetail.status,
 						created: prodDetail.created,
 						updated: prodDetail.updated
 	         			 

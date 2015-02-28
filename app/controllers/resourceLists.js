@@ -28,6 +28,9 @@ setTimeout(function(){
 	 
 }, 300); 
  
+function addResource(){ 
+	DRAWER.navigation("addResourceForm",1,{category:cate});
+}
 
 function refreshTableList(){
 	removeAllChildren($.resourceView);
