@@ -5,9 +5,17 @@ var cateList  = mod_category.getCategoryByType("product");
 var PRODUCT = require('_products');
 PRODUCT.construct($);
 COMMON.construct($);
+
+
+var photoLoad;
 var prodCateKey;
+
 generateCategoryPicker();
+
 function addProd(){ 
+	photoLoad = $.undoPhoto.getVisible(); 
+	var imgBlob = RESOURCE.getImageData();
+	
 	COMMON.showLoading();
 	
 	var prodName    = $.name.value;
@@ -25,7 +33,7 @@ function addProd(){
 		name : prodName, code : prodCode, set : prodSet,
 		category : prodCategory, depth : prodDepth, width : prodWidth,
 		height : prodHeight, surface_habitable : prodHab, weight : prodWeight,
-		fabric_used : prodFab
+		fabric_used : prodFab, photoLoad : photoLoad, photo : imgBlob, type : "products" 
 	});
 	 
 }
@@ -72,5 +80,14 @@ function generateCategoryPicker(){
 	
 }
 
+function takePhoto(){
+	 PRODUCT.loadPhoto();
+}
+function undoPhoto(){
+	$.previewImage.image = "";
+	$.undoPhoto.visible = false;
+}
+$.previewImage.addEventListener('click', takePhoto);
+$.undoPhoto.addEventListener('click', undoPhoto);
 $.productFormView.addEventListener('click', PRODUCT.hideProductFormKeyboard);
   

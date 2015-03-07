@@ -1,6 +1,6 @@
 var mainView = null;
 var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
-
+var blobContainer = [];
 function displayCategory(){
 	var data=[]; 
 	var category = mod_InventoryRes.getResourcesCategory(); 
@@ -118,6 +118,7 @@ exports.displayResources = function(resource){
 		mainView.resourceView.add(noRecord);
 	}else{
 		var counter =1;
+		 
 		resource.forEach(function(entry) {
 			 
 			var row = Titanium.UI.createTableViewRow({
@@ -229,7 +230,7 @@ exports.displayResources = function(resource){
 				width: Ti.UI.SIZE,
 				height: 20,
 			});
-			
+			 
 			var quantity_text_input = Titanium.UI.createTextField({
 				editable: false,
 				borderColor: "#375540",
@@ -259,10 +260,107 @@ exports.displayResources = function(resource){
 		 	counter++;
 		});
 		
+		if(Ti.Platform.osname == "android"){ 
+			mainView.resTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
+		}
+		
 		mainView.resTable.setData(data); 
 		mainView.resourceView.add(mainView.resTable);
 	}
 };
+
+function loadPhoto(preview, removeBtn,saveBtn){
+	var dialog = Titanium.UI.createOptionDialog({ 
+	    title: 'Choose an image source...', 
+	    options: ['Camera','Photo Gallery', 'Cancel'], 
+	    cancel:2 //index of cancel button
+	});
+	  
+	dialog.addEventListener('click', function(e) { 
+	     
+	    if(e.index == 0) { //if first option was selected
+	        //then we are getting image from camera
+	        Titanium.Media.showCamera({ 
+	            success:function(event) { 
+	                var image = event.media; 
+	                  
+	                if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
+	                   //var nativePath = event.media.nativePath;
+	                   var image = event.media;  
+		            	if(Ti.Platform.osname == "android"){
+			            	//mainView.previewImage.image = image.nativePath;
+			            	preview.image = image.nativePath;
+			            	blobContainer = image;
+			            }else{
+			            	//iOS
+			            	//mainView.previewImage.image = image;
+			            	preview.image = image;
+			            	blobContainer = image;
+			            }
+		            	removeBtn.visible = true; 
+		            	if(saveBtn != ""){
+				            saveBtn.visible = true;
+				        }
+			            
+			            //mainView.undoPhoto.visible = true;
+	                }
+	            },
+	            cancel:function(){
+	                //do somehting if user cancels operation
+	            },
+	            error:function(error) {
+	                //error happend, create alert
+	                var a = Titanium.UI.createAlertDialog({title:'Camera'});
+	                //set message
+	                if (error.code == Titanium.Media.NO_CAMERA){
+	                    a.setMessage('Device does not have camera');
+	                }else{
+	                    a.setMessage('Unexpected error: ' + error.code);
+	                }
+	 
+	                // show alert
+	                a.show();
+	            },
+	            allowImageEditing:true,
+	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+	            saveToPhotoGallery:true
+	        });
+	    } else if(e.index == 1){
+	    	 
+	    	//obtain an image from the gallery
+	        Titanium.Media.openPhotoGallery({
+	            success:function(event){
+	            	// set image view
+	            	var image = event.media;  
+	            	if(Ti.Platform.osname == "android"){
+		            	//mainView.previewImage.image = image.nativePath;
+		            	preview.image = image.nativePath;
+		            	blobContainer = image;
+		            }else{
+		            	//iOS
+		            	//mainView.previewImage.image = image;
+		            	preview.image = image;
+		            	blobContainer = image;
+		            }
+	            	removeBtn.visible = true; 
+	            	if(saveBtn != ""){
+			            saveBtn.visible = true;
+			        }
+	            },
+	            cancel:function() {
+	               
+	            },
+	            
+	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+	        });
+	    } else {
+	        
+	    }
+	});
+	 
+	//show dialog
+	dialog.show();
+}
 
 function viewResourcesList(e){
 	DRAWER.navigation("resourceLists",1 ,{type: e.source.source});
@@ -272,8 +370,23 @@ function viewDetails(e){
 	DRAWER.navigation("resourceDetails",1 ,{p_id: e.source.source});
 }
 
+function closeCategory(){
+	mainView.categoryView.height = 0;
+	mainView.categoryView.setVisible(false);  
+	mainView.categoryPicker.setVisible(false);
+	return false;
+} 
+
+exports.loadPhoto = function(preview,removeBtn,saveBtn){
+	loadPhoto(preview,removeBtn,saveBtn);	
+};
+
 exports.displayCategory = function(){
 	displayCategory();	
+};
+
+exports.getImageData = function(){
+	return blobContainer;	
 };
 
 exports.refreshTableList = function(){
@@ -322,9 +435,3 @@ exports.hideProductFormKeyboard = function(e){
 	}
 };
 
-function closeCategory(){
-	mainView.categoryView.height = 0;
-	mainView.categoryView.setVisible(false);  
-	mainView.categoryPicker.setVisible(false);
-	return false;
-} 

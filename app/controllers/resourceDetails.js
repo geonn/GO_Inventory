@@ -50,7 +50,7 @@ var getResourceDetails = function(items){
 		$.item_Details.title=items[i].name;
 		
 		/***Create and Add Product Image***/
-		row.add(RES_CONTENTS.displayResourceImage(items[i].image));
+		row.add(RES_CONTENTS.displayResourceImage(items[i].image, items[i].id));
 		
 		/***Create and Add Header***/
 		row.add(RES_CONTENTS.displayHeader()); 

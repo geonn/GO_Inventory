@@ -34,7 +34,7 @@ var getValueFromPipe = function(myCode){
  	if(data[0] == "product"){
  		obj['type'] = data[0];
 		obj['id'] = data[1];
-		obj['prefix'] = data[3];
+		obj['prefix'] = data[2];
 		obj['item_id'] = data[3];
 		obj['product'] = data[4];
 		obj['code'] = data[5]; 
@@ -45,6 +45,7 @@ var getValueFromPipe = function(myCode){
 		obj['item_id'] = data[2];
 		obj['name'] = data[3];
 		obj['code'] = data[4]; 
+		obj['id']   = data[5]; 
  	}
 	
 	return obj;

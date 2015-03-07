@@ -1,6 +1,9 @@
+var RESOURCE = require('_resources');
+
 var mainView = null;
 exports.construct = function(mv){
 	mainView = mv;
+	RESOURCE.construct(mainView);
 };
  
 exports.displayHeader = function(){
@@ -18,28 +21,87 @@ exports.displayHeader = function(){
 	titleLabelView.add(titleLabel);
 	return titleLabelView;
 };
- 
-exports.displayResourceImage = function (image){
+
+function hideSaveAndUndoBtn(undoBtn,saveBtn) {
+	undoBtn.visible = false;
+	saveBtn.visible = false;
+}
+
+exports.hideSaveAndUndoBtn = function(){
+	hideSaveAndUndoBtn();
+};
+
+exports.displayResourceImage = function (image,item_id){
  
 	var imageContainer = Ti.UI.createView({
 		height:"40%",
 		top: 0,
-		width:"90%" 
+		width:"100%",
+		layout : "horizontal" 
 	});
+	
+	var editorContainer = Ti.UI.createView({
+		height:"100%",
+		top: 0,
+		right: 0,
+		width:"15%", 
+		layout : "vertical"   
+	});
+	
+	var undoBtn = Titanium.UI.createButton({
+			height : 30,
+			width : 30,
+			right:0,
+			visible : "false",
+			backgroundImage : "/images/cross.png"
+	});
+	
+	var saveBtn = Titanium.UI.createButton({ 
+			height : 30,
+			width : 30,
+			top: 20,
+			right: 0 ,
+			visible : "false", 
+			backgroundImage : "/images/tick.png"
+	});
+	
 	if(image == ""){
 		var resImage = Ti.UI.createImageView({
 			image: "/images/noImage.png", 
 			top:0,
-			width:"80%"
+			width:"83%"
 		});
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}else{
 		var resImage = Titanium.UI.createImageView({
 			image: image, 
 			top:0,
-			width:"80%"
+			width:"83%"
 		});
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}
+	editorContainer.add(undoBtn);  
+	editorContainer.add(saveBtn);  
 	imageContainer.add(resImage);
+	imageContainer.add(editorContainer); 
+	resImage.addEventListener('click', function(){
+		RESOURCE.loadPhoto(resImage,undoBtn,saveBtn);
+	});
+	undoBtn.addEventListener('click', function(){ 
+		resImage.image = "";
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
+	});
+	saveBtn.addEventListener('click', function(){ 
+		COMMON.showLoading();
+		var imgBlob = RESOURCE.getImageData();
+		 
+		API.uploadImage({
+			item_id : item_id,  
+			image : imgBlob, 
+			type : "resources" 
+		});
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
+	});
 	return imageContainer;
 };
 

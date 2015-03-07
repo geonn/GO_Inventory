@@ -7,7 +7,15 @@ RESOURCE.construct($);
 COMMON.construct($);
 var prodCateKey;
 generateCategoryPicker();
+
+var photoLoad;
 function addProd(){ 
+	//var imagePath	= Ti.App.Properties.getString("resource_image"); 
+	
+	photoLoad = $.undoPhoto.getVisible(); 
+	//var imgBlob = $.previewImage.toImage();  
+	var imgBlob = RESOURCE.getImageData();
+
 	COMMON.showLoading();
 	
 	var prodName    = $.name.value;
@@ -23,7 +31,7 @@ function addProd(){
 		name : prodName, code : prodCode, 
 		category : prodType, depth : prodDepth, width : prodWidth,
 		height : prodHeight, supplier : supplier, weight : prodWeight,
-		curCate : cate 
+		curCate : cate , photoLoad : photoLoad, photo : imgBlob, type : "resources" 
 	});
 	 
 }
@@ -65,10 +73,17 @@ function generateCategoryPicker(){
 		if(title == cate){
 			$.categoryPicker.setSelectedRow(0,i,false);
 		}
-		
 	}
-	
 }
 
+function takePhoto(){
+	 RESOURCE.loadPhoto($.previewImage, $.undoPhoto,"");
+}
+function undoPhoto(){
+	$.previewImage.image = "";
+	$.undoPhoto.visible = false;
+}
+$.previewImage.addEventListener('click', takePhoto);
+$.undoPhoto.addEventListener('click', undoPhoto);
 $.productFormView.addEventListener('click', RESOURCE.hideProductFormKeyboard);
   

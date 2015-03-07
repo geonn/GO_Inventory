@@ -1,6 +1,6 @@
 var mainView = null;
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
- 
+var blobContainer = []; 
 function displayCategory(){
 	var data=[]; 
 	var category = mod_InventoryProd.getProductCategory(); 
@@ -267,6 +267,101 @@ function displayProduct(products){
 	COMMON.hideLoading();
 } 
 
+function loadPhoto(){
+	var dialog = Titanium.UI.createOptionDialog({ 
+	    title: 'Choose an image source...', 
+	    options: ['Camera','Photo Gallery', 'Cancel'], 
+	    cancel:2 //index of cancel button
+	});
+	  
+	dialog.addEventListener('click', function(e) { 
+	     
+	    if(e.index == 0) { //if first option was selected
+	        //then we are getting image from camera
+	        Titanium.Media.showCamera({ 
+	            success:function(event) { 
+	                var image = event.media; 
+	                  
+	                if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
+	                   //var nativePath = event.media.nativePath;
+	                   if(Ti.Platform.osname == "android"){
+			            	mainView.previewImage.image = image.nativePath;
+			            	blobContainer = image.nativePath;
+			            }else{
+			            	//iOS
+			            	mainView.previewImage.image = image;
+			            	blobContainer = image;
+			            }
+			            mainView.undoPhoto.visible = true;
+	                }
+	            },
+	            cancel:function(){
+	                //do somehting if user cancels operation
+	            },
+	            error:function(error) {
+	                //error happend, create alert
+	                var a = Titanium.UI.createAlertDialog({title:'Camera'});
+	                //set message
+	                if (error.code == Titanium.Media.NO_CAMERA){
+	                    a.setMessage('Device does not have camera');
+	                }else{
+	                    a.setMessage('Unexpected error: ' + error.code);
+	                }
+	 
+	                // show alert
+	                a.show();
+	            },
+	            allowImageEditing:true,
+	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+	            saveToPhotoGallery:true
+	        });
+	    } else if(e.index == 1){
+	    	 
+	    	//obtain an image from the gallery
+	        Titanium.Media.openPhotoGallery({
+	            success:function(event){
+	            	// set image view
+	            	var image = event.media;  
+	            	if(Ti.Platform.osname == "android"){
+		            	mainView.previewImage.image = image.nativePath;
+		            	blobContainer = image.nativePath;
+		            }else{
+		            	//iOS
+		            	mainView.previewImage.image = image;
+		            	blobContainer = image;
+		            }
+	            	mainView.undoPhoto.visible = true; 
+	            },
+	            cancel:function() {
+	               
+	            },
+	            
+	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+	        });
+	    } else {
+	        
+	    }
+	});
+	 
+	//show dialog
+	dialog.show();
+}
+
+function viewProductList(e){
+	DRAWER.navigation("productLists",1 ,{category: e.source.source});
+}
+
+function viewDetails(e){
+	DRAWER.navigation("productDetails",1 ,{p_id: e.source.source});
+}
+
+function closeCategory(){
+	mainView.categoryView.height = 0;
+	mainView.categoryView.setVisible(false);  
+	mainView.categoryPicker.setVisible(false);
+	return false;
+} 
+
 exports.construct = function(mv){
 	mainView = mv;
 };
@@ -278,14 +373,6 @@ exports.displayProduct = function(products){
 exports.displayCategory = function(){
 	displayCategory();	
 };
-
-function viewProductList(e){
-	DRAWER.navigation("productLists",1 ,{category: e.source.source});
-}
-
-function viewDetails(e){
-	DRAWER.navigation("productDetails",1 ,{p_id: e.source.source});
-}
 
 exports.refreshTableList = function(){
 	removeAllChildren(mainView.productView);
@@ -340,26 +427,10 @@ exports.hideProductFormKeyboard = function(e){
 	}
 };
 
-exports.reloadFromScroll = function(e){
-	
-	if(Ti.Platform.osname == "android"){
-		var position = e.y;
-	}else{
-		var position = e.contentOffset.y;
-	}
- 
-	if(defaultContentHeight == position){
-		defaultContentHeight += distance;
-		var co = dataSet * contentOffset; 
-		details = mod_InventoryProd.getProductList(co); 
-		displayProduct(details); 
-		dataSet++;
-	}
+exports.loadPhoto = function(){
+	loadPhoto();	
 };
 
-function closeCategory(){
-	mainView.categoryView.height = 0;
-	mainView.categoryView.setVisible(false);  
-	mainView.categoryPicker.setVisible(false);
-	return false;
-} 
+exports.getImageData = function(){
+	return blobContainer;	
+};

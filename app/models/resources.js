@@ -1,7 +1,7 @@
 exports.definition = {
 	config: {
 		columns: {
-			"id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+			"id": "INTEGER",
 			"iCard": "TEXT",
 		    "prefix": "TEXT",
 		    "item_id": "INTEGER",
@@ -36,6 +36,7 @@ exports.definition = {
                 var count = 0;
                 while (res.isValidRow()){
 					arr[count] = {
+						id: res.fieldByName('id'),
 					    iCard: res.fieldByName('iCard'),
 					    prefix: res.fieldByName('prefix'),
 					    item_id: res.fieldByName('item_id'),
@@ -61,9 +62,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE code='"+ e.code + "' AND iCard='"+e.iCard+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE code='"+ e.code + "' AND id='"+e.id+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (iCard, prefix, item_id, name,code, `status`, created, updated) VALUES ('"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, iCard, prefix, item_id, name,code, `status`, created, updated) VALUES ('"+e.id+"','"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
 				}
            		
 	            db.execute(sql_query);
@@ -98,6 +99,7 @@ exports.definition = {
                 var count = 0;
                 while (res.isValidRow()){
 					arr[count] = {
+						id: res.fieldByName('id'),
 					    iCard: res.fieldByName('iCard'),
 					    prefix: res.fieldByName('prefix'),
 					    item_id: res.fieldByName('item_id'),

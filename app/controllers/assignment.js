@@ -23,12 +23,13 @@ if(iCard !== null){
 }
 
 function populateData(){
-	iCard = Ti.App.Properties.getString("iCard");
- 
-	if(iCard !== null && iCard != "undefined"){
-		return false;	
-	}
 	
+	iCard = Ti.App.Properties.getString("iCard");
+  
+	if(iCard === null && iCard == "undefined"){
+		return;	
+	}
+	 
 	checkActionEligible();
 	removeAllChildren($.resource_info);
 	var det = mod_products.getProductDetails(iCard);
@@ -36,8 +37,7 @@ function populateData(){
 	var prod_det = mod_InventoryProd.getProductDetails(det.product); 
 	
  	$.productImage.image = prod_det.image;
- 	// console.log(prod_det);
- 	// console.log(det);
+ 	  
 	$.iCard_info.text =  prod_det.name + " ("+det.code+") at " + timeFormat(det.updated); 
 	for(var i=0; i < res_det.length; i++){ 
 		var textColor = "#9D001D"; 
@@ -78,10 +78,18 @@ function checkActionEligible(){
 	}
 }
 
-function done(e){
+function done(e){ 
 	mod_resources.confirmScan({code:Ti.App.Properties.getString("iCard") });
+	setTimeout(function(){   
+		var data = mod_resources.getResourcesToSync({iCard: iCard});
+		API.updatedCombination({
+				iCard : iCard,
+				data : data,
+		});
+	}, 300);  
+	 
 	removeAllChildren(containerView);
-	var det = mod_products.getProductDetails(iCard);
+	//var det = mod_products.getProductDetails(iCard);
 	var confirmView = Ti.UI.createView({
 		layout: "vertical",
 		height:"100%",
@@ -111,7 +119,7 @@ function done(e){
 		var msgLabel = Ti.UI.createLabel({
 			color: 'black',
 			font: { fontSize:14 },
-			text: 'All scanned resources attached to ' + det.name,
+			text: 'All scanned resources attached to ' + iCard,
 			width: "80%" ,
 			top:15
 		});

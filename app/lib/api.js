@@ -20,10 +20,35 @@ var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user
 var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY;
 var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="+KEY;
 var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY;
-
+var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
+exports.uploadImage = function(ex){
+	 
+	var url = uploadImageUrl+"&type="+ex.type+"&u_id="+Ti.App.Properties.getString("user_id")+"&item_id="+ ex.item_id;  
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	     	//var res = JSON.parse(this.responseText); 
+	        console.log(this.responseText);
+	        API.getInventoryResources(); 
+	        COMMON.hideLoading(); 
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	console.log(e);
+	     	
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	 client.open("POST", url); 
+	 client.send({Filedata: ex.image}); 
+};
+
 //login to app
 exports.login = function (ex){ 
 	var url = loginUrl+"&username="+ex.username+"&password="+ex.password; 
@@ -69,7 +94,7 @@ exports.login = function (ex){
 exports.addProduct = function(ex){
 	var url = addProductUrl + "&name="+ex.name + "&code="+ex.code + "&set="+ex.set + "&category="+ex.category + "&depth="+ex.depth
 			  + "&width="+ex.width + "&height="+ex.height + "&surface_habitable="+ex.surface_habitable + "&weight="+ex.weight 
-			  + "&fabric_used="+ex.fabric_used;
+			  + "&fabric_used="+ex.fabric_used + "&photoLoad="+ex.photoLoad;
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -89,22 +114,28 @@ exports.addProduct = function(ex){
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+	 
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 client.open("POST", url); 
+	 if(ex.photoLoad == "true"){
+	 	client.send({Filedata: ex.photo}); 
+	 }else{
+	 	client.send(); 
+	 }
+	 
 };
 
 //Add Resource
 exports.addResource = function(ex){
-	var url = addResourceUrl + "&name="+ex.name + "&code="+ex.code + "&type="+ex.category + "&depth="+ex.depth
-			  + "&width="+ex.width + "&height="+ex.height + "&supplier="+ex.supplier + "&weight="+ex.weight ;
 	 
+	var url = addResourceUrl + "&name="+ex.name + "&code="+ex.code + "&cate="+ex.category + "&depth="+ex.depth
+			  + "&width="+ex.width + "&height="+ex.height + "&supplier="+ex.supplier + "&weight="+ex.weight + 
+			  "&photoLoad="+ex.photoLoad + "&type="+ex.type + "&u_id="+Ti.App.Properties.getString("user_id") ;
+ 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
-	       var res = JSON.parse(this.responseText); 
-	      
+	     	var res = JSON.parse(this.responseText);  
 	        if(res.status == "success"){
 	        	 API.getInventoryResources(); 
 	        	 DRAWER.navigation("resourceLists",1 ,{type: ex.curCate});
@@ -120,10 +151,13 @@ exports.addResource = function(ex){
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 client.open("POST", url); 
+	 if(ex.photoLoad == "1"){ 
+	 	client.send({Filedata: ex.photo}); 
+	 }else{
+	 	client.send(); 
+	 }
 };
 
 //check Announcement
@@ -228,8 +262,8 @@ exports.updatedCombination = function(ex){
 	var res_data = ex.data; 
 	var count = 0;
 	res_data.forEach(function(reso) { 
-		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.item_id+"&updated="+reso.updated+"&u_id="+Ti.App.Properties.getString("user_id") ;
-  		 
+		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&updated="+reso.updated+"&u_id="+Ti.App.Properties.getString("user_id") ;
+  		 console.log(url);
 		var client = Ti.Network.createHTTPClient({
 		     // function called when the response data is available
 		     onload : function(e) {
@@ -346,7 +380,7 @@ exports.getInventoryResources = function(ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url =inventoryResourcesUrl+"&last_updated="+last_updated;
- 	 
+ 	 console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -540,14 +574,15 @@ exports.syncScanByUser= function(ex){
 	         		var prod_resource = prodDetail.resource;
 	         		prod_resource.forEach(function(resoDetail){
 	         			mod_resources.addUpdateResources({
+	         				id   	: resoDetail.id,
 	         				iCard   : prodDetail.code,
 		         			prefix  : resoDetail.r_prefix, 
 		         			item_id : resoDetail.code,
 						    name    : resoDetail.name,
 						    code    : resoDetail.item_id, 
 						    status  : 3,
-						    created : resoDetail.stock_out_date,
-						    updated : resoDetail.stock_out_date,
+						    created : resoDetail.scandate,
+						    updated : resoDetail.scandate,
 		         		});
 	         		});
 	         	});

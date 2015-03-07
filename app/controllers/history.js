@@ -5,6 +5,8 @@ var mod_products = Alloy.createCollection('products');
 var mod_resources = Alloy.createCollection('resources'); 
  
 $.hView.height = Ti.Platform.displayCaps.platformHeight - 50;
+$.historyScrollView.height = Ti.Platform.displayCaps.platformHeight - 100;
+
 COMMON.construct($);
 COMMON.showLoading();
 var products = mod_products.getScanProduct(); 
@@ -16,6 +18,8 @@ setTimeout(function(){
 function displayProduct(products){
 	var TheTable = Titanium.UI.createTableView({
 		width:'100%',
+		height: Ti.UI.SIZE,
+		top:0,
 		backgroundImage: "/images/bg.jpg",
 		separatorColor: '#375540'
 	});
@@ -214,7 +218,7 @@ function viewDetails(e){
 			if(res_det[i].status == "1"){
 				var textColor = "#9D001D";
 			}
-			
+			console.log(res_det[i]);
 			var resource_label = $.UI.create('Label', {
 			  classes : ['gray_text'], 
 			  color: textColor,

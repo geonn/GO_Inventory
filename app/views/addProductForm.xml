@@ -17,6 +17,10 @@
 			<View class="content"   layout="vertical" id="content" >
 				<ScrollView  layout="vertical"  showVerticalScrollIndicator="true" showHorizontalScrollIndicator="true" height="Ti.UI.SIZE" width="100%">
 					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="5">
+						<ImageView id="previewImage" height="100" width="100" backgroundImage="/images/addItem.png" />  
+						<Button title='Undo' id="undoPhoto" visible="false" />
+					</View>
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="5">
 						<Label width="40%" class="gray_text">Product Name</Label>
 						<TextField id="name" width="Ti.UI.FILL" hintText="Name of Product" />
 					</View>

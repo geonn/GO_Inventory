@@ -60,7 +60,7 @@ exports.openScanner = function(scanType) {
 	picker.setSuccessCallback(function(e) { 
 		// 1 - scan and assigned resources and finish goods
 		if(scanType == "1"){
-			iCard = Ti.App.Properties.getString("iCard");
+			iCard = Ti.App.Properties.getString("iCard"); 
 			var code = getValueFromPipe(e.barcode);   
 			if(code['type'] == "resource"){ 
 				if(iCard === null){
@@ -69,6 +69,7 @@ exports.openScanner = function(scanType) {
 				}else{
 					var mod_resources = Alloy.createCollection('resources'); 
 					mod_resources.addUpdateResources({
+						id : code['id'],
 						iCard  : iCard,
 						prefix : code['prefix'],
 						item_id : code['item_id'],
@@ -79,6 +80,7 @@ exports.openScanner = function(scanType) {
 						updated : currentDateTime()
 					});
 				}
+				
 				Ti.App.fireEvent('populateData');
 			}else if(code['type'] == "product"){
 				//Scan product
