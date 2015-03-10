@@ -15,8 +15,7 @@ var back =  function (){
 };
 
 function loadTable(){
-	details  = mod_users.getUserById(u_id);
-	console.log(details);
+	details  = mod_users.getUserById(u_id); 
 	var RegArr = [
 	{ title:'Username', value:details.username, mod: "username",  hasChild:false  },
 	{ title:'Fullname', value:details.fullname, mod:"fullname", hasChild:true },

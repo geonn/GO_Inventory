@@ -91,6 +91,7 @@ exports.openScanner = function(scanType) {
 					item_id : code['item_id'],
 					product : code['product'],
 					code : code['code'], 
+					myScan : "1",
 					created : currentDateTime(),
 					updated : currentDateTime()
 				});

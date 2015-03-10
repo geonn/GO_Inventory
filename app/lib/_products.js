@@ -334,8 +334,7 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	            	if(Ti.Platform.osname == "android"){
 		            	//mainView.previewImage.image = image.nativePath;
 		            	preview.image = image.nativePath;
-		            	blobContainer = image;
-		            	console.log(image);
+		            	blobContainer = image; 
 		            }else{
 		            	//iOS
 		            	//mainView.previewImage.image = image;
@@ -446,10 +445,6 @@ exports.loadPhoto = function(preview,removeBtn,saveBtn){
 	loadPhoto(preview,removeBtn,saveBtn);	
 };
 
-exports.getImageData = function(){
-	console.log("in lib");
-	console.log(blobContainer);
-	console.log("in lib end");
-
+exports.getImageData = function(){ 
 	return blobContainer;	
 };

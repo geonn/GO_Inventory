@@ -8,6 +8,7 @@ exports.definition = {
 		    "code": "TEXT", 
 		    "done" : "TEXT",
 		    "orders" : "TEXT",
+		    "myScan" : "TEXT",
 		    "created" : "TEXT",
 		    "updated" : "TEXT"
 		},
@@ -28,7 +29,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getScanProduct : function(){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE myScan=1 ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -142,11 +143,20 @@ exports.definition = {
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 
-                if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', updated='"+e.updated+"' WHERE code='" +e.code+"'";
+                if(e.myScan != ""){
+                	if (res.isValidRow()){
+	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', updated='"+e.updated+"' WHERE code='" +e.code+"'";
+	                }else{
+	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.created+"','"+e.updated+"')" ;
+					}
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.created+"','"+e.updated+"')" ;
-				}
+                	if (res.isValidRow()){
+	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', myScan='"+e.myScan+"', updated='"+e.updated+"' WHERE code='" +e.code+"'";
+	                }else{
+	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, myScan,created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.myScan+"', '"+e.created+"','"+e.updated+"')" ;
+					}
+                }
+                
            		  
 	            db.execute(sql_query);
 	            db.close();

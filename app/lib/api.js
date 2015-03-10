@@ -29,17 +29,14 @@ exports.uploadImage = function(ex){
 	var url = uploadImageUrl+"&type="+ex.type+"&u_id="+Ti.App.Properties.getString("user_id")+"&item_id="+ ex.item_id;  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
-	     onload : function(e) {
-	     	//var res = JSON.parse(this.responseText); 
-	        console.log(this.responseText);
+	     onload : function(e) { 
 	        API.getInventoryResources(); 
 	        API.getInventoryProducts(); 
 	        COMMON.hideLoading(); 
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log(e);
-	     	
+	     	console.log(e); 
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
@@ -102,9 +99,7 @@ exports.addProduct = function(ex){
 	      
 	       var res = JSON.parse(this.responseText); 
 	      
-	        if(res.status == "success"){
-	        	 //DRAWER.navigation("inventory",1);
-	        	 
+	        if(res.status == "success"){ 
 	        	 API.getInventoryProducts(); 
 	        	 DRAWER.navigation("productLists",1 ,{category: ex.curCate});
 	        }else{
