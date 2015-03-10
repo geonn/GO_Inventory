@@ -9,8 +9,7 @@ $.historyScrollView.height = Ti.Platform.displayCaps.platformHeight - 100;
 
 COMMON.construct($);
 COMMON.showLoading();
-var products = mod_products.getScanProduct(); 
-console.log(products);
+var products = mod_products.getScanProduct();  
 setTimeout(function(){ 
 	displayProduct(products); 
 }, 1000); 

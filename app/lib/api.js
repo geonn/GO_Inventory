@@ -524,7 +524,7 @@ exports.getStockOutList = function(ex){
 		         			prefix : prodDetail.prefix,
 						    item_id : prodDetail.itemId,
 						    product : prodDetail.product,
-						    code : prodDetail.code,
+						    code : prodDetail.code, 
 						    order : prodDetail.order,
 						    created : prodDetail.updated,
 						    updated : prodDetail.updated,
@@ -568,6 +568,7 @@ exports.syncScanByUser= function(ex){
 					    product : prodDetail.product,
 					    code : prodDetail.code,
 					    order : prodDetail.order,
+					    myScan : "1",
 					    created : prodDetail.updated,
 					    updated : prodDetail.updated,
 	         		});

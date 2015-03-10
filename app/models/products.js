@@ -29,7 +29,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getScanProduct : function(){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE myScan=1 ORDER BY updated DESC " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE myScan='1' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
@@ -43,6 +43,7 @@ exports.definition = {
 					    product: res.fieldByName('product'),
 					    code: res.fieldByName('code'), 
 					    orders: res.fieldByName('orders'), 
+					    myScan: res.fieldByName('myScan'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
 					};
@@ -136,28 +137,47 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			addUpdateProduct : function(e) {
-                var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE code='"+ e.code + "' " ;
-                 
+			resetScanHistory : function(e){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE myScan='1' ORDER BY updated DESC " ;
+                
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
-                
+                if (res.isValidRow()){
+                	while (res.isValidRow()){
+		               	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET   myScan= null  WHERE id='" +res.fieldByName('id')+"'";
+						db.execute(sql_query);
+						res.next();
+					} 
+				}
+				
+				
+	            db.close();
+	            collection.trigger('sync');
+			},
+			
+			addUpdateProduct : function(e) {
+                var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;
+ 
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                 
                 if(e.myScan != ""){
-                	if (res.isValidRow()){
-	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', updated='"+e.updated+"' WHERE code='" +e.code+"'";
-	                }else{
-	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.created+"','"+e.updated+"')" ;
-					}
-                }else{
-                	if (res.isValidRow()){
-	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', myScan='"+e.myScan+"', updated='"+e.updated+"' WHERE code='" +e.code+"'";
+                	
+					if (res.isValidRow()){
+	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', myScan='"+e.myScan+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
 	                }else{
 	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, myScan,created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.myScan+"', '"+e.created+"','"+e.updated+"')" ;
 					}
+                }else{
+                	if (res.isValidRow()){
+	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
+	                }else{
+	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.created+"','"+e.updated+"')" ;
+					}
                 }
-                
-           		  
+                 
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');

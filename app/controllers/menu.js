@@ -29,6 +29,8 @@ function navMenu(e){
 		case 8: 
 			Ti.App.Properties.setString("user_id","" );
 			Ti.App.Properties.setString('module',"");
+			var mod_product = Alloy.createCollection('products'); 
+			mod_product.resetScanHistory();
 			DRAWER.navigation("login",2);
 			break;
 	}
