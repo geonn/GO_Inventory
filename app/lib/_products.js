@@ -267,7 +267,8 @@ function displayProduct(products){
 	COMMON.hideLoading();
 } 
 
-function loadPhoto(){
+
+function loadPhoto(preview, removeBtn,saveBtn){
 	var dialog = Titanium.UI.createOptionDialog({ 
 	    title: 'Choose an image source...', 
 	    options: ['Camera','Photo Gallery', 'Cancel'], 
@@ -284,15 +285,23 @@ function loadPhoto(){
 	                  
 	                if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
 	                   //var nativePath = event.media.nativePath;
-	                   if(Ti.Platform.osname == "android"){
-			            	mainView.previewImage.image = image.nativePath;
-			            	blobContainer = image.nativePath;
+	                   var image = event.media;  
+		            	if(Ti.Platform.osname == "android"){
+			            	//mainView.previewImage.image = image.nativePath;
+			            	preview.image = image.nativePath;
+			            	blobContainer = image;
 			            }else{
 			            	//iOS
-			            	mainView.previewImage.image = image;
+			            	//mainView.previewImage.image = image;
+			            	preview.image = image;
 			            	blobContainer = image;
 			            }
-			            mainView.undoPhoto.visible = true;
+		            	removeBtn.visible = true; 
+		            	if(saveBtn != ""){
+				            saveBtn.visible = true;
+				        }
+			            
+			            //mainView.undoPhoto.visible = true;
 	                }
 	            },
 	            cancel:function(){
@@ -323,14 +332,20 @@ function loadPhoto(){
 	            	// set image view
 	            	var image = event.media;  
 	            	if(Ti.Platform.osname == "android"){
-		            	mainView.previewImage.image = image.nativePath;
-		            	blobContainer = image.nativePath;
+		            	//mainView.previewImage.image = image.nativePath;
+		            	preview.image = image.nativePath;
+		            	blobContainer = image;
+		            	console.log(image);
 		            }else{
 		            	//iOS
-		            	mainView.previewImage.image = image;
+		            	//mainView.previewImage.image = image;
+		            	preview.image = image;
 		            	blobContainer = image;
 		            }
-	            	mainView.undoPhoto.visible = true; 
+	            	removeBtn.visible = true; 
+	            	if(saveBtn != ""){
+			            saveBtn.visible = true;
+			        }
 	            },
 	            cancel:function() {
 	               
@@ -427,10 +442,14 @@ exports.hideProductFormKeyboard = function(e){
 	}
 };
 
-exports.loadPhoto = function(){
-	loadPhoto();	
+exports.loadPhoto = function(preview,removeBtn,saveBtn){
+	loadPhoto(preview,removeBtn,saveBtn);	
 };
 
 exports.getImageData = function(){
+	console.log("in lib");
+	console.log(blobContainer);
+	console.log("in lib end");
+
 	return blobContainer;	
 };

@@ -53,7 +53,7 @@ var getProductDetails = function(items){
 		$.item_Details.title=items[i].name;
 		
 		/***Create and Add Product Image***/
-		row.add(PROD_CONTENTS.displayProductImage(items[i].image));
+		row.add(PROD_CONTENTS.displayProductImage(items[i].image,items[i].id));
 		
 		/***Create and Add Header***/
 		row.add(PROD_CONTENTS.displayHeader()); 

@@ -135,6 +135,7 @@ function displayList(list){
 			var lastUpdatedHoriView = Ti.UI.createView({
 				layout: "horizontal",
 				height:20,
+				source: entry.id, 
 				width:"100%" 
 			}); 
 			

@@ -16,4 +16,5 @@ function logout(){
 
 API.getInventoryProducts();
 API.getInventoryResources();
+API.getStockOutList();
 API.syncScanByUser();

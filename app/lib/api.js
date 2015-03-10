@@ -33,6 +33,7 @@ exports.uploadImage = function(ex){
 	     	//var res = JSON.parse(this.responseText); 
 	        console.log(this.responseText);
 	        API.getInventoryResources(); 
+	        API.getInventoryProducts(); 
 	        COMMON.hideLoading(); 
 	     },
 	     // function called when an error occurs, including a timeout
@@ -43,8 +44,7 @@ exports.uploadImage = function(ex){
 	     timeout : 10000  // in milliseconds
 	 });
 	 // Prepare the connection.
-	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
 	 client.open("POST", url); 
 	 client.send({Filedata: ex.image}); 
 };
@@ -94,14 +94,19 @@ exports.login = function (ex){
 exports.addProduct = function(ex){
 	var url = addProductUrl + "&name="+ex.name + "&code="+ex.code + "&set="+ex.set + "&category="+ex.category + "&depth="+ex.depth
 			  + "&width="+ex.width + "&height="+ex.height + "&surface_habitable="+ex.surface_habitable + "&weight="+ex.weight 
-			  + "&fabric_used="+ex.fabric_used + "&photoLoad="+ex.photoLoad;
+			  + "&fabric_used="+ex.fabric_used + "&photoLoad="+ex.photoLoad + "&u_id="+Ti.App.Properties.getString("user_id") ;
+		
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
+	      
 	       var res = JSON.parse(this.responseText); 
 	      
 	        if(res.status == "success"){
-	        	 DRAWER.navigation("inventory",1);
+	        	 //DRAWER.navigation("inventory",1);
+	        	 
+	        	 API.getInventoryProducts(); 
+	        	 DRAWER.navigation("productLists",1 ,{category: ex.curCate});
 	        }else{
 				COMMON.createAlert('Fail Add Product',res.data);
 			}
@@ -116,8 +121,8 @@ exports.addProduct = function(ex){
 	 });
 	 
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 client.open("POST", url); 
-	 if(ex.photoLoad == "true"){
+	 client.open("POST", url);  
+	 if(ex.photoLoad == "1"){
 	 	client.send({Filedata: ex.photo}); 
 	 }else{
 	 	client.send(); 
@@ -151,6 +156,7 @@ exports.addResource = function(ex){
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
+ 
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	 client.open("POST", url); 
 	 if(ex.photoLoad == "1"){ 

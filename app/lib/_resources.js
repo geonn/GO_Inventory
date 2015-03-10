@@ -208,6 +208,7 @@ exports.displayResources = function(resource){
 			var quantity_view = Ti.UI.createView({
 				layout: "horizontal",
 				width: Ti.UI.FILL,
+				source: entry.id,
 				height: Ti.UI.SIZE,
 				top: 5,
 			});
@@ -235,6 +236,7 @@ exports.displayResources = function(resource){
 				editable: false,
 				borderColor: "#375540",
 				height: 20,
+				source: entry.id,
 				width: Ti.UI.FILL,
 				value: entry.quantity,
 				textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
@@ -335,7 +337,7 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	            	if(Ti.Platform.osname == "android"){
 		            	//mainView.previewImage.image = image.nativePath;
 		            	preview.image = image.nativePath;
-		            	blobContainer = image;
+		            	blobContainer = image; 
 		            }else{
 		            	//iOS
 		            	//mainView.previewImage.image = image;

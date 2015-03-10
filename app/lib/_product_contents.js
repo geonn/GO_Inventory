@@ -1,3 +1,5 @@
+var PRODUCT = require('_products');
+
 var mainView = null;
 exports.construct = function(mv){
 	mainView = mv;
@@ -19,26 +21,76 @@ exports.displayHeader = function(){
 	return titleLabelView;
 };
  
-exports.displayProductImage = function (image){
+exports.displayProductImage = function (image,item_id){
 	var imageContainer = Ti.UI.createView({
 		height:"40%",
 		top: 0,
-		width:"90%" 
+		width:"100%",
+		layout : "horizontal" 
 	});
+	
+	var editorContainer = Ti.UI.createView({
+		height:"100%",
+		top: 0,
+		right: 0,
+		width:"15%", 
+		layout : "vertical"   
+	});
+	
+	var undoBtn = Titanium.UI.createButton({
+			height : 30,
+			width : 30,
+			right:0,
+			visible : "false",
+			backgroundImage : "/images/cross.png"
+	});
+	
+	var saveBtn = Titanium.UI.createButton({ 
+			height : 30,
+			width : 30,
+			top: 20,
+			right: 0 ,
+			visible : "false", 
+			backgroundImage : "/images/tick.png"
+	});
+	
 	if(image == ""){
-		var prodImage = Ti.UI.createImageView({
+		var resImage = Ti.UI.createImageView({
 			image: "/images/noImage.png", 
 			top:0,
-			width:"80%"
+			width:"83%"
 		});
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}else{
-		var prodImage = Titanium.UI.createImageView({
+		var resImage = Titanium.UI.createImageView({
 			image: image, 
 			top:0,
-			width:"80%"
+			width:"83%"
 		});
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}
-	imageContainer.add(prodImage);
+	editorContainer.add(undoBtn);  
+	editorContainer.add(saveBtn);  
+	imageContainer.add(resImage);
+	imageContainer.add(editorContainer); 
+	resImage.addEventListener('click', function(){
+		PRODUCT.loadPhoto(resImage,undoBtn,saveBtn);
+	});
+	undoBtn.addEventListener('click', function(){ 
+		resImage.image = "";
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
+	});
+	saveBtn.addEventListener('click', function(){ 
+		COMMON.showLoading();
+		var imgBlob = PRODUCT.getImageData();
+		 
+		API.uploadImage({
+			item_id : item_id,  
+			image : imgBlob, 
+			type : "products" 
+		});
+		hideSaveAndUndoBtn(undoBtn,saveBtn);
+	});
 	return imageContainer;
 };
 
@@ -130,6 +182,11 @@ function contentLabel(textContent){
 		classes: ['bold_text', 'gray_text','medium_text'], 
 		text: textContent
 	});	
+}
+
+function hideSaveAndUndoBtn(undoBtn,saveBtn) {
+	undoBtn.visible = false;
+	saveBtn.visible = false;
 }
 
 function saperatorLine(){

@@ -12,9 +12,8 @@
 				<Label class="h1" id="appTitle">ADD NEW RESOURCE</Label> 
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
-		
-		<View height="Ti.UI.FILL" top="55">
-			<View class="content"   layout="vertical" id="content" >
+		 
+			<View class="content" top="55"  layout="vertical" id="content" >
 				<ScrollView  layout="vertical"  showVerticalScrollIndicator="true" showHorizontalScrollIndicator="true" height="Ti.UI.SIZE" width="100%">
 					
 					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="5">
@@ -56,12 +55,11 @@
 						<Label width="40%" class="gray_text">Supplier</Label>
 						<TextField id="prodSupplier" hintText="Resource supplier"  />
 					</View>
-					 
+					<Button id="btnLogin" onClick="addProd"  title="ADD" borderColor="#FAFAFA" borderRadius="10"  /> 
 				</ScrollView>
-				<Button id="btnLogin" onClick="addProd"  title="ADD" borderColor="#FAFAFA" borderRadius="10"  /> 
+				
 			</View>
-			
-		</View>
+			 
 	</View>
 	
 </Alloy>

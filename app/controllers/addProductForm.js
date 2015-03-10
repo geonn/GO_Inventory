@@ -4,8 +4,7 @@ var mod_category = Alloy.createCollection('category');
 var cateList  = mod_category.getCategoryByType("product");
 var PRODUCT = require('_products');
 PRODUCT.construct($);
-COMMON.construct($);
-
+COMMON.construct($); 
 
 var photoLoad;
 var prodCateKey;
@@ -14,10 +13,9 @@ generateCategoryPicker();
 
 function addProd(){ 
 	photoLoad = $.undoPhoto.getVisible(); 
-	var imgBlob = RESOURCE.getImageData();
-	
-	COMMON.showLoading();
-	
+	var imgBlob = PRODUCT.getImageData();
+	 
+	COMMON.showLoading();  
 	var prodName    = $.name.value;
 	var prodCode    = $.prodCode.value;
 	var prodSet     = $.prodSet.value;
@@ -28,11 +26,11 @@ function addProd(){
 	var prodHab 	= $.prodHab.value;
 	var prodFab 	= $.prodFab.value;
 	var prodCategory 	= prodCateKey;
-	
+	 
 	API.addProduct({
 		name : prodName, code : prodCode, set : prodSet,
 		category : prodCategory, depth : prodDepth, width : prodWidth,
-		height : prodHeight, surface_habitable : prodHab, weight : prodWeight,
+		height : prodHeight, surface_habitable : prodHab, weight : prodWeight,curCate : cate,
 		fabric_used : prodFab, photoLoad : photoLoad, photo : imgBlob, type : "products" 
 	});
 	 
@@ -70,9 +68,11 @@ function generateCategoryPicker(){
 	for(var i = 0 ; i < cateList.length; i++){
 		var title = cateList[i].cateValue;
 		var key = cateList[i].cateKey;
+		 
 		var data = Ti.UI.createPickerRow({title:"  "+title ,key:key });  
 		$.categoryPicker.add(data);
 		if(title == cate){
+			prodCateKey = key;
 			$.categoryPicker.setSelectedRow(0,i,false);
 		}
 		
@@ -81,12 +81,16 @@ function generateCategoryPicker(){
 }
 
 function takePhoto(){
-	 PRODUCT.loadPhoto();
+	 PRODUCT.loadPhoto($.previewImage, $.undoPhoto,"");
 }
 function undoPhoto(){
 	$.previewImage.image = "";
 	$.undoPhoto.visible = false;
 }
+
+$.categoryPicker.addEventListener('change', function(e){ 
+    prodCateKey = e.row.key; 
+});
 $.previewImage.addEventListener('click', takePhoto);
 $.undoPhoto.addEventListener('click', undoPhoto);
 $.productFormView.addEventListener('click', PRODUCT.hideProductFormKeyboard);

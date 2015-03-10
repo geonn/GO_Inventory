@@ -7,7 +7,7 @@ RESOURCE.construct($);
 COMMON.construct($);
 var prodCateKey;
 generateCategoryPicker();
-
+ 
 var photoLoad;
 function addProd(){ 
 	//var imagePath	= Ti.App.Properties.getString("resource_image"); 

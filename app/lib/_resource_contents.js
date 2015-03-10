@@ -94,7 +94,7 @@ exports.displayResourceImage = function (image,item_id){
 	saveBtn.addEventListener('click', function(){ 
 		COMMON.showLoading();
 		var imgBlob = RESOURCE.getImageData();
-		 
+ 
 		API.uploadImage({
 			item_id : item_id,  
 			image : imgBlob, 
