@@ -6,8 +6,14 @@ var mod_InventoryProd = Alloy.createCollection('product_inventory');
 var mod_products = Alloy.createCollection('products'); 
 var mod_resources = Alloy.createCollection('resources'); 
 
-var pHeight = Ti.Platform.displayCaps.platformHeight;
- 
+var pHeight = Ti.Platform.displayCaps.platformHeight; 
+if(Ti.Platform.osname == "android"){
+	$.assignmentView.height = pHeight;
+	$.detailScrollView.height =  PixelsToDPUnits( parseInt(pHeight) ) - 230;
+}else if (Ti.Platform.name === 'iPhone OS'){
+	$.assignmentView.height = pHeight;
+	$.detailScrollView.height = pHeight - 230;	
+}
 
 var containerView = Ti.UI.createView({
 	layout: "composite",

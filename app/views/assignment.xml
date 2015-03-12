@@ -10,7 +10,7 @@
 			<View id="scanner" width="Ti.UI.FILL" height="60" bottom="10" ></View>
 		</View>
  		<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >ICARD DETAILS</Label></View>
-		<ScrollView id="detailScrollView"  layout="vertical"   height="60%" top="10" left="10" right="10"> 
+		<ScrollView id="detailScrollView"  layout="vertical"   height="Ti.UI.SIZE" top="10" left="10" right="10"> 
 			<ImageView id="productImage" height="50" /> 
 			<View layout="horizontal" height=Ti.UI.SIZE>
 				<Label class="black_text bold_text" top="0" width="30%" >iCard No :</Label>
