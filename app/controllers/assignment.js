@@ -7,16 +7,7 @@ var mod_products = Alloy.createCollection('products');
 var mod_resources = Alloy.createCollection('resources'); 
 
 var pHeight = Ti.Platform.displayCaps.platformHeight;
-console.log("1" +pHeight);
-console.log("2" +DPUnitsToPixels(pHeight));
-console.log("3" +DPUnitsToPixels(pHeight) - 230);
-if(Ti.Platform.osname == "android"){
-	$.assignmentView.height = pHeight;
-	$.detailScrollView.height =  pHeight - 230;
-}else if (Ti.Platform.name === 'iPhone OS'){
-	$.assignmentView.height = pHeight;
-	$.detailScrollView.height = pHeight - 230;	
-}
+ 
 
 var containerView = Ti.UI.createView({
 	layout: "composite",
