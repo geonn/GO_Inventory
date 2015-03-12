@@ -19,6 +19,7 @@ var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="
 var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY;
 var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY;
 var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="+KEY;
+var updateDoneProductUrl= "http://"+API_DOMAIN+"/api/assignDone?user="+USER+"&key="+KEY;
 var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY;
 var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key="+KEY;
 /*********************
@@ -161,12 +162,35 @@ exports.addResource = function(ex){
 	 }
 };
 
+//update done product
+exports.updateDoneProduct = function(ex){
+	var url = updateDoneProductUrl+ "&iCard="+ex.iCard;
+	var client = Ti.Network.createHTTPClient({ 
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	       
+	        if(res.status == "success"){
+	        	//update to local Db
+	        	var mod_products = Alloy.createCollection('products'); 
+				mod_products.updateDoneProduct({id: res.data});
+				COMMON.createAlert("Success","Product has marked as completed!");
+	        }
+	     
+	     }, 
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  
+	 }); 
+	 client.open("GET", url); 
+	 client.send(); 
+};
+
 //check Announcement
 exports.getAnnouncement = function (ex){
 	var url = announcementUrl ;
 	  
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
+	var client = Ti.Network.createHTTPClient({ 
 	     onload : function(e) {
 	       var res = JSON.parse(this.responseText); 
 	       
@@ -526,6 +550,7 @@ exports.getStockOutList = function(ex){
 						    product : prodDetail.product,
 						    code : prodDetail.code, 
 						    order : prodDetail.order,
+						    done : prodDetail.done,
 						    created : prodDetail.updated,
 						    updated : prodDetail.updated,
 		         		});

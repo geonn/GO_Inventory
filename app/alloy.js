@@ -31,7 +31,9 @@ var getValueFromPipe = function(myCode){
 	var data = myCode.split("||");  
  	var obj = {};
  	
- 	if(data[0] == "product"){
+ 	if(data[0] == "done"){
+ 		obj['type'] = data[0]; 
+ 	}else if(data[0] == "product"){
  		obj['type'] = data[0];
 		obj['id'] = data[1];
 		obj['prefix'] = data[2];

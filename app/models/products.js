@@ -155,7 +155,20 @@ exports.definition = {
 	            db.close();
 	            collection.trigger('sync');
 			},
-			
+			updateDoneProduct :function(e){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+e.id+"' " ;
+ 
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                if (res.isValidRow()){
+	            	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  done='1', updated='"+currentDateTime()+"' WHERE id='"+e.id+"' " ;
+	            	db.execute(sql_query);
+	            }
+	            
+	            db.close();
+	            collection.trigger('sync');
+			},
 			addUpdateProduct : function(e) {
                 var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;

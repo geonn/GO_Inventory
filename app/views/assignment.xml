@@ -9,8 +9,8 @@
 			<Label class="black_text medium_text" height="34">Please press "Start" to scan iCard or iResources</Label>
 			<View id="scanner" width="Ti.UI.FILL" height="60" bottom="10" ></View>
 		</View>
- 		<View backgroundColor="#375540" height="5%"><Label class="white_text bold_text" >ICARD DETAILS</Label></View>
-		<ScrollView id="detailScrollView"  layout="vertical"   height="60%" top="10" left="10" right="10"> 
+ 		<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >ICARD DETAILS</Label></View>
+		<ScrollView id="detailScrollView"  layout="vertical"   height="Ti.UI.SIZE" top="10" left="10" right="10"> 
 			<ImageView id="productImage" height="50" /> 
 			<View layout="horizontal" height=Ti.UI.SIZE>
 				<Label class="black_text bold_text" top="0" width="30%" >iCard No :</Label>
@@ -22,12 +22,10 @@
 				<Label class="black_text bold_text" top="0"  width="30%">Resources :</Label>
 				<View id="resource_info" layout="vertical" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT"></View> 
 			</View>
-			 
-		 
 		</ScrollView>
 		<View height="50"  bottom="0" layout="horizontal" width="100%"  >
 			<View left="0" width="24.5%" id="undo_btn" backgroundColor="#375540" onClick="undo"><Label>UNDO</Label></View>
-			<View width="50%"  ></View>
+			<View width="50%" id="infoContainer" ><Label id="infoLabel" /></View>
 			<View right="0" width="25%" id="done_btn" backgroundColor="#375540" onClick="done"><Label>DONE</Label></View>
 		</View>
 	</View>

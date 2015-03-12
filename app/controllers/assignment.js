@@ -7,7 +7,16 @@ var mod_products = Alloy.createCollection('products');
 var mod_resources = Alloy.createCollection('resources'); 
 
 var pHeight = Ti.Platform.displayCaps.platformHeight;
-$.assignmentView.height = pHeight;
+console.log("1" +pHeight);
+console.log("2" +DPUnitsToPixels(pHeight));
+console.log("3" +DPUnitsToPixels(pHeight) - 230);
+if(Ti.Platform.osname == "android"){
+	$.assignmentView.height = pHeight;
+	$.detailScrollView.height =  pHeight - 230;
+}else if (Ti.Platform.name === 'iPhone OS'){
+	$.assignmentView.height = pHeight;
+	$.detailScrollView.height = pHeight - 230;	
+}
 
 var containerView = Ti.UI.createView({
 	layout: "composite",
@@ -35,13 +44,21 @@ function populateData(){
 	var det = mod_products.getProductDetails(iCard);
 	var res_det = mod_resources.getResourcesByicard(iCard);
 	var prod_det = mod_InventoryProd.getProductDetails(det.product); 
+	console.log(det);
 	
+	if(det.done == "1"){  
+		$.infoContainer.backgroundColor = "#375540";
+		$.infoLabel.text = "COMPLETED";
+		$.infoContainer.color = "#FFFFFF";
+	}else{ 
+		$.infoLabel.text = "";
+	}
  	$.productImage.image = prod_det.image;
  	  
 	$.iCard_info.text =  prod_det.name + " ("+det.code+") at " + timeFormat(det.updated); 
 	for(var i=0; i < res_det.length; i++){ 
 		var textColor = "#9D001D"; 
-		if(res_det[i].status == "2"){
+		if(res_det[i].status > 1){
 			var textColor = "#365640";
 		}
 		var resource_label = $.UI.create('Label', {

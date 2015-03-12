@@ -1,6 +1,7 @@
 // load the Scandit SDK module
 var scanditsdk = require("com.mirasense.scanditsdk");
 var mod_products = Alloy.createCollection('products'); 
+var mod_resources = Alloy.createCollection('resources'); 
 var mod_invProducts = Alloy.createCollection('product_inventory'); 
 var iCard;
 var picker;
@@ -62,12 +63,30 @@ exports.openScanner = function(scanType) {
 		if(scanType == "1"){
 			iCard = Ti.App.Properties.getString("iCard"); 
 			var code = getValueFromPipe(e.barcode);   
-			if(code['type'] == "resource"){ 
+			if(code['type'] == "done"){
+				//product DONE scanning
+				if(iCard === null){
+					COMMON.createAlert("Error","Please scan finish product first.");
+					return false;
+				}else{
+					var resouceData = mod_resources.getResourcesByicard(iCard);
+					console.log(resouceData);
+					if(resouceData.length == 0){
+						COMMON.createAlert("Error","No resources attached to this product yet.");
+					}else{
+						//update to server
+						API.updateDoneProduct({
+							iCard : iCard 
+						});
+					}
+					
+				}
+			}else if(code['type'] == "resource"){ 
 				if(iCard === null){
 					COMMON.createAlert("Error","Please scan product first.");
 					return false;
 				}else{
-					var mod_resources = Alloy.createCollection('resources'); 
+					
 					mod_resources.addUpdateResources({
 						id : code['id'],
 						iCard  : iCard,
@@ -84,19 +103,26 @@ exports.openScanner = function(scanType) {
 				Ti.App.fireEvent('populateData');
 			}else if(code['type'] == "product"){
 				//Scan product
+				var prodDetails = mod_products.getProductDetails(iCard);
 				
-				mod_products.addUpdateProduct({
-					id : code['id'],
-					prefix : code['prefix'],
-					item_id : code['item_id'],
-					product : code['product'],
-					code : code['code'], 
-					myScan : "1",
-					created : currentDateTime(),
-					updated : currentDateTime()
-				});
-				Ti.App.Properties.setString("iCard", code['code']); 
-				Ti.App.fireEvent('populateData');
+				if(prodDetails.done == "1"){
+					COMMON.createAlert("Scan Failed","This product is already completed."); 
+				}else{
+					//add/update product details
+					mod_products.addUpdateProduct({
+						id : code['id'],
+						prefix : code['prefix'],
+						item_id : code['item_id'],
+						product : code['product'],
+						code : code['code'], 
+						myScan : "1",
+						created : currentDateTime(),
+						updated : currentDateTime()
+					});
+					Ti.App.Properties.setString("iCard", code['code']); 
+					Ti.App.fireEvent('populateData');
+				}
+				
 			}else{
 				COMMON.createAlert("Error","Invalid Code.");
 			}
