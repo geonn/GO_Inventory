@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
-var cate = args.category || "";
+var cate = args.category || ""; 
+Ti.App.Properties.setString('parent',"inventory||0");
 var presetSearch = Ti.App.Properties.getString("product_search") || "";
 $.searchProduct.value = presetSearch;
 var PRODUCT = require('_products'); 
@@ -76,7 +77,7 @@ var refreshTableList = function(){
 	PRODUCT.refreshTableList();
 };
  
-Ti.App.addEventListener('refreshTableList' , refreshTableList);
+//Ti.App.addEventListener('refreshTableList' , refreshTableList);
 $.productView.addEventListener('touchend', function(e){
     $.searchProduct.blur(); 
 });

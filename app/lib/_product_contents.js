@@ -23,8 +23,7 @@ exports.displayHeader = function(){
  
 exports.displayProductImage = function (image,item_id){
 	var imageContainer = Ti.UI.createView({
-		height:"40%",
-		top: 0,
+		height:"40%", 
 		width:"100%",
 		layout : "horizontal" 
 	});
@@ -98,8 +97,7 @@ exports.displayProductContents = function(items){
 	var mainContentView = Titanium.UI.createView({
 		layout : "vertical", 
 		top:5, 
-		bottom:5,
-		backgroundColor: "#ffffff",
+		bottom:5, 
 		height:Ti.UI.SIZE
 	});
 	 

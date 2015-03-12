@@ -63,4 +63,4 @@ var refreshTableList = function(){
 	PRODUCT.refreshTableList();
 };
  
-Ti.App.addEventListener('refreshTableList' , refreshTableList); 
+//Ti.App.addEventListener('refreshTableList' , refreshTableList); 

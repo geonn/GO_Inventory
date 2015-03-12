@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
 var cate = args.type || "";
+Ti.App.Properties.setString('parent',"inventory||1");
 var presetSearch = Ti.App.Properties.getString("resource_search") || "";
 $.searchResource.value = presetSearch;
 var RESOURCE = require('_resources'); 
@@ -79,7 +80,7 @@ var refreshTableList = function(){
 	RESOURCE.refreshTableList();
 };
  
-Ti.App.addEventListener('refreshTableList' , refreshTableList);
+//Ti.App.addEventListener('refreshTableList' , refreshTableList);
 $.resourceView.addEventListener('touchend', function(e){
     $.searchResource.blur(); 
 });

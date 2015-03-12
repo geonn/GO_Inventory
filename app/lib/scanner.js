@@ -132,6 +132,7 @@ exports.openScanner = function(scanType) {
 		if(scanType == "2"){
 			
 			var code = getValueFromPipe(e.barcode);   
+			console.log(code);
 			if(code['type'] == "resource"){ 
 				//tempararily hide
 				COMMON.createAlert("Error","This is not valid product.");

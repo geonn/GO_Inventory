@@ -12,9 +12,7 @@
 				<Label class="h1" id="appTitle">Loading...</Label>
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
-			<ScrollView id="detailScrollView"  layout="vertical"  height="Ti.UI.SIZE" top="5" left="5" right="5" > 
-		        <View id="item_Details" height="auto" top="5" left="5" right="5"  ></View> 
-			</ScrollView>
+			<View id="item_Details" height="100%" top="5" left="5" right="5"  ></View>
 		
 		</View>
 	</View>

@@ -33,10 +33,28 @@ function createMyDrawer(rightMenuWindow,method){
 	});
 
 	nappDrawer.addEventListener('android:back', function (e) {
-		var mod = Ti.App.Properties.getString('module');
+		var mod = Ti.App.Properties.getString('parent');
 		var usr = Ti.App.Properties.getString("user_id"); 
+		 
 		if(mod !== null && mod != ""){
-			navigation(mod, 1);
+			var modDetails = mod.split("||"); 
+			if(modDetails[0] == "productLists"){
+				var modAction = modDetails[1];  
+				Ti.App.Properties.setString('parent',"inventory||0");
+				navigation(modDetails[0], 1,{ "category": modAction } );
+			}else if(modDetails[0] == "resourceLists"){
+				var modAction = modDetails[1];  
+				Ti.App.Properties.setString('parent',"inventory||1");
+				navigation(modDetails[0], 1,{ "type": modAction } );
+			}else if(modDetails[0] == "inventory"){
+				var modAction = modDetails[1];  
+				Ti.App.Properties.setString('parent','');
+				navigation(modDetails[0], 1,{ "tab": modAction } );
+			} else{
+				Ti.App.Properties.setString('parent','');
+				navigation(modDetails[0], 1);
+			}
+			
 		}else if(drawerFlag == 1 || usr == ""){
 			var dialog = Ti.UI.createAlertDialog({
 			    cancel: 1,
