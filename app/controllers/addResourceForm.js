@@ -6,9 +6,9 @@ var RESOURCE = require('_resources');
 RESOURCE.construct($);
 COMMON.construct($);
 var prodCateKey;
+var photoLoad;
 generateCategoryPicker();
  
-var photoLoad;
 function addProd(){ 
 	//var imagePath	= Ti.App.Properties.getString("resource_image"); 
 	
@@ -86,4 +86,20 @@ function undoPhoto(){
 $.previewImage.addEventListener('click', takePhoto);
 $.undoPhoto.addEventListener('click', undoPhoto);
 $.productFormView.addEventListener('click', RESOURCE.hideProductFormKeyboard);
+
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){ 
+	RESOURCE.deconstruct();
+	
+	photoLoad = null;
+	prodCateKey = null;
+	mod_category = null; 
+	RESOURCE = null; 
+	cateList = null; 
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);	
+  
   
