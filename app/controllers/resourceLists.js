@@ -92,7 +92,9 @@ $.resourceView.addEventListener('touchend', function(e){
 /**********************
  * Clear object and memory
  **********************/
-var clearObject = function(){
+var clearObject = function(){ 
+	RESOURCE.deconstruct();
+	
 	mod_InventoryRes = null;
 	presetSearch = null;
 	RESOURCE = null;

@@ -4,7 +4,11 @@ var mainView = null;
 exports.construct = function(mv){
 	mainView = mv;
 };
- 
+exports.deconstruct = function(){
+	PRODUCT.deconstruct();
+	mainView = null;
+};
+
 exports.displayHeader = function(){
 	var titleLabelView = Titanium.UI.createView({
 		backgroundColor: "#375540", 

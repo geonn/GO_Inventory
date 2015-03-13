@@ -262,15 +262,13 @@ function displayProduct(products){
 	 	
 	 	if(Ti.Platform.osname == "android"){ 
 			mainView.prodTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
-		}
-		//mainView.prodTable.height = rowHeight + 150;
-		//mainView.productView.height = rowHeight + 150;
+		} 
 		mainView.prodTable.setData(data); 
 		mainView.productView.add(mainView.prodTable);
 		data = null;
 		
 	}
-	
+	data=[]; 
 	//hide loading bar
 	COMMON.hideLoading();
 } 
@@ -386,6 +384,10 @@ function closeCategory(){
 
 exports.construct = function(mv){
 	mainView = mv;
+};
+
+exports.deconstruct = function(){
+	mainView = null;
 };
 
 exports.displayProduct = function(products){

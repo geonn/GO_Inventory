@@ -90,7 +90,9 @@ $.productView.addEventListener('touchend', function(e){
 /**********************
  * Clear object and memory
  **********************/
-var clearObject = function(){
+var clearObject = function(){ 
+	PRODUCT.deconstruct();
+	
 	mod_InventoryProd = null;
 	mod_Category = null;
 	allType = null; 

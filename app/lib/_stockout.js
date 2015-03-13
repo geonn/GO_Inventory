@@ -5,6 +5,10 @@ exports.construct = function(mv){
 	mainView = mv;
 };
 
+exports.deconstruct = function(){
+	mainView = null;
+};
+
 function viewDetails(e, orderNo){
 	DRAWER.navigation("stockoutDetails",1 ,{order: e.source.source, orderNo: orderNo});
 }

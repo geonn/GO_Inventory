@@ -95,6 +95,10 @@ exports.construct = function(mv){
 	mainView = mv;
 };
  
+exports.deconstruct = function(){
+	mainView = null;
+};
+
 exports.displayResources = function(resource){
  	 
 	if(resource == "1"){

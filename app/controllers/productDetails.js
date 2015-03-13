@@ -60,10 +60,8 @@ var getProductDetails = function(items){
 		row.add(PROD_CONTENTS.displayProductResources(code)); 
 	}
 	
-	
 	scrollView.add(row); 
 
-	 
 	$.item_Details.add(scrollView); 
 	COMMON.hideLoading();
 };
@@ -80,6 +78,9 @@ function goBack(){
  * Clear object and memory
  **********************/
 var clearObject = function(){
+	PROD_CONTENTS.deconstruct();
+	PRODUCT.deconstruct();
+	
 	mod_InventoryProd = null;
 	curCate = null;
 	getProductDetails = null;

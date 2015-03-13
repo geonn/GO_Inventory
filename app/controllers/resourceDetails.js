@@ -65,6 +65,9 @@ function goBack(){
  * Clear object and memory
  **********************/
 var clearObject = function(){
+	RES_CONTENTS.deconstruct();
+	RESOURCE.deconstruct();
+	
 	mod_InventoryRes = null;
 	presetSearch = null;
 	RESOURCE = null; 

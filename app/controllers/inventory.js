@@ -66,6 +66,9 @@ var refreshTableList = function(){
  * Clear object and memory
  **********************/
 var clearObject = function(){
+	PRODUCT.deconstruct();
+	RESOURCE.deconstruct();
+	
 	mod_InventoryProd = null;
 	mod_InventoryRes = null;
 	mod_Category = null;
