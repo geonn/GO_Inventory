@@ -76,4 +76,3 @@ var clearObject = function(){
 	Ti.App.removeEventListener("clearObject", clearObject);
 };
 Ti.App.addEventListener("clearObject", clearObject);
-//Ti.App.addEventListener('refreshTableList' , refreshTableList); 

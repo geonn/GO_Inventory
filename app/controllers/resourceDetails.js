@@ -7,7 +7,7 @@ var RES_CONTENTS = require('_resource_contents');
 var curCate;
 RES_CONTENTS.construct($);
 COMMON.construct($);
-COMMON.showLoading();  
+COMMON.showLoading();
 var resDetails = mod_InventoryRes.getResourceDetails(p_id);
 Ti.App.Properties.setString('parent',"resourceLists||"+resDetails.type);
 if(Ti.Platform.osname == "android"){ 
@@ -17,13 +17,14 @@ setTimeout(function(){
 	if(presetSearch != ""){
 		var items = mod_InventoryRes.searchResources(presetSearch);  
  	}else{
- 		var items = resDetails;  
+ 		var items = resDetails;
  	}	
  	getResourceDetails(items); 
+ 	items = null;
 }, 200); 
 
 var getResourceDetails = function(items){
-	var row = '', position; 
+	var position; 
 	   		
 	/***Set ads items***/
 	curCate = items['type']; 

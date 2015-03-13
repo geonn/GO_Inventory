@@ -32,9 +32,11 @@ function addResource(){
 }
 
 function refreshTableList(){
+	console.log("check event listener");
 	removeAllChildren($.resourceView);
 	var cateResult = mod_InventoryRes.getResourceByCategory(cate); 
-	RESOURCE.displayResources(cateResult);	  
+	RESOURCE.displayResources(cateResult);
+	cateResult = null;
 }
  
 function back(e){ 

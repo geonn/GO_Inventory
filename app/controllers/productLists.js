@@ -32,6 +32,7 @@ function addProduct(){
 }
 
 function refreshTableList(){
+	console.log("check listener");
 	removeAllChildren($.productView);
 	PRODUCT.displayProduct(products);	  
 }

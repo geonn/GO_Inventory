@@ -240,6 +240,10 @@ function displayProduct(products){
 			quantity_view.add(quantity_text_view);
 			quantity_view.add(quantity_text_input);
 			
+			quantity_text = null;
+			quantity_text_view = null;
+			quantity_text_input = null;
+			
 			row.addEventListener('click', function(e) {
 			 	viewDetails(e);
 			});
@@ -263,6 +267,8 @@ function displayProduct(products){
 		//mainView.productView.height = rowHeight + 150;
 		mainView.prodTable.setData(data); 
 		mainView.productView.add(mainView.prodTable);
+		data = null;
+		
 	}
 	
 	//hide loading bar
