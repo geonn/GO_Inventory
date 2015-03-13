@@ -12,7 +12,24 @@
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			<View class="content">
-				<ScrollView layout="horizontal" width="Ti.UI.SIZE" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE" top="20" textAlign="CENTER">
+				<ScrollView backgroundColor="#ffffff" left="5" top="5" right="5" bottom="5" layout="vertical">
+					<View onClick="goTo" mod="assignment" backgroundImage="/images/menu/menu_assignment.jpg" width="Ti.UI.FILL" height="33%"></View>
+					<View width="Ti.UI.FILL" height="33%" top="5" layout="horizontal">
+						<View onClick="goTo" mod="history" backgroundImage="/images/menu/menu_scan_history.jpg" width="49%" right="5"></View>
+						<View onClick="goTo" mod="viewProduct" backgroundImage="/images/menu/menu_view_product.jpg" width="auto"></View>
+					</View>
+					<View width="Ti.UI.FILL" height="33%" top="5" layout="horizontal">
+						<View onClick="goTo" mod="inventory" backgroundImage="/images/menu/menu_inventory.jpg" width="49%" right="5"></View>
+						<View width="auto" layout="vertical">
+							<View onClick="goTo" mod="news" backgroundImage="/images/menu/menu_news_events.jpg" height="49%" bottom="5" width="Ti.UI.FILL"></View>
+							<View height="auto" width="Ti.UI.FILL" layout="horizontal">
+								<View onClick="goTo" mod="stockOut" backgroundImage="/images/menu/menu_stockout.jpg" width="49%" right="5"></View>
+								<View onClick="goTo" mod="settings" backgroundImage="/images/menu/menu_setting.jpg" width="auto"></View>
+							</View>
+						</View>
+					</View>
+				</ScrollView>
+				<!--<ScrollView layout="horizontal" width="Ti.UI.SIZE" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE" top="20" textAlign="CENTER">
 					<View onClick="goTo" mod="assignment" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
 						<Label mod="assignment" class="bubble_text" text="Assignment" />
 					</View>
@@ -37,7 +54,7 @@
 					<View onClick="logout" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
 						<Label class="bubble_text" text="Logout" />
 					</View>
-				</ScrollView>		 
+				</ScrollView>-->	 
 			</View>
 		</View>
 	</View>
