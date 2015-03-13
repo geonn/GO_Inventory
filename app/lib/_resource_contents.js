@@ -8,6 +8,7 @@ exports.construct = function(mv){
 
 exports.deconstruct = function(){
 	RESOURCE.deconstruct();
+	RESOURCE = null;
 	mainView = null;
 };
 

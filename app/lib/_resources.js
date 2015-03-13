@@ -96,6 +96,8 @@ exports.construct = function(mv){
 };
  
 exports.deconstruct = function(){
+	mod_InventoryRes = null;
+	blobContainer = null;
 	mainView = null;
 };
 
@@ -272,6 +274,7 @@ exports.displayResources = function(resource){
 		
 		mainView.resTable.setData(data); 
 		mainView.resourceView.add(mainView.resTable);
+		data= null;
 	}
 };
 

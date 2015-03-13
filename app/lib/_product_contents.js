@@ -6,6 +6,7 @@ exports.construct = function(mv){
 };
 exports.deconstruct = function(){
 	PRODUCT.deconstruct();
+	PRODUCT= null;
 	mainView = null;
 };
 

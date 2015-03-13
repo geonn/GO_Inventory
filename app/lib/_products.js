@@ -265,10 +265,8 @@ function displayProduct(products){
 		} 
 		mainView.prodTable.setData(data); 
 		mainView.productView.add(mainView.prodTable);
-		data = null;
-		
-	}
-	data=[]; 
+		data = null; 
+	} 
 	//hide loading bar
 	COMMON.hideLoading();
 } 
@@ -387,6 +385,8 @@ exports.construct = function(mv){
 };
 
 exports.deconstruct = function(){
+	mod_InventoryProd = null;
+ 	blobContainer = null;
 	mainView = null;
 };
 
