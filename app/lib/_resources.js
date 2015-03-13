@@ -1,8 +1,8 @@
-var mainView = null;
-var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
+var mainView = null; 
 var blobContainer = [];
 function displayCategory(){
 	var data=[]; 
+	var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
 	var category = mod_InventoryRes.getResourcesCategory(); 
 	 
 	if(category.length < 1){
@@ -95,8 +95,7 @@ exports.construct = function(mv){
 	mainView = mv;
 };
  
-exports.deconstruct = function(){
-	mod_InventoryRes = null;
+exports.deconstruct = function(){ 
 	blobContainer = null;
 	mainView = null;
 };
@@ -104,6 +103,7 @@ exports.deconstruct = function(){
 exports.displayResources = function(resource){
  	 
 	if(resource == "1"){
+		var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
 		var details = mod_InventoryRes.getResourceList(0); 
 		resource = details;
 	}

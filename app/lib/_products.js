@@ -1,8 +1,9 @@
 var mainView = null;
-var mod_InventoryProd = Alloy.createCollection('product_inventory');  
+
 var blobContainer = []; 
 function displayCategory(){
 	var data=[]; 
+	var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 	var category = mod_InventoryProd.getProductCategory(); 
 	if(category.length < 1){
 		var noRecord = Ti.UI.createLabel({ 
@@ -92,6 +93,7 @@ function displayCategory(){
 
 function displayProduct(products){
 	if(products == "1"){
+		var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 		var details = mod_InventoryProd.getProductList(0); 
 		products = details;
 	}
@@ -384,8 +386,7 @@ exports.construct = function(mv){
 	mainView = mv;
 };
 
-exports.deconstruct = function(){
-	mod_InventoryProd = null;
+exports.deconstruct = function(){ 
  	blobContainer = null;
 	mainView = null;
 };
