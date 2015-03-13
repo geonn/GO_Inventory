@@ -6,13 +6,13 @@
 	    </View>
 	    
 		<View class="container" layout="vertical" > 
-			<View id="header" backgroundColor="#375540"  >
+			<View id="header" backgroundColor="#375540">
 				<View backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>
 				<Label class="h1" id="appTitle">HOME</Label>
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
-			<View class="content">=
-				<ScrollView backgroundColor="#ffffff" left="5" top="5" right="5" bottom="5" layout="vertical">
+			<View class="content" height="auto">
+				<View backgroundColor="#ffffff" height="Ti.UI.FILL" left="5" top="5" right="5" bottom="5" layout="vertical">
 					<View onClick="goTo" mod="assignment" backgroundImage="/images/menu/menu_assignment.jpg" width="Ti.UI.FILL" height="33%"></View>
 					<View width="Ti.UI.FILL" height="33%" top="5" layout="horizontal">
 						<View onClick="goTo" mod="history" backgroundImage="/images/menu/menu_scan_history.jpg" width="49%" right="5"></View>
@@ -28,7 +28,7 @@
 							</View>
 						</View>
 					</View>
-				</ScrollView>	 
+				</View>	 
 			</View>
 		</View>
 	</View>

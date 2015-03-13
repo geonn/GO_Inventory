@@ -51,8 +51,9 @@ function populateData(){
 		$.infoLabel.text = "";
 	}
  	$.productImage.image = prod_det.image;
- 	  
-	$.iCard_info.text =  prod_det.name + " ("+det.code+") at " + timeFormat(det.updated); 
+ 	$.iCard_no.text = det.code;
+ 	$.iCard_name.text = prod_det.name;
+	//$.iCard_info.text =  prod_det.name + " ("+det.code+") at " + timeFormat(det.updated); 
 	for(var i=0; i < res_det.length; i++){ 
 		var textColor = "#9D001D"; 
 		if(res_det[i].status > 1){
@@ -292,7 +293,7 @@ function addClickEvent(myView, popView,data){
 var window = MODULE.createScannerWindow();
 
 // create start scanner button
-var button = MODULE.createScannerButton({title: "START"});
+var button = MODULE.createScannerButton({title: "SCAN"});
 
 button.addEventListener('click', function() {
 	MODULE.openScanner("1");
