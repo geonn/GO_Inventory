@@ -9,10 +9,7 @@ var mod_InventoryProd = Alloy.createCollection('product_inventory');
 var mod_Category  = Alloy.createCollection('category'); 
 var allType = mod_Category.getCategoryByType("product");
 $.appTitle.text = cate;
-// var lastDistance = 0; 
-// $.productView.addEventListener('scroll', function(e) { 
-	 // PRODUCT.reloadFromScroll(e);
-// });
+ 
 COMMON.construct($);
 COMMON.showLoading();
 PRODUCT.construct($);
