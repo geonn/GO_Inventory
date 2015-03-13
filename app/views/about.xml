@@ -1,0 +1,19 @@
+<Alloy>
+	<View class="container content" id="setting" layout="vertical" >
+		<View id="header" backgroundColor="#375540"  >
+			<View height="50" width="50" left="2" onClick="goBack" >
+				<ImageView image="/images/back-button.png" height="30" left="8"  />
+			</View>
+			<Label class="h1" id="appTitle">ABOUT</Label>
+			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
+		</View>
+		<ScrollView id="main" layout="vertical">
+			<Label class="title_header" bottom=5>About Us</Label>
+			<Label class="description_content" bottom=10>We provided professional solution and implementation of work flow of different kind of system and case study in order to achieve digitalize concept in different kind of industry. We have more than 5 years in developing different kind of system such as tracking system, advertising, e-commerce and so on. Most of the system and application we built are tailored made to suit our client business requirement and personalize.</Label>	
+			<Label class="description_content" bottom=10>We also specialist in mobile development, which able to integrate to your mobile devices. Client can easily access to the system and manage the data which touch of finger, everywhere, anytime. </Label>	
+			<Label class="description_content" bottom=10>Technology is changing fast and we aren't stop here but keep improve the skill set, to make the app more powerful to fulfill the business requirement and improve the user experience in the app.  </Label>	
+			
+			 
+		</ScrollView>
+	</View>
+</Alloy>

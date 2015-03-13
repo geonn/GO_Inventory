@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
 var p_id = args.p_id || {};
+var code = args.code || "";
 var from = args.from || "";
 
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
@@ -15,7 +16,7 @@ Ti.App.Properties.setString('parent',"productLists||"+prodDetails.category);
 if(Ti.Platform.osname == "android"){ 
 	$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -50;  
 }
-		 
+	 
 setTimeout(function(){  
 	if(presetSearch != ""){
 		var items = mod_InventoryProd.searchProducts(presetSearch);  
@@ -31,12 +32,11 @@ var getProductDetails = function(items){
 	/***Set ads items***/ 
 	curCate = items['category']; 
 	$.appTitle.text = items['category'];
-	var scrollView = Ti.UI.createScrollView({  
-	  	height: "100%",
+	var scrollView = Ti.UI.createScrollView({   
 	  	width: '100%'
 	});
 	
-	row = $.UI.create('View', {
+	row = $.UI.create('scrollView', {
 		classes: ["row"],  
 		id:"view"+items['position'],
 		layout: "vertical"
@@ -52,7 +52,15 @@ var getProductDetails = function(items){
 		
 	/***Create and Add Product Contents***/
 	row.add(PROD_CONTENTS.displayProductContents(items)); 
-			
+	
+	if(code != ""){
+		/***Create iResource Header***/
+		row.add(PROD_CONTENTS.displayResourceHeader());  
+		/***List Product Resources if any***/
+		row.add(PROD_CONTENTS.displayProductResources(code)); 
+	}
+	
+	
 	scrollView.add(row); 
 
 	 
@@ -65,6 +73,20 @@ function goBack(){
 		DRAWER.navigation(from,1);
 	}else{
 		DRAWER.navigation("productLists",1,{category:curCate});
-	}
-	
+	} 
 }
+
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){
+	mod_InventoryProd = null;
+	curCate = null;
+	getProductDetails = null;
+	resourcesType = null;
+	prodDetails = null;
+	PRODUCT = null;
+	PROD_CONTENTS = null;
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);	

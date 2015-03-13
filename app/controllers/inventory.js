@@ -14,8 +14,7 @@ changeSlideTab(pageTab);
 COMMON.construct($);
 PRODUCT.construct($);
 RESOURCE.construct($); 
-COMMON.showLoading();
-
+COMMON.showLoading(); 
 
 setTimeout(function(){   
 	PRODUCT.displayCategory(); 
@@ -62,5 +61,19 @@ function changeSlideTab(no){
 var refreshTableList = function(){
 	PRODUCT.refreshTableList();
 };
- 
+
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){
+	mod_InventoryProd = null;
+	mod_InventoryRes = null;
+	mod_Category = null;
+	resourcesType = null;
+	allType = null;
+	PRODUCT = null;
+	RESOURCE = null;
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);
 //Ti.App.addEventListener('refreshTableList' , refreshTableList); 

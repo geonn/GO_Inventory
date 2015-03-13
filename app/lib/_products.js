@@ -133,6 +133,7 @@ function displayProduct(products){
 		    	top: 5, 
 		    	right: 5,
 		    	bottom: 5,
+		    	source: entry.id,
 		    	height: 80,
 		    	width: Ti.UI.FILL,
 		    	layout: "horizontal",
@@ -141,6 +142,7 @@ function displayProduct(products){
 			var tblView = Ti.UI.createView({
 				layout: "vertical",
 				height:"80",
+				source: entry.id,
 				width:"auto",
 			}); 
 			
@@ -199,6 +201,7 @@ function displayProduct(products){
 			
 			var quantity_view = Ti.UI.createView({
 				layout: "horizontal",
+				source: entry.id,
 				width: Ti.UI.FILL,
 				height: Ti.UI.SIZE,
 				top: 5,
@@ -207,8 +210,7 @@ function displayProduct(products){
 			var quantity_text_view = Ti.UI.createView({
 				width: Ti.UI.SIZE,
 				height: Ti.UI.SIZE,
-				source: entry.id,
-				source: entry.id,
+				source: entry.id, 
 				backgroundColor: "#375540",
 			});
 			 

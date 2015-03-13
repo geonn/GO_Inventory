@@ -89,7 +89,7 @@ $.setting.addEventListener("close", function(){
 
 $.setting.addEventListener('click', function(e){
 	if(e.index == 0){
-		alert("About");
+		DRAWER.navigation("about",1);
 	}
 	if(e.index == 1){
 		DRAWER.navigation("profile",1);

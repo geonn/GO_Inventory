@@ -9,10 +9,8 @@ var mod_InventoryRes = Alloy.createCollection('resource_inventory');
 var mod_Category  = Alloy.createCollection('category'); 
 var allType = mod_Category.getCategoryByType("resource");
 $.appTitle.text = cate;
-// var lastDistance = 0; 
-// $.resourceView.addEventListener('scroll', function(e) { 
-	 // PRODUCT.reloadFromScroll(e);
-// });
+	
+
 COMMON.construct($);
 COMMON.showLoading();
 RESOURCE.construct($);
@@ -88,4 +86,18 @@ $.resourceView.addEventListener('touchend', function(e){
 $.resourceView.addEventListener('touchend', function(e){
     $.searchResource.blur(); 
 });
-
+ 
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){
+	mod_InventoryRes = null;
+	presetSearch = null;
+	RESOURCE = null;
+	mod_Category = null;
+	allType = null;
+	searchResourceResult = null;
+	refreshTableList = null;
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);

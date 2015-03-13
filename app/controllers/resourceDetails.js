@@ -12,7 +12,7 @@ var resDetails = mod_InventoryRes.getResourceDetails(p_id);
 Ti.App.Properties.setString('parent',"resourceLists||"+resDetails.type);
 if(Ti.Platform.osname == "android"){ 
 	$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -50;  
-}
+} 
 setTimeout(function(){  
 	if(presetSearch != ""){
 		var items = mod_InventoryRes.searchResources(presetSearch);  
@@ -59,3 +59,18 @@ var getResourceDetails = function(items){
 function goBack(){
 	DRAWER.navigation("resourceLists",1,{type:curCate});
 }
+
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){
+	mod_InventoryRes = null;
+	presetSearch = null;
+	RESOURCE = null; 
+	RES_CONTENTS = null; 
+	curCate = null;
+	resDetails = null;
+	getResourceDetails= null;
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);	

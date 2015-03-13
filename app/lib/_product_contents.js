@@ -20,6 +20,22 @@ exports.displayHeader = function(){
 	titleLabelView.add(titleLabel);
 	return titleLabelView;
 };
+
+exports.displayResourceHeader = function(){
+	var titleLabelView = Titanium.UI.createView({
+		backgroundColor: "#375540", 
+		top:0,
+		height:"5%"
+	});
+	 
+	 var titleLabel = mainView.UI.create('Label',{
+	 	classes: ['white_text'],
+		text: "PRODUCT RESOURCES" 
+	});	
+	
+	titleLabelView.add(titleLabel);
+	return titleLabelView;
+};
  
 exports.displayProductImage = function (image,item_id){
 	var imageContainer = Ti.UI.createView({
@@ -152,6 +168,45 @@ exports.displayProductContents = function(items){
 	contentView.add(contentLabel(items.quantity));
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
+	
+	return mainContentView;
+};
+
+exports.displayProductResources = function(code){
+	var mod_res = Alloy.createCollection('resources');  
+	var proRes  = mod_res.getResourcesByicard(code);
+	console.log(proRes);
+	
+	var mainContentView = Titanium.UI.createView({
+		layout : "vertical", 
+		top:5, 
+		bottom:5, 
+		height:Ti.UI.SIZE
+	});
+	
+	if(proRes.length > 0){
+		proRes.forEach(function(entry) {
+			/*** RESOURCE NAME***/
+		 	var contentView = Ti.UI.createView({
+				layout : "horizontal",  
+				height:Ti.UI.SIZE,
+				width:"49.5%",
+				top:5,
+				bottom: 5
+			});; 
+			contentView.add(contentTitleLabel("Resource Name"));
+			contentView.add(contentTitleLabel("Code"));
+			mainContentView.add(contentView); 
+			mainContentView.add(saperatorLine());
+			
+			/*** RESOURCE CODE***/
+			var contentView = horizontalView(); 
+			contentView.add(contentLabel(entry.name));
+			contentView.add(contentLabel(entry.code));
+			mainContentView.add(contentView); 
+			mainContentView.add(saperatorLine());
+		});
+	}
 	
 	return mainContentView;
 };

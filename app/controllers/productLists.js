@@ -16,7 +16,7 @@ $.appTitle.text = cate;
 COMMON.construct($);
 COMMON.showLoading();
 PRODUCT.construct($);
-  
+
 setTimeout(function(){   
 	if(presetSearch != ""){  
 		var searchResult = mod_InventoryProd.searchProducts(presetSearch,cate); 
@@ -86,3 +86,16 @@ $.productView.addEventListener('touchend', function(e){
     $.searchProduct.blur(); 
 });
 
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){
+	mod_InventoryProd = null;
+	mod_Category = null;
+	allType = null; 
+	PRODUCT = null; 
+	searchProductResult = null;
+	refreshTableList = null;
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);	

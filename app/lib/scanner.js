@@ -138,8 +138,8 @@ exports.openScanner = function(scanType) {
 				COMMON.createAlert("Error","This is not valid product.");
 			}else if(code['type'] == "product"){ 
 				//var det = mod_invProducts.getProductDetails(code['product']);
-				//console.log(det);
-				DRAWER.navigation("productDetails",1 ,{p_id: code['product'], from: "viewProduct"});
+				console.log(code);
+				DRAWER.navigation("productDetails",1 ,{p_id: code['product'],code:code['code'] , from: "viewProduct"});
 			}
 		}
 		closeScanner();
