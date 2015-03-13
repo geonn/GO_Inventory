@@ -7,7 +7,7 @@
 		<View class="container" id="stockOutView"  layout="vertical" >
 			
 			<View id="header" backgroundColor="#375540"  >
-				<View backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>
+				<View onClick="goHome" backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>
 				<Label class="h1" id="appTitle">Stock Out</Label>   
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>

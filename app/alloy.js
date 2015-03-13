@@ -18,6 +18,9 @@ function menuToggle(e){
 	DRAWER.closeToggle();
 }
 
+function goHome(){
+	DRAWER.navigation("home",1);
+}
 
 function PixelsToDPUnits(ThePixels){
   return (ThePixels / (Titanium.Platform.displayCaps.dpi / 160));

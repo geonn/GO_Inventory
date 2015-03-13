@@ -185,7 +185,9 @@ exports.displayProductResources = function(code){
 		layout : "vertical", 
 		top:5, 
 		bottom:5, 
-		height:Ti.UI.SIZE
+		backgroundColor: "#375540",
+		height:Ti.UI.SIZE,
+		width:"100%"
 	});
 	
 	if(proRes.length > 0){
@@ -194,21 +196,30 @@ exports.displayProductResources = function(code){
 		 	var contentView = Ti.UI.createView({
 				layout : "horizontal",  
 				height:Ti.UI.SIZE,
+				backgroundColor: "#375540",
 				width:"49.5%",
 				top:5,
 				bottom: 5
-			});; 
-			contentView.add(contentTitleLabel("Resource Name"));
-			contentView.add(contentTitleLabel("Code"));
+			});
+			var contentView2 = Ti.UI.createView({
+				layout : "horizontal",  
+				height:Ti.UI.SIZE,
+				backgroundColor: "#375540",
+				width:"49.5%",
+				top:5,
+				bottom: 5
+			}); 
+			contentView.add(contentWhiteLabel("Resource Name"));
+			contentView.add(contentWhiteLabel("Code"));
 			mainContentView.add(contentView); 
 			mainContentView.add(saperatorLine());
 			
-			/*** RESOURCE CODE***/
-			var contentView = horizontalView(); 
-			contentView.add(contentLabel(entry.name));
-			contentView.add(contentLabel(entry.code));
-			mainContentView.add(contentView); 
-			mainContentView.add(saperatorLine());
+			// /*** RESOURCE CODE***/
+			// //var contentView = horizontalView(); 
+			// contentView.add(contentLabel(entry.name));
+			// contentView.add(contentLabel(entry.code));
+			// mainContentView.add(contentView); 
+			// mainContentView.add(saperatorLine());
 		});
 	}
 	
@@ -237,6 +248,14 @@ function contentLabel(textContent){
 	var textContent = textContent || "-";
 	return mainView.UI.create('Label',{ 
 		classes: ['bold_text', 'gray_text','medium_text'], 
+		text: textContent
+	});	
+}
+
+function contentWhiteLabel(textContent){
+	var textContent = textContent || "-";
+	return mainView.UI.create('Label',{ 
+		color: "#ffffff", 
 		text: textContent
 	});	
 }

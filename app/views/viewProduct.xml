@@ -1,7 +1,7 @@
 <Alloy>
 	<View class="container" top="0" layout="vertical" id="viewProductView" height="">
 		<View id="header" backgroundColor="#375540"  >
-			<View backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>
+			<View onClick="goHome" backgroundImage="/images/GO_inventory_hoz.png" height="35" width="35" left="10"></View>
 			<Label class="h1" id="appTitle">VIEW PRODUCT</Label>
 			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>

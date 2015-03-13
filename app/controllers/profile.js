@@ -1,5 +1,5 @@
 var args = arguments[0] || {};
- Ti.App.Properties.setString('module',"settings");
+Ti.App.Properties.setString('parent',"settings");
 var u_id = Ti.App.Properties.getString("user_id");
 var mod_users = Alloy.createCollection('user'); 
 var details = mod_users.getUserById(u_id); 

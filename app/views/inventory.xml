@@ -7,7 +7,7 @@
 		<View class="container" id="inventoryView"  layout="vertical" >
 			
 			<View id="header" backgroundColor="#375540"  >
-				<ImageView image="/images/GO_inventory_hoz.png" height="35" left="2" />
+				<ImageView onClick="goHome" image="/images/GO_inventory_hoz.png" height="35" left="10" />
 				<Label class="h1" id="appTitle">INVENTORY</Label> 
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
@@ -18,14 +18,12 @@
 	    	</View>
 			 <ScrollableView id="scrollableView" showPagingControl="false" scrollingEnabled="false">
 	            <View id="view1" layout="vertical" height="Ti.UI.SIZE">
-	              
-	               <!--<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />-->
+	               
 	            	<ScrollView id="productView">
 						<TableView width="100%"  id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	            	</ScrollView>
 	            </View>
 	            <View id="view2" layout="vertical">
-	            	<!--<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchResource" text="" top="0" height="50"  hintText="Search Resources..." />-->
 	            	 
 	            	<ScrollView id="resourceView">
 						<TableView width="100%"  id="resTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />

@@ -1,5 +1,5 @@
 var args = arguments[0] || {};
-Ti.App.Properties.setString('module',"profile");
+Ti.App.Properties.setString('parent',"profile");
 $.editProfile.hintText = args.title;
 $.description.text  = "Edit your "+ args.module + " below:"; 
 var isSubmit        = 0;

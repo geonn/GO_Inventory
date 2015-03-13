@@ -1,5 +1,5 @@
 var args = arguments[0] || {}; 
-Ti.App.Properties.setString('module',"profile");
+Ti.App.Properties.setString('parent',"profile");
 $.username.text = args.username;
 var u_id = Ti.App.Properties.getString("user_id");
 var mod_users = Alloy.createCollection('user'); 
