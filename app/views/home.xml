@@ -11,7 +11,7 @@
 				<Label class="h1" id="appTitle">HOME</Label>
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
-			<View class="content">
+			<View class="content">=
 				<ScrollView backgroundColor="#ffffff" left="5" top="5" right="5" bottom="5" layout="vertical">
 					<View onClick="goTo" mod="assignment" backgroundImage="/images/menu/menu_assignment.jpg" width="Ti.UI.FILL" height="33%"></View>
 					<View width="Ti.UI.FILL" height="33%" top="5" layout="horizontal">
@@ -28,33 +28,7 @@
 							</View>
 						</View>
 					</View>
-				</ScrollView>
-				<!--<ScrollView layout="horizontal" width="Ti.UI.SIZE" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE" top="20" textAlign="CENTER">
-					<View onClick="goTo" mod="assignment" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
-						<Label mod="assignment" class="bubble_text" text="Assignment" />
-					</View>
-					<View onClick="goTo" mod="history" class="bubble" borderColor="#362D2D" backgroundColor="#F8FFE9">
-						<Label mod="history" class="bubble_text" text="Scan History" />
-					</View>
-					<View onClick="goTo" mod="news" class="bubble" borderColor="#362D2D" backgroundColor="#F8FFE9">
-						<Label mod="news" class="bubble_text" text="News & Events" />
-					</View>
-					<View onClick="goTo" mod="inventory" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
-						<Label mod="inventory" class="bubble_text" text="Inventory" />
-					</View>
-					<View onClick="goTo" mod="stockOut" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
-						<Label mod="stockOut" class="bubble_text" text="Stock Out" />
-					</View>
-					<View onClick="goTo" mod="viewProduct" class="bubble" borderColor="#362D2D" backgroundColor="#F8FFE9">
-						<Label mod="viewProduct" class="bubble_text" text="View Product" />
-					</View>
-					<View onClick="goTo" mod="settings" class="bubble" borderColor="#362D2D" backgroundColor="#F8FFE9">
-						<Label mod="settings" class="bubble_text" text="Settings" />
-					</View>
-					<View onClick="logout" class="bubble" borderColor="#362D2D" backgroundColor="#E9FFF3">
-						<Label class="bubble_text" text="Logout" />
-					</View>
-				</ScrollView>-->	 
+				</ScrollView>	 
 			</View>
 		</View>
 	</View>

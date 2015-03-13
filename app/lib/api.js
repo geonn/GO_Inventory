@@ -92,8 +92,9 @@ exports.login = function (ex){
 exports.addProduct = function(ex){
 	var url = addProductUrl + "&name="+ex.name + "&code="+ex.code + "&set="+ex.set + "&category="+ex.category + "&depth="+ex.depth
 			  + "&width="+ex.width + "&height="+ex.height + "&surface_habitable="+ex.surface_habitable + "&weight="+ex.weight 
-			  + "&fabric_used="+ex.fabric_used + "&photoLoad="+ex.photoLoad + "&u_id="+Ti.App.Properties.getString("user_id") ;
-		
+			  + "&fabric_used="+ex.fabric_used + "&quantity="+ex.quantity + "&photoLoad="+ex.photoLoad + "&type=TPI"+
+			  "&u_id="+Ti.App.Properties.getString("user_id") ;
+	 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

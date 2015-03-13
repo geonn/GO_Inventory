@@ -6,8 +6,7 @@ exports.construct = function(mv){
 	RESOURCE.construct(mainView);
 };
 
-exports.deconstruct = function(){
-	RESOURCE.deconstruct();
+exports.deconstruct = function(){ 
 	RESOURCE = null;
 	mainView = null;
 };

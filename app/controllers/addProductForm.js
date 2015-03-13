@@ -25,13 +25,14 @@ function addProd(){
 	var prodWeight  = $.prodWeight.value;
 	var prodHab 	= $.prodHab.value;
 	var prodFab 	= $.prodFab.value;
-	var prodCategory 	= prodCateKey;
+	var prodQty     = $.prodQty.value;
+	var prodCategory  = prodCateKey;
 	 
 	API.addProduct({
 		name : prodName, code : prodCode, set : prodSet,
 		category : prodCategory, depth : prodDepth, width : prodWidth,
 		height : prodHeight, surface_habitable : prodHab, weight : prodWeight,curCate : cate,
-		fabric_used : prodFab, photoLoad : photoLoad, photo : imgBlob, type : "products" 
+		fabric_used : prodFab, quantity:prodQty, photoLoad : photoLoad, photo : imgBlob, type : "products" 
 	});
 	 
 }
@@ -64,7 +65,6 @@ function showCategory() {
 }
 
 function generateCategoryPicker(){
-	
 	for(var i = 0 ; i < cateList.length; i++){
 		var title = cateList[i].cateValue;
 		var key = cateList[i].cateKey;
@@ -91,7 +91,22 @@ function undoPhoto(){
 $.categoryPicker.addEventListener('change', function(e){ 
     prodCateKey = e.row.key; 
 });
+
 $.previewImage.addEventListener('click', takePhoto);
 $.undoPhoto.addEventListener('click', undoPhoto);
 $.productFormView.addEventListener('click', PRODUCT.hideProductFormKeyboard);
+
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){ 
+	 
+	COMMON.deconstruct();
+	photoLoad = null;
+	prodCateKey = null;
+	mod_category = null;  
+	cateList = null; 
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);	
   

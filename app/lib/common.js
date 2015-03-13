@@ -3,6 +3,9 @@ var mainView = null;
 exports.construct = function(mv){
 	mainView = mv;
 };
+exports.deconstruct = function(){  
+	mainView = null;
+};
 
 exports.hideLoading = function(){
 	mainView.activityIndicator.hide();
@@ -11,8 +14,7 @@ exports.hideLoading = function(){
 	mainView.loadingBar.top = "0"; 
 };
 
-exports.showLoading = function(){
-	 
+exports.showLoading = function(){ 
 	mainView.activityIndicator.show();
 	mainView.loadingBar.opacity = "1";
 	mainView.loadingBar.zIndex = "100";

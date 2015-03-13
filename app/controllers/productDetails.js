@@ -80,6 +80,7 @@ function goBack(){
 var clearObject = function(){
 	PROD_CONTENTS.deconstruct();
 	PRODUCT.deconstruct();
+	COMMON.deconstruct();
 	
 	mod_InventoryProd = null;
 	curCate = null;
