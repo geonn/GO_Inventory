@@ -182,8 +182,7 @@ exports.displayProductResources = function(code){
 	console.log(proRes);
 	
 	var mainContentView = Titanium.UI.createView({
-		layout : "vertical", 
-		top:5, 
+		layout : "vertical",  
 		bottom:5, 
 		backgroundColor: "#375540",
 		height:Ti.UI.SIZE,
@@ -191,35 +190,67 @@ exports.displayProductResources = function(code){
 	});
 	
 	if(proRes.length > 0){
+		/*** RESOURCE NAME***/
+		var mainResTitleView = Titanium.UI.createView({
+			layout : "horizontal",   
+			backgroundColor: "#375540",
+			height:Ti.UI.SIZE,
+			width:"100%"
+		});
+	 	var contentResView = Ti.UI.createView({
+			layout : "horizontal",  
+			height:Ti.UI.SIZE, 
+			width:"45.5%",
+			top:5,
+			left: 5,
+			bottom: 5
+		});
+		var contentResView2 = Ti.UI.createView({
+			layout : "horizontal",  
+			height:Ti.UI.SIZE, 
+			width:"49.5%",
+			top:5,
+			left: 0,
+			bottom: 5
+		});
+		
+		contentResView.add(contentWhiteLabel("Resource Name"));
+		contentResView2.add(contentWhiteLabel("Code"));
+		mainResTitleView.add(contentResView);
+		mainResTitleView.add(contentResView2); 
+		mainContentView.add(mainResTitleView); 
+		mainContentView.add(saperatorLine());
 		proRes.forEach(function(entry) {
-			/*** RESOURCE NAME***/
-		 	var contentView = Ti.UI.createView({
-				layout : "horizontal",  
+			var mainResDataView = Titanium.UI.createView({
+				layout : "horizontal",   
+				backgroundColor: "#ffffff",
 				height:Ti.UI.SIZE,
-				backgroundColor: "#375540",
-				width:"49.5%",
-				top:5,
-				bottom: 5
+				width:"100%"
 			});
-			var contentView2 = Ti.UI.createView({
-				layout : "horizontal",  
-				height:Ti.UI.SIZE,
-				backgroundColor: "#375540",
-				width:"49.5%",
-				top:5,
-				bottom: 5
-			}); 
-			contentView.add(contentWhiteLabel("Resource Name"));
-			contentView.add(contentWhiteLabel("Code"));
-			mainContentView.add(contentView); 
-			mainContentView.add(saperatorLine());
 			
-			// /*** RESOURCE CODE***/
-			// //var contentView = horizontalView(); 
-			// contentView.add(contentLabel(entry.name));
-			// contentView.add(contentLabel(entry.code));
-			// mainContentView.add(contentView); 
-			// mainContentView.add(saperatorLine());
+			/*** RESOURCE CODE***/ 
+			var contentResView3 = Ti.UI.createView({
+				layout : "horizontal",  
+				height:Ti.UI.SIZE, 
+				width:"45.5%",
+				top:5,
+				left: 5 
+			});
+			var contentResView4 = Ti.UI.createView({
+				layout : "horizontal",  
+				height:Ti.UI.SIZE, 
+				width:"auto",
+				top:5,
+				left: 0 
+			});
+			
+			
+			contentResView3.add(contentLabel(entry.name));
+			contentResView4.add(contentLabel(entry.code));
+			mainResDataView.add(contentResView3);
+			mainResDataView.add(contentResView4);
+			mainContentView.add(mainResDataView);  
+			mainContentView.add(saperatorLine());
 		});
 	}
 	
@@ -256,7 +287,8 @@ function contentWhiteLabel(textContent){
 	var textContent = textContent || "-";
 	return mainView.UI.create('Label',{ 
 		color: "#ffffff", 
-		text: textContent
+		text: textContent, 
+		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
 	});	
 }
 

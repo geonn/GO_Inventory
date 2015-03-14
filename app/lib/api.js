@@ -94,7 +94,7 @@ exports.addProduct = function(ex){
 			  + "&width="+ex.width + "&height="+ex.height + "&surface_habitable="+ex.surface_habitable + "&weight="+ex.weight 
 			  + "&fabric_used="+ex.fabric_used + "&quantity="+ex.quantity + "&photoLoad="+ex.photoLoad + "&type=TPI"+
 			  "&u_id="+Ti.App.Properties.getString("user_id") ;
-	 
+	console.log(url); 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
