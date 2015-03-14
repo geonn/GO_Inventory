@@ -135,11 +135,13 @@ exports.openScanner = function(scanType) {
 			console.log(code);
 			if(code['type'] == "resource"){ 
 				//tempararily hide
-				COMMON.createAlert("Error","This is not valid product.");
+				DRAWER.navigation("resourceDetails",1 ,{p_id: code['resource'] , from: "viewProduct"});
 			}else if(code['type'] == "product"){ 
 				//var det = mod_invProducts.getProductDetails(code['product']);
-				console.log(code);
+				 
 				DRAWER.navigation("productDetails",1 ,{p_id: code['product'],code:code['code'] , from: "viewProduct"});
+			}else{
+				COMMON.createAlert("Error","This is not valid code.");
 			}
 		}
 		closeScanner();

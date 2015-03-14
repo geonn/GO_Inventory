@@ -51,6 +51,7 @@ var getValueFromPipe = function(myCode){
 		obj['name'] = data[3];
 		obj['code'] = data[4]; 
 		obj['id']   = data[5]; 
+		obj['resource']   = data[6]; 
  	}
 	
 	return obj;

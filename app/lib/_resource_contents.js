@@ -3,7 +3,7 @@ var RESOURCE = require('_resources');
 var mainView = null;
 exports.construct = function(mv){
 	mainView = mv;
-	RESOURCE.construct(mainView);
+	//RESOURCE.construct(mainView);
 };
 
 exports.deconstruct = function(){ 

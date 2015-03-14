@@ -5,8 +5,7 @@
 	    	<Label top="5" text="Loading" color="#ffffff" />
 	    </View>
 		<View class="container" id="inventoryView"  layout="vertical" >
-			
-			<View id="header" backgroundColor="#375540"  >
+			<View id="header" backgroundColor="#375540">
 				<View height="50" width="50" left="2" onClick="back" >
 					<ImageView image="/images/back-button.png" height="30" left="8"  />
 				</View>
@@ -14,13 +13,12 @@
 				<View backgroundImage="/images/add.png" height="30" width="40" onClick="addProduct" right="50"></View>
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
-			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">
+			 <View id="view1" layout="vertical" height="auto">
 	        	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." /> 
-	            <ScrollView id="productView">
-					<TableView width="100%" top="0"  id="prodTable" height="Ti.UI.SIZE" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+	            <ScrollView id="productView" height="auto" contentHeight="Ti.UI.SIZE">
+					<TableView width="100%" top="0" id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	            </ScrollView> 
 	        </View>
-			  
 		</View>
 	</View>
 </Alloy>

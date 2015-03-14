@@ -26,12 +26,8 @@ function navMenu(e){
 		case 7: 
 			DRAWER.navigation("settings",2);
 			break;
-		case 8: 
-			Ti.App.Properties.setString("user_id","" );
-			Ti.App.Properties.setString('module',"");
-			var mod_product = Alloy.createCollection('products'); 
-			mod_product.resetScanHistory();
-			DRAWER.navigation("login",2);
+		case 8:  
+			API.logoutUser();
 			break;
 	}
 }

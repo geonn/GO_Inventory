@@ -1,15 +1,26 @@
 var args = arguments[0] || {};
 var p_id = args.p_id || {};
+var from = args.from || "";
+
 var mod_InventoryRes = Alloy.createCollection('resource_inventory');  
 var presetSearch = Ti.App.Properties.getString("resource_search") || "";
 var RESOURCE = require('_resources');
 var RES_CONTENTS = require('_resource_contents');
 var curCate;
+RESOURCE.construct($);
 RES_CONTENTS.construct($);
+
 COMMON.construct($);
 COMMON.showLoading();
+
 var resDetails = mod_InventoryRes.getResourceDetails(p_id);
-Ti.App.Properties.setString('parent',"resourceLists||"+resDetails.type);
+console.log(resDetails);
+if(from != ""){
+	Ti.App.Properties.setString('parent',from);
+}else{
+	Ti.App.Properties.setString('parent',"resourceLists||"+resDetails.type);
+}
+ 
 if(Ti.Platform.osname == "android"){ 
 	$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -50;  
 } 

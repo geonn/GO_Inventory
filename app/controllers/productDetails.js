@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 var p_id = args.p_id || {};
 var code = args.code || "";
 var from = args.from || "";
-
+Ti.App.Properties.setString('parent',from);
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var presetSearch = Ti.App.Properties.getString("product_search") || "";
 var PRODUCT = require('_products');
@@ -79,7 +79,6 @@ function goBack(){
  **********************/
 var clearObject = function(){
 	PROD_CONTENTS.deconstruct();
-	PRODUCT.deconstruct();
 	COMMON.deconstruct();
 	
 	mod_InventoryProd = null;
@@ -87,7 +86,6 @@ var clearObject = function(){
 	getProductDetails = null;
 	resourcesType = null;
 	prodDetails = null;
-	PRODUCT = null;
 	PROD_CONTENTS = null;
 	Ti.App.removeEventListener("clearObject", clearObject);
 };

@@ -9,6 +9,7 @@ var xhr = new XHR();
 var USER  = 'goInventory';
 var KEY   = '06b53047cf294f7207789ff5293ad2dc'; 
 var loginUrl            = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
+var logoutUrl			= "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY;
 var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY;
 var updateProfileUrl    = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
 var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY;
@@ -50,26 +51,69 @@ exports.uploadImage = function(ex){
 //login to app
 exports.login = function (ex){ 
 	var url = loginUrl+"&username="+ex.username+"&password="+ex.password; 
+ 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
 	     	var res = JSON.parse(this.responseText); 
 	        if(res.status == "success"){
-	        	 
 	        	var entry = res.user;
-	        	/***User Info***/
-			    var mod_user = Alloy.createModel('user', { 
-			    	id: entry.u_id, 
-					fullname: entry.fullname, 
-					username: entry.username,
-					password: ex.password,
-					mobile: entry.mobile,
-					email : entry.email,
-					lastlogin :  currentDateTime()
-				});
-				mod_user.save();
-				Ti.App.Properties.setString("user_id",entry.u_id );
-	        	DRAWER.navigation("home",1);
+	        	if( entry.roles != "admin"){
+	        		if(entry.last_login == "0000-00-00 00:00:00"){
+	        			/***User Info***/
+					    var mod_user = Alloy.createModel('user', { 
+					    	id: entry.u_id, 
+							fullname: entry.fullname, 
+							username: entry.username,
+							password: ex.password,
+							mobile: entry.mobile,
+							email : entry.email,
+							lastlogin :  currentDateTime()
+						});
+						mod_user.save();
+						Ti.App.Properties.setString("session",res.data );
+						Ti.App.Properties.setString("user_id",entry.u_id );
+			        	DRAWER.navigation("home",1);
+	        		}else{
+	        			COMMON.createAlert('Authentication warning',"This account has been used by another devices. Please logout from the device that used this account and try login again.");
+	        			Ti.App.fireEvent('hideLoading');
+	        		}
+	        		
+	        	}else{
+	        		COMMON.createAlert('Authentication warning',"Your user account doesn't have permission to access this app.");
+	        		Ti.App.fireEvent('hideLoading');
+	        	}	  
+	        }else{
+	        	COMMON.createAlert('Authentication warning',res.data);
+	        	Ti.App.fireEvent('hideLoading');
+	        }
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	alert("Unable to login");
+	     	
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
+};
+
+exports.logoutUser = function(ex){
+	var url = logoutUrl+"&session="+Ti.App.Properties.getString("session");
+ 
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	     	var res = JSON.parse(this.responseText); 
+	        if(res.status == "success"){ 
+	        	Ti.App.Properties.setString("user_id","" );
+				Ti.App.Properties.setString('module',"");
+				var mod_product = Alloy.createCollection('products'); 
+				mod_product.resetScanHistory(); 
+				DRAWER.navigation("login",2);
 	        }else{
 	        	COMMON.createAlert('Authentication warning',res.data);
 	        	Ti.App.fireEvent('hideLoading');
@@ -92,9 +136,8 @@ exports.login = function (ex){
 exports.addProduct = function(ex){
 	var url = addProductUrl + "&name="+ex.name + "&code="+ex.code + "&set="+ex.set + "&category="+ex.category + "&depth="+ex.depth
 			  + "&width="+ex.width + "&height="+ex.height + "&surface_habitable="+ex.surface_habitable + "&weight="+ex.weight 
-			  + "&fabric_used="+ex.fabric_used + "&quantity="+ex.quantity + "&photoLoad="+ex.photoLoad + "&type=TPI"+
-			  "&u_id="+Ti.App.Properties.getString("user_id") ;
-	console.log(url); 
+			  + "&fabric_used="+ex.fabric_used + "&quantity="+ex.quantity + "&photoLoad="+ex.photoLoad+
+			  "&u_id="+Ti.App.Properties.getString("user_id") ; 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

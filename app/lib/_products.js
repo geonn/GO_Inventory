@@ -263,10 +263,11 @@ function displayProduct(products){
 		});
 	 	
 	 	if(Ti.Platform.osname == "android"){ 
-			mainView.prodTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
+			//mainView.prodTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
 		} 
-		mainView.prodTable.setData(data); 
-		mainView.productView.add(mainView.prodTable);
+		mainView.prodTable.setData(data);
+		
+		//mainView.productView.add(mainView.prodTable);
 		data = null; 
 	} 
 	//hide loading bar

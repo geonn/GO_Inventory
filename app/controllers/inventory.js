@@ -16,11 +16,11 @@ PRODUCT.construct($);
 RESOURCE.construct($); 
 COMMON.showLoading(); 
 
-setTimeout(function(){   
+//setTimeout(function(){   
 	PRODUCT.displayCategory(); 
 	RESOURCE.displayCategory();  
 	COMMON.hideLoading();
-}, 300); 
+//}, 300); 
  
 
 function refreshTableList(){
