@@ -219,14 +219,18 @@ exports.displayResources = function(resource){
 				width: Ti.UI.SIZE,
 				height: 20,
 			});
-			 
-			var quantity_text_input = Titanium.UI.createTextField({
-				editable: false,
+			
+			console.log(entry.quantity);
+			if(entry.quantity == ""){
+				entry.quantity = "N/A";
+			}
+			
+			var quantity_text_input = Titanium.UI.createLabel({
 				borderColor: "#375540",
 				height: 20,
 				source: entry.id,
-				width: Ti.UI.FILL,
-				value: entry.quantity,
+				width: 100,
+				text:  entry.quantity,
 				textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
 			});
 			
