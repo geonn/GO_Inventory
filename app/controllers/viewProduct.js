@@ -8,7 +8,7 @@ API.getProductiCardList();
 var window = MODULE.createScannerWindow();
 
 // create start scanner button
-var button = MODULE.createScannerButton({title: ""});
+var button = MODULE.createScannerButton();
 
 button.addEventListener('click', function() {
 	MODULE.openScanner("2");

@@ -146,7 +146,7 @@ function displayProduct(products){
 
 function syncScanToServer(iCard, data){
 	var prod = mod_products.getProductDetails(iCard);
-	
+	console.log(prod);
 	API.updatedCombination({
 			iCard : iCard,
 			data : data 

@@ -7,8 +7,8 @@
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			<View height="Ti.UI.SIZE" layout="vertical">
-				<Label class="black_text medium_text" height="34">Please press "SCAN" to scan iCard or iResources</Label>
-				<View id="scanner" width="Ti.UI.FILL" height="60" bottom="10" ></View>
+				<Label class="black_text medium_text" height="34">Please press "SCAN" to scan iCard or iResources</Label> 
+				<View  width="55%" id="scanner" backgroundColor="#375540" height="40" bottom="10" top="5"><Label>SCAN CODE</Label></View>
 			</View>
 		
 	 		<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >ICARD DETAILS</Label></View>

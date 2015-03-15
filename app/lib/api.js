@@ -413,15 +413,13 @@ exports.updateSettings = function(){
 //submit resources with iCard
 exports.updatedCombination = function(ex){
 	var res_data = ex.data; 
-	var count = 0;
+	var count = 0; 
 	res_data.forEach(function(reso) { 
-		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&updated="+reso.updated+"&u_id="+Ti.App.Properties.getString("user_id") +"&session="+Ti.App.Properties.getString("session");
-  		 console.log(url);
+		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&updated="+reso.updated+"&session="+Ti.App.Properties.getString("session");
+  		
 		var client = Ti.Network.createHTTPClient({
-		     // function called when the response data is available
 		     onload : function(e) {
-		       var res = JSON.parse(this.responseText); 
-		       
+		       var res = JSON.parse(this.responseText);  
 		        if(res.status == "success"){
 					var mod_products = Alloy.createCollection('products'); 
 					var mod_resources = Alloy.createCollection('resources'); 
@@ -433,9 +431,7 @@ exports.updatedCombination = function(ex){
 		        	if(res_data.length == count){ 
 		        		Ti.App.fireEvent("refreshTableList");
 		        	}
-		        	 
 		        }
-		     
 		     },
 		     // function called when an error occurs, including a timeout
 		     onerror : function(e) {
