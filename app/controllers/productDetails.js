@@ -2,9 +2,9 @@ var args = arguments[0] || {};
 var p_id = args.p_id || {};
 var code = args.code || "";
 var from = args.from || "";
+console.log("pid : "+ p_id);
 Ti.App.Properties.setString('parent',from);
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
-var presetSearch = Ti.App.Properties.getString("product_search") || "";
 var PRODUCT = require('_products');
 var curCate;
 var PROD_CONTENTS = require('_product_contents');
@@ -18,11 +18,7 @@ if(Ti.Platform.osname == "android"){
 }
 	 
 setTimeout(function(){  
-	if(presetSearch != ""){
-		var items = mod_InventoryProd.searchProducts(presetSearch);  
- 	}else{
- 		var items = prodDetails;
- 	}	
+	var items = prodDetails;
  	getProductDetails(items); 
 }, 100); 
 
@@ -78,8 +74,7 @@ function goBack(){
  * Clear object and memory
  **********************/
 var clearObject = function(){
-	PROD_CONTENTS.deconstruct();
-	COMMON.deconstruct();
+	PROD_CONTENTS.deconstruct(); 
 	
 	mod_InventoryProd = null;
 	curCate = null;

@@ -7,7 +7,7 @@ $.viewProductView.height = Ti.Platform.displayCaps.platformHeight;
 var window = MODULE.createScannerWindow();
 
 // create start scanner button
-var button = MODULE.createScannerButton({title: "Check Product"});
+var button = MODULE.createScannerButton({title: ""});
 
 button.addEventListener('click', function() {
 	MODULE.openScanner("2");
@@ -15,3 +15,18 @@ button.addEventListener('click', function() {
 
 MODULE.init(window); 
 $.scanner.add(button);
+
+$.search_btn.addEventListener('click',function(e){
+	var searchCode = $.searchField.value;
+	var splitCode = searchCode.split('-');
+	alert(searchCode);
+	console.log(splitCode);
+	// if(code['type'] == "resource"){  
+		// DRAWER.navigation("resourceDetails",1 ,{p_id: code['resource'] , from: "viewProduct"});
+	// }else if(code['type'] == "product"){ 
+				// //var det = mod_invProducts.getProductDetails(code['product']);
+		// DRAWER.navigation("productDetails",1 ,{p_id: code['product'],code:code['code'] , from: "viewProduct"});
+	// }else{
+		// COMMON.createAlert("Error","This is not valid code.");
+	// }
+});

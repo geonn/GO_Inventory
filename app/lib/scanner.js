@@ -129,16 +129,13 @@ exports.openScanner = function(scanType) {
 		} 
 		
 		// 2 - scan to check the product info
-		if(scanType == "2"){
-			
-			var code = getValueFromPipe(e.barcode);   
-			console.log(code);
+		if(scanType == "2"){ 
+			var code = getValueFromPipe(e.barcode);    
 			if(code['type'] == "resource"){ 
 				//tempararily hide
 				DRAWER.navigation("resourceDetails",1 ,{p_id: code['resource'] , from: "viewProduct"});
 			}else if(code['type'] == "product"){ 
 				//var det = mod_invProducts.getProductDetails(code['product']);
-				 
 				DRAWER.navigation("productDetails",1 ,{p_id: code['product'],code:code['code'] , from: "viewProduct"});
 			}else{
 				COMMON.createAlert("Error","This is not valid code.");

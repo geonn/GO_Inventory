@@ -16,7 +16,7 @@
 			 <View id="view1" layout="vertical" height="auto">
 	        	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." /> 
 	            <ScrollView id="productView" height="auto" contentHeight="Ti.UI.SIZE">
-					<TableView width="100%" top="0" id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+					<TableView width="100%" top="0" id="prodTable" height="Ti.UI.SIZE" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	            </ScrollView> 
 	        </View>
 		</View>

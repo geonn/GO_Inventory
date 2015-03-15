@@ -39,6 +39,29 @@ exports.createAlert = function(tt,msg){
 	box.show();
 };
 
+exports.noRecord = function(){
+	var data = [];
+	var row = Titanium.UI.createTableViewRow({
+		touchEnabled: false 
+	});
+		 
+	var tblView = Ti.UI.createView({
+		height: parseInt(Ti.Platform.displayCaps.platformHeight) -100
+	}); 
+
+	var noRecord = Ti.UI.createLabel({ 
+		text: "No record found", 
+		color: '#375540', 
+		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		 font:{fontSize:14,fontStyle:'italic'},
+		top: 15,
+		width: "100%"
+	});
+	tblView.add(noRecord); 
+	row.add(tblView); 
+	data.push(row);
+	return data;
+};
 
 exports.popup = function(subView,config){
     //Popup win

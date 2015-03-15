@@ -9,20 +9,20 @@ var xhr = new XHR();
 var USER  = 'goInventory';
 var KEY   = '06b53047cf294f7207789ff5293ad2dc'; 
 var loginUrl            = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
-var logoutUrl			= "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY;
-var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY;
-var updateProfileUrl    = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
-var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY;
-var categoryUrl         = "http://"+API_DOMAIN+"/api/getCategory?user="+USER+"&key="+KEY;
-var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY;
-var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+USER+"&key="+KEY;
-var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY;
-var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY;
-var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY;
-var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="+KEY;
-var updateDoneProductUrl= "http://"+API_DOMAIN+"/api/assignDone?user="+USER+"&key="+KEY;
-var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY;
-var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key="+KEY;
+var logoutUrl			= "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var updateProfileUrl    = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var categoryUrl         = "http://"+API_DOMAIN+"/api/getCategory?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var updateDoneProductUrl= "http://"+API_DOMAIN+"/api/assignDone?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
 /*********************
 **** API FUNCTION*****
 **********************/

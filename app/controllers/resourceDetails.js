@@ -77,8 +77,6 @@ function goBack(){
  **********************/
 var clearObject = function(){
 	RES_CONTENTS.deconstruct();
-	RESOURCE.deconstruct();
-	COMMON.deconstruct();
 	
 	mod_InventoryRes = null;
 	presetSearch = null;

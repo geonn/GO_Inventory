@@ -4,17 +4,9 @@ function displayCategory(){
 	var data=[]; 
 	var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
 	var category = mod_InventoryRes.getResourcesCategory(); 
-	 
-	if(category.length < 1){
-		var noRecord = Ti.UI.createLabel({ 
-			text: "No record found", 
-			color: '#375540', 
-			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		 	font:{fontSize:14,fontStyle:'italic'},
-			top: 15,
-			width: "100%"
-		});
-		mainView.productView.add(noRecord);
+	mainView.resTable.data = []; 
+	if(category.length < 1){ 
+		mainView.resTable.setData(COMMON.noRecord());
 	}else{
 		var counter =1;
 		
@@ -82,12 +74,9 @@ function displayCategory(){
 		 	row_view.add(tblView);
 		 	row_view.add(rightImage);
 		 	row.add(row_view);
-		 	data.push(row);
-		  
-		});
-	 
-		mainView.resTable.setData(data); 
-		mainView.resourceView.add(mainView.resTable);
+		 	data.push(row); 
+		}); 
+		mainView.resTable.setData(data);  
 	}
 }
 
@@ -109,19 +98,12 @@ exports.displayResources = function(resource){
 	}
  
 	var data=[]; 
+	mainView.resTable.data = []; 
 	//hide loading bar
 	COMMON.hideLoading();
    	var counter = 0;
-   	if(resource.length < 1){
-		var noRecord = Ti.UI.createLabel({ 
-			text: "No record found", 
-			color: '#375540', 
-			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		 	font:{fontSize:14,fontStyle:'italic'},
-			top: 15,
-			width: "100%"
-		});
-		mainView.resourceView.add(noRecord);
+   	if(resource.length < 1){ 
+		mainView.resTable.setData(COMMON.noRecord());
 	}else{
 		var counter =1;
 		 
@@ -269,11 +251,9 @@ exports.displayResources = function(resource){
 		});
 		
 		if(Ti.Platform.osname == "android"){ 
-			mainView.resTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
-		}
-		
-		mainView.resTable.setData(data); 
-		mainView.resourceView.add(mainView.resTable);
+		//	mainView.resTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
+		} 
+		mainView.resTable.setData(data);  
 		data= null;
 	}
 };
@@ -398,8 +378,8 @@ exports.getImageData = function(){
 	return blobContainer;	
 };
 
-exports.refreshTableList = function(){
-	removeAllChildren(mainView.resourceView);
+exports.refreshTableList = function(){ 
+	mainView.resTable.data = []; 
 	displayResources(details);	  
 };
 

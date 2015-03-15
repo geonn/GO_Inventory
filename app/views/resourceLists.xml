@@ -16,13 +16,10 @@
 			</View>
 			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">
 	        	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchResource" text="" top="0" height="50"  hintText="Search Resources..." /> 
-	            <ScrollView id="resourceView">
+	            <ScrollView id="resourceView" height="auto" contentHeight="Ti.UI.SIZE">
 					<TableView width="100%" top="0"  id="resTable" height="Ti.UI.SIZE" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-	            </ScrollView>
-	            		
-	        </View>
-			 
-	       
+	            </ScrollView> 
+	        </View>  
 		</View>
 	</View>
 </Alloy>

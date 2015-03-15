@@ -5,11 +5,17 @@
 			<Label class="h1" id="appTitle">VIEW PRODUCT</Label>
 			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
-		<View height="Ti.UI.SIZE" layout="vertical">
+		<View height="Ti.UI.SIZE" layout="vertical" top ="20">
 			<Label class="black_text medium_text" height="34" width="80%">Please press "Check Product" button below to scan iCard to check product details.</Label>
-			<View id="scanner" width="Ti.UI.FILL" height="60" bottom="10" ></View>
+ 
+			<View  width="55%" id="scanner" backgroundColor="#375540" height="30" bottom="10" top="5"><Label>SCAN CODE</Label></View>
 		</View>
- 		 
+		<View height="40"><Label class="black_text big_text" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER" height="34" width="80%">OR</Label></View>
+		<View height="Ti.UI.SIZE" layout="vertical" >
+			<Label class="black_text medium_text" height="34" width="80%">Fill in iCard or iResource code to search the item</Label>
+			<TextField id="searchField" height="50"  value="" hintText="" width="100%" textAlign="center" />
+			<View  width="55%" id="search_btn" backgroundColor="#375540" height="30" top="5"><Label>SEARCH CODE</Label></View>
+		</View>
 	</View>
 	
 </Alloy>

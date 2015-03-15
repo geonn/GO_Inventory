@@ -65,16 +65,13 @@ var refreshTableList = function(){
 /**********************
  * Clear object and memory
  **********************/
-var clearObject = function(){
-	PRODUCT.deconstruct();
-	RESOURCE.deconstruct(); 
-	
+var clearObject = function(){ 
+	  
 	mod_InventoryProd = null;
 	mod_InventoryRes = null;
 	mod_Category = null;
 	resourcesType = null;
-	allType = null;
-	PRODUCT = null;
+	allType = null; 
 	RESOURCE = null;
 	Ti.App.removeEventListener("clearObject", clearObject);
 };

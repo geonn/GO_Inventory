@@ -74,6 +74,12 @@ TextField : {
         fontStyle: 'normal' 
     }
 },
+".big_text" :{
+	font: {
+        fontSize: '20dp',
+        fontStyle: 'normal' 
+    }
+},
 ".header_text" :{ 
 	color: "#000000",
 	font: {

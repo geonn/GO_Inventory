@@ -28,9 +28,8 @@ function addProduct(){
 	DRAWER.navigation("addProductForm",1,{category:cate});
 }
 
-function refreshTableList(){
-	console.log("check listener");
-	removeAllChildren($.productView);
+function refreshTableList(){ 
+	$.prodTable.data = [];
 	PRODUCT.displayProduct(products);	  
 }
  
@@ -53,8 +52,8 @@ $.searchProduct.addEventListener('cancel', function(e){
 	COMMON.showLoading();
 	$.searchProduct.blur();  
 	var str = $.searchProduct.getValue();
-	if(str == ""){
-		removeAllChildren($.productView);
+	if(str == ""){ 
+		$.prodTable.data = [];
 		var cateResult = mod_InventoryProd.getProductByCategory(cate); 
 		PRODUCT.displayProduct(cateResult);  
 	}
@@ -66,7 +65,6 @@ var searchProductResult = function(){
 	var str = $.searchProduct.getValue();
 	Ti.App.Properties.setString("product_search",str);
 	var searchResult = mod_InventoryProd.searchProducts(str,cate); 
-	removeAllChildren($.productView);
 	PRODUCT.displayProduct(searchResult);		
 };
 $.searchProduct.addEventListener("return", searchProductResult);
@@ -88,8 +86,7 @@ $.productView.addEventListener('touchend', function(e){
  * Clear object and memory
  **********************/
 var clearObject = function(){ 
-	PRODUCT.deconstruct();
-	COMMON.deconstruct();
+	PRODUCT.deconstruct(); 
 	 
 	allType = null; 
 	PRODUCT = null; 

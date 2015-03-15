@@ -4,17 +4,10 @@ var blobContainer = [];
 function displayCategory(){
 	var data=[]; 
 	var mod_InventoryProd = Alloy.createCollection('product_inventory');  
-	var category = mod_InventoryProd.getProductCategory(); 
-	if(category.length < 1){
-		var noRecord = Ti.UI.createLabel({ 
-			text: "No record found", 
-			color: '#375540', 
-			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		 	font:{fontSize:14,fontStyle:'italic'},
-			top: 15,
-			width: "100%"
-		});
-		mainView.productView.add(noRecord);
+	var category = mod_InventoryProd.getProductCategory();  
+	mainView.prodTable.data = []; 
+	if(category.length < 1){ 
+		mainView.prodTable.setData(COMMON.noRecord());
 	}else{
 		var counter =1;
 		
@@ -51,7 +44,6 @@ function displayCategory(){
 				height:"30",
 				width: "90%",
 			}); 
-			
 			 
 			var popUpTitle = Titanium.UI.createLabel({
 				text:entry.category + " ("+entry.total+")",
@@ -87,7 +79,7 @@ function displayCategory(){
 		});
 	 
 		mainView.prodTable.setData(data); 
-		mainView.productView.add(mainView.prodTable);
+		//mainView.productView.add(mainView.prodTable);
 	}
 }
 
@@ -98,18 +90,10 @@ function displayProduct(products){
 		products = details;
 	}
  	var data=[]; 
-	
+ 	mainView.prodTable.data = [];
    	var counter = 0;
-   	if(products.length < 1){
-		var noRecord = Ti.UI.createLabel({ 
-			text: "No record found", 
-			color: '#375540', 
-			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		 	font:{fontSize:14,fontStyle:'italic'},
-			top: 15,
-			width: "100%"
-		});
-		mainView.productView.add(noRecord);
+   	if(products.length < 1){ 
+		mainView.prodTable.setData(COMMON.noRecord());
 	}else{
 		var counter =1;
 		 	
@@ -265,9 +249,7 @@ function displayProduct(products){
 	 	if(Ti.Platform.osname == "android"){ 
 			//mainView.prodTable.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -100;  
 		} 
-		mainView.prodTable.setData(data);
-		
-		//mainView.productView.add(mainView.prodTable);
+		mainView.prodTable.setData(data); 
 		data = null; 
 	} 
 	//hide loading bar
@@ -393,6 +375,7 @@ exports.deconstruct = function(){
 };
 
 exports.displayProduct = function(products){
+	//removeAllChildren(mainView.prodTable);  
 	displayProduct(products);
 };
 
@@ -400,8 +383,7 @@ exports.displayCategory = function(){
 	displayCategory();	
 };
 
-exports.refreshTableList = function(){
-	removeAllChildren(mainView.productView);
+exports.refreshTableList = function(){ 
 	displayProduct(products);	  
 };
 

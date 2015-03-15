@@ -22,8 +22,7 @@ setTimeout(function(){
 	}else{  
 		var cateResult = mod_InventoryRes.getResourceByCategory(cate); 
 		RESOURCE.displayResources(cateResult); 
-	}
-	
+	} 
 	 
 }, 300); 
  
@@ -32,8 +31,7 @@ function addResource(){
 }
 
 function refreshTableList(){
-	console.log("check event listener");
-	removeAllChildren($.resourceView);
+	$.resTable.data = [];
 	var cateResult = mod_InventoryRes.getResourceByCategory(cate); 
 	RESOURCE.displayResources(cateResult);
 	cateResult = null;
@@ -59,7 +57,7 @@ $.searchResource.addEventListener('cancel', function(e){
 	$.searchResource.blur();  
 	var str = $.searchResource.getValue();
 	if(str == ""){
-		removeAllChildren($.resourceView);
+		$.resTable.data = [];
 		var cateResult = mod_InventoryRes.getResourceByCategory(cate); 
 		RESOURCE.displayResources(cateResult);  
 	}
@@ -71,7 +69,7 @@ var searchResourceResult = function(){
 	var str = $.searchResource.getValue();
 	Ti.App.Properties.setString("resource_search",str);
 	var searchResult = mod_InventoryRes.searchResources(str,cate); 
-	removeAllChildren($.resourceView);
+	$.resTable.data = [];
 	RESOURCE.displayResources(searchResult);		
 };
 $.searchResource.addEventListener("return", searchResourceResult);
@@ -93,8 +91,7 @@ $.resourceView.addEventListener('touchend', function(e){
  * Clear object and memory
  **********************/
 var clearObject = function(){ 
-	RESOURCE.deconstruct();
-	COMMON.deconstruct();
+	RESOURCE.deconstruct(); 
 	
 	mod_InventoryRes = null;
 	presetSearch = null;
