@@ -592,7 +592,7 @@ exports.getInventoryProducts = function(ex){
 	}
 	 
 	var url =inventoryProductsUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
-	 
+	  console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

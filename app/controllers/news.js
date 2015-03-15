@@ -1,6 +1,7 @@
 var args = arguments[0] || {}; 
 var pop;
 var mod_announcement = Alloy.createCollection('announcement'); 
+Ti.App.Properties.setString('parent',"");
 var listing = mod_announcement.getAnnouncementList();
 COMMON.construct($);
 COMMON.showLoading();

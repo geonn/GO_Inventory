@@ -23,7 +23,7 @@ exports.showLoading = function(){
 	if(Ti.Platform.osname == "android"){
 		mainView.loadingBar.top =  (DPUnitsToPixels(Ti.Platform.displayCaps.platformHeight) / 2) -50; 
 		mainView.activityIndicator.style = Ti.UI.ActivityIndicatorStyle.BIG;
-		mainView.activityIndicator.top = 0; 
+		//mainView.activityIndicator.top = 0; 
 	}else if (Ti.Platform.name === 'iPhone OS'){
 		mainView.loadingBar.top = (Ti.Platform.displayCaps.platformHeight / 2) -50; 
 		mainView.activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.BIG;

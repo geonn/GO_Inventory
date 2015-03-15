@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 
 var mod_stockout = Alloy.createCollection('stockout'); 
 var STOCKOUT = require('_stockout'); 
+Ti.App.Properties.setString('parent',"");
  //Retrieve Stock out record from server
 API.getStockOutList();
 //Query list from local DB

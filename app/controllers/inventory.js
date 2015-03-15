@@ -3,7 +3,7 @@ var pageTab = args.tab || "0";
 //$.searchProduct.value = presetSearch;
 var PRODUCT = require('_products');
 var RESOURCE = require('_resources');
- 
+Ti.App.Properties.setString('parent',"");
 var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
 var mod_InventoryRes  = Alloy.createCollection('resource_inventory'); 
 var mod_Category  = Alloy.createCollection('category'); 

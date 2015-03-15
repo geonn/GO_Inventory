@@ -4,8 +4,7 @@ var mainView = null;
 exports.construct = function(mv){
 	mainView = mv;
 };
-exports.deconstruct = function(){ 
-	PRODUCT= null;
+exports.deconstruct = function(){  
 	mainView = null;
 };
 

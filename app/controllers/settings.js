@@ -1,6 +1,6 @@
 var args = arguments[0] || {};
-Ti.App.Properties.setString('module',"");
-var mod_settings = Alloy.createCollection('settings'); 
+Ti.App.Properties.setString('parent',"");
+var mod_settings = Alloy.createCollection('settings');  
 var syncVal = mod_settings.getSettingById("1");
 var pushVal = mod_settings.getSettingById("2"); 
 generateSettingTable(); 

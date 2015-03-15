@@ -1,6 +1,7 @@
 var args = arguments[0] || {}; 
 var MODULE = require("scanner");
 $.viewProductView.height = Ti.Platform.displayCaps.platformHeight;
+Ti.App.Properties.setString('parent',"");
 API.getResourcesiCardList();
 API.getProductiCardList();
 /***Create Scanner View***/

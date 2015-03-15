@@ -1,8 +1,7 @@
 var args = arguments[0] || {};
 var p_id = args.p_id || {};
 var code = args.code || "";
-var from = args.from || "";
-console.log("pid : "+ p_id);
+var from = args.from || ""; 
 Ti.App.Properties.setString('parent',from);
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var PRODUCT = require('_products');

@@ -1,20 +1,23 @@
 <Alloy>
-	<View class="container" id="historyView">
-		<View id="header" backgroundColor="#375540"  >
-			<ImageView onClick="goHome" image="/images/GO_inventory_hoz.png" height="35" left="10" />
-			<Label class="h1" id="appTitle">SCAN HISTORY</Label>
-			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
+	<View>
+		<View zIndex="999" layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
+	        <ActivityIndicator  id="activityIndicator" />
+	    	<Label top="5" text="Loading" color="#ffffff" />
+	    </View>
+		<View class="container" id="historyView">
+			<View id="header" backgroundColor="#375540"  >
+				<ImageView onClick="goHome" image="/images/GO_inventory_hoz.png" height="35" left="10" />
+				<Label class="h1" id="appTitle">SCAN HISTORY</Label>
+				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
+			</View>
+			
+			<View id="hView" top='50' layout="vertical"> 
+				<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50"  hintText="Search Scan Code..." /> 
+			 	<ScrollView id="historyScrollView" layout="horizontal" height="Ti.UI.SIZE" width="100%" >
+			 		<TableView width="100%"  id="hisTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+			 	</ScrollView>
+			</View> 
+			 
 		</View>
-		
-		<View id="hView" top='50' layout="vertical"> 
-			<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50"  hintText="Search Scan Code..." /> 
-		 	<ScrollView id="historyScrollView" layout="horizontal" height="Ti.UI.SIZE" width="100%" />
-		</View> 
-		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
-        	<ActivityIndicator  id="activityIndicator" />
-        	<Label top="5" text="Loading" color="#ffffff" />
-        </View>
-        
 	</View>
-	
 </Alloy>

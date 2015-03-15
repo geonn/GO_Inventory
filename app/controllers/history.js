@@ -3,7 +3,7 @@ var pop;
 var mod_InventoryProd = Alloy.createCollection('product_inventory');
 var mod_products = Alloy.createCollection('products'); 
 var mod_resources = Alloy.createCollection('resources'); 
- 
+Ti.App.Properties.setString('parent',""); 
 $.hView.height = Ti.Platform.displayCaps.platformHeight - 50;
 $.historyScrollView.height = Ti.Platform.displayCaps.platformHeight - 100;
 
@@ -12,153 +12,133 @@ COMMON.showLoading();
 var products = mod_products.getScanProduct();  
 setTimeout(function(){ 
 	displayProduct(products); 
-}, 1000); 
+}, 300); 
 
 function displayProduct(products){
-	var TheTable = Titanium.UI.createTableView({
-		width:'100%',
-		height: Ti.UI.SIZE,
-		top:0,
-		backgroundImage: "/images/bg.jpg",
-		separatorColor: '#375540'
-	});
+	//hide loading bar
+	COMMON.hideLoading();  
+	var data=[];  
+	var counter = 0; 
 	
-	var data=[]; 
-		//hide loading bar
-		COMMON.hideLoading();
- 
-   		var counter = 0;
-   		
-   		if(products.length < 1){
-			var noRecord = Ti.UI.createLabel({ 
-			    text: "No record found", 
-			    color: '#375540', 
-			    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-			    font:{fontSize:14,fontStyle:'italic'},
-			    top: 15,
-			    width: "100%"
-			 });
-			$.historyScrollView.add(noRecord);
-		}else{
-
-	   		products.forEach(function(entry) {
-	   			var toSync = mod_resources.getResourcesToSync({iCard: entry.code});
-	   			var prodDetails = mod_InventoryProd.getProductDetails(entry.product); 
-	   			var row = Titanium.UI.createTableViewRow({
-			    touchEnabled: true,
-			    height: 70,
-			    source: entry.code,
-			    selectedBackgroundColor: "#ECFFF9",
-				backgroundGradient: {
-			      type: 'linear',
-			      colors: ['#FEFEFB','#F7F7F6'],
-			      startPoint: {x:0,y:0},
-			      endPoint:{x:0,y:70},
-			      backFillStart:false},
-			    });
-				
-				var tblView = Ti.UI.createView({
-					layout: "vertical",
-					height:"80",
-					width:"100%" 
-				}); 
-				
-				var leftImage =  Titanium.UI.createImageView({
-					image:prodDetails.image,
-					source: entry.code,
-					width:"20%",
-					height:50,
-					left:10,
-					top:10
-				});	
-		 
-				var popUpTitle = Titanium.UI.createLabel({
-					text:prodDetails.name,
-					font:{fontSize:16},
-					source: entry.code,
-					color: "#848484",
-					width:'50%',
-					textAlign:'left',
-					top:15,
-					left:80,
-					height:Ti.UI.SIZE
-				});
-				
-				var category =  Titanium.UI.createLabel({
-					text:entry.code,
-					source: entry.code,
-					font:{fontSize:12,fontWeight:'bold'},
-					width:'auto',
-					color: "#848484",
-					textAlign:'left',
-					width:'50%', 
-					left:80,
-					height:Ti.UI.SIZE
-				});
-				
-				var distance =  Titanium.UI.createLabel({
-					text:timeFormat(entry.updated),
-					source: entry.code,
-					font:{fontSize:12,fontWeight:'bold'},
-					width:'50%',
-					color: "#848484",
-					textAlign:'left',  
-					left:80,
-					height:Ti.UI.SIZE
-				}); 
-				
-				 
-				row.addEventListener('click', function(e) {
-				 	viewDetails(e);
-				});
+	if(products.length < 1){ 
+		$.hisTable.setData(COMMON.noRecord());
+	}else{
+	
+		products.forEach(function(entry) {
+			var toSync = mod_resources.getResourcesToSync({iCard: entry.code});
+			var prodDetails = mod_InventoryProd.getProductDetails(entry.product); 
+			var row = Titanium.UI.createTableViewRow({
+		    touchEnabled: true,
+		    height: 70,
+		    source: entry.code,
+		    selectedBackgroundColor: "#ECFFF9",
+			backgroundGradient: {
+		      type: 'linear',
+		      colors: ['#FEFEFB','#F7F7F6'],
+		      startPoint: {x:0,y:0},
+		      endPoint:{x:0,y:70},
+		      backFillStart:false},
+		    });
+			
+			var tblView = Ti.UI.createView({
+				layout: "vertical",
+				height:"80",
+				width:"100%" 
+			}); 
+			
+			var leftImage =  Titanium.UI.createImageView({
+				image:prodDetails.image,
+				source: entry.code,
+				width:"20%",
+				height:50,
+				left:10,
+				top:10
+			});	
+	 
+			var popUpTitle = Titanium.UI.createLabel({
+				text:prodDetails.name,
+				font:{fontSize:16},
+				source: entry.code,
+				color: "#848484",
+				width:'50%',
+				textAlign:'left',
+				top:15,
+				left:80,
+				height:Ti.UI.SIZE
+			});
+			
+			var category =  Titanium.UI.createLabel({
+				text:entry.code,
+				source: entry.code,
+				font:{fontSize:12,fontWeight:'bold'},
+				width:'auto',
+				color: "#848484",
+				textAlign:'left',
+				width:'50%', 
+				left:80,
+				height:Ti.UI.SIZE
+			});
+			
+			var distance =  Titanium.UI.createLabel({
+				text:timeFormat(entry.updated),
+				source: entry.code,
+				font:{fontSize:12,fontWeight:'bold'},
+				width:'50%',
+				color: "#848484",
+				textAlign:'left',  
+				left:80,
+				height:Ti.UI.SIZE
+			}); 
 			 
-				row.add(leftImage);
-				tblView.add(popUpTitle);
-				tblView.add(category);
-			 	tblView.add(distance);  
-			 	row.add(tblView);
-			 	
-			 	//Add Sync button
-			 	if(toSync.length > 0){
-			 	
-					var syncButton =  Titanium.UI.createButton({
-						title:"Sync",
-						source: entry.code, 
-						width:'20%',
-						color: "#848484", 
-						right:5,
-						height:Ti.UI.SIZE
-					}); 
-					
-					syncButton.addEventListener('click', function(e){ 
-						syncScanToServer(entry.code,toSync);
-					});
-					row.add(syncButton);
-				}
+			row.addEventListener('click', function(e) {
+			 	viewDetails(e);
+			});
+		 
+			row.add(leftImage);
+			tblView.add(popUpTitle);
+			tblView.add(category);
+		 	tblView.add(distance);  
+		 	row.add(tblView);
+		 	
+		 	//Add Sync button
+		 	if(toSync.length > 0){ 
+				var syncButton =  Titanium.UI.createButton({
+					title:"Sync",
+					source: entry.code, 
+					width:'20%',
+					color: "#848484", 
+					right:5,
+					height:Ti.UI.SIZE
+				}); 
 				
-				data.push(row);
-	   		});
-	   		
-	   		TheTable.setData(data); 
-			$.historyScrollView.add(TheTable);
-		} 
+				syncButton.addEventListener('click', function(e){ 
+					syncScanToServer(entry.code,toSync);
+				});
+				row.add(syncButton);
+			} 
+			data.push(row);
+		});
+		
+		$.hisTable.setData(data);  	
+		data = null;	
+	} 
+	
 };
 
 function syncScanToServer(iCard, data){
 	var prod = mod_products.getProductDetails(iCard);
-	console.log(prod);
+ 
 	API.updatedCombination({
 			iCard : iCard,
 			data : data 
-	});
-	
+	}); 
  	
 }
 
-function refreshTableList(){
-	removeAllChildren($.historyScrollView);
-	displayProduct(products);	  
-}
+// function refreshTableList(){
+	// removeAllChildren($.historyScrollView);
+	// displayProduct(products);	  
+// }
 
 function viewDetails(e){   
 	if(e.source.title == "Sync"){
@@ -171,8 +151,7 @@ function viewDetails(e){
 		width:"100%",
 		backgroundColor: "black"
 	}); 
-
-	
+ 
 	var confirmView = Ti.UI.createView({
 		layout: "vertical",
 		height:"100%",
@@ -289,7 +268,7 @@ $.searchItem.addEventListener('cancel', function(e){
 	$.searchItem.blur();  
 	var str = $.searchItem.getValue();
 	if(str == ""){
-		removeAllChildren($.historyScrollView);
+		$.hisTable.data = [];
 		displayProduct(products);	
 	}
 		
@@ -301,12 +280,25 @@ var searchResult = function(){
 	var str = $.searchItem.getValue();
 	 
 	var searchResult = mod_products.searchProducts(str); 
-	removeAllChildren($.historyScrollView);
+	$.hisTable.data = [];
 	displayProduct(searchResult);		
 };
 $.searchItem.addEventListener("return", searchResult);
-
-Ti.App.addEventListener('refreshTableList' , refreshTableList);
+ 
 $.historyView.addEventListener('touchend', function(e){
     $.searchItem.blur(); 
 });
+
+/**********************
+ * Clear object and memory
+ **********************/
+var clearObject = function(){ 
+	$.hisTable.data = []; 
+	products = null; 
+	mod_InventoryProd = null;
+    mod_products = null;
+	mod_resources = null;
+	searchResult = null;
+	Ti.App.removeEventListener("clearObject", clearObject);
+};
+Ti.App.addEventListener("clearObject", clearObject);	

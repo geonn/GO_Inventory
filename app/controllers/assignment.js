@@ -5,7 +5,7 @@ var iCard =  Ti.App.Properties.getString("iCard");
 var mod_InventoryProd = Alloy.createCollection('product_inventory');
 var mod_products = Alloy.createCollection('products'); 
 var mod_resources = Alloy.createCollection('resources'); 
-
+Ti.App.Properties.setString('parent',"");
 var pHeight = Ti.Platform.displayCaps.platformHeight; 
 if(Ti.Platform.osname == "android"){
 	$.assignmentView.height = pHeight;
