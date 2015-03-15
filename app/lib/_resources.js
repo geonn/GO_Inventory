@@ -219,8 +219,7 @@ exports.displayResources = function(resource){
 				width: Ti.UI.SIZE,
 				height: 20,
 			});
-			
-			console.log(entry.quantity);
+			 
 			if(entry.quantity == ""){
 				entry.quantity = "N/A";
 			}
