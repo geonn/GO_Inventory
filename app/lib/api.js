@@ -75,8 +75,7 @@ exports.login = function (ex){
 						mod_user.save();
 					 
 						Ti.App.Properties.setString("session",res.data );
-						var myses = Ti.App.Properties.getString("session");
-						alert("my ses : " +myses);
+						var myses = Ti.App.Properties.getString("session"); 
 						Ti.App.Properties.setString("user_id",entry.u_id );
 			        	DRAWER.navigation("home",1);
 	        		}else{
