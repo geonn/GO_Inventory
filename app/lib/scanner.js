@@ -94,6 +94,7 @@ exports.openScanner = function(scanType) {
 						item_id : code['item_id'],
 						name : code['name'],
 						code : code['code'],
+						resource: code['resource'],
 						status : 1,
 						created : currentDateTime(),
 						updated : currentDateTime()

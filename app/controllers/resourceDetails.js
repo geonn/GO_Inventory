@@ -14,8 +14,8 @@ COMMON.construct($);
 COMMON.showLoading();
 
 var resDetails = mod_InventoryRes.getResourceDetails(p_id);
-console.log(resDetails);
-if(from != ""){
+  
+if(from != ""){ 
 	Ti.App.Properties.setString('parent',from);
 }else{
 	Ti.App.Properties.setString('parent',"resourceLists||"+resDetails.type);
@@ -69,7 +69,12 @@ var getResourceDetails = function(items){
 };
 
 function goBack(){
-	DRAWER.navigation("resourceLists",1,{type:curCate});
+	if(from != ""){
+		DRAWER.navigation(from,1);
+	}else{
+		DRAWER.navigation("resourceLists",1,{type:curCate});
+	} 
+	
 }
 
 /**********************

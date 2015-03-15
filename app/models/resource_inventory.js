@@ -164,7 +164,7 @@ exports.definition = {
 			getResourceDetails : function(id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+id+"' " ;
-        
+        console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql); 
                 var arr = []; 

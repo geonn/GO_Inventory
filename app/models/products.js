@@ -169,6 +169,51 @@ exports.definition = {
 	            db.close();
 	            collection.trigger('sync');
 			},
+			getList : function(e) {
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name  ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql); 
+                 var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					arr[count] = {
+					    
+					    prefix: res.fieldByName('prefix'),
+					    item_id: res.fieldByName('item_id'), 
+					    code: res.fieldByName('code'),
+					    product: res.fieldByName('product'),
+					    done : res.fieldByName('done'),
+					    orders: res.fieldByName('orders'), 
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated') 
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			updateProductById : function(e) {
+                var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;
+ 
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                 
+                if (res.isValidRow()){
+	             	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
+	            }else{
+	              	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"' , '"+e.created+"','"+e.updated+"')" ;
+				}
+                 
+	            db.execute(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+            } ,
 			addUpdateProduct : function(e) {
                 var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;

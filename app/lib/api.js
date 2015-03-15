@@ -9,26 +9,28 @@ var xhr = new XHR();
 var USER  = 'goInventory';
 var KEY   = '06b53047cf294f7207789ff5293ad2dc'; 
 var loginUrl            = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
-var logoutUrl			= "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var updateProfileUrl    = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var categoryUrl         = "http://"+API_DOMAIN+"/api/getCategory?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var updateDoneProductUrl= "http://"+API_DOMAIN+"/api/assignDone?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
-var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key="+KEY+"&session="+Ti.App.Properties.getString("session");
+var logoutUrl			= "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY;
+var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY;
+var updateProfileUrl    = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
+var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY;
+var categoryUrl         = "http://"+API_DOMAIN+"/api/getCategory?user="+USER+"&key="+KEY;
+var updateCombinationUrl= "http://"+API_DOMAIN+"/api/updateCombination?user="+USER+"&key="+KEY;
+var syncScanByUserUrl   = "http://"+API_DOMAIN+"/api/syncDataFromServer?user="+USER+"&key="+KEY;
+var inventoryProductsUrl= "http://"+API_DOMAIN+"/api/getInventoryProducts?user="+USER+"&key="+KEY;
+var inventoryResourcesUrl= "http://"+API_DOMAIN+"/api/getInventoryResources?user="+USER+"&key="+KEY;
+var iCardResourcesUrl   = "http://"+API_DOMAIN+"/api/getiCard?user="+USER+"&key="+KEY+"&cardType=1";
+var iCardProductsUrl    = "http://"+API_DOMAIN+"/api/getiCard?user="+USER+"&key="+KEY+"&cardType=2";
+var addProductUrl       = "http://"+API_DOMAIN+"/api/addProduct?user="+USER+"&key="+KEY;
+var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="+KEY;
+var updateDoneProductUrl= "http://"+API_DOMAIN+"/api/assignDone?user="+USER+"&key="+KEY;
+var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY;
+var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
 exports.uploadImage = function(ex){
 	 
-	var url = uploadImageUrl+"&type="+ex.type+"&u_id="+Ti.App.Properties.getString("user_id")+"&item_id="+ ex.item_id;  
+	var url = uploadImageUrl+"&type="+ex.type+"&u_id="+Ti.App.Properties.getString("user_id")+"&item_id="+ ex.item_id+"&session="+Ti.App.Properties.getString("session");
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) { 
@@ -51,7 +53,7 @@ exports.uploadImage = function(ex){
 //login to app
 exports.login = function (ex){ 
 	var url = loginUrl+"&username="+ex.username+"&password="+ex.password; 
- 
+ console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -71,7 +73,10 @@ exports.login = function (ex){
 							lastlogin :  currentDateTime()
 						});
 						mod_user.save();
+					 
 						Ti.App.Properties.setString("session",res.data );
+						var myses = Ti.App.Properties.getString("session");
+						alert("my ses : " +myses);
 						Ti.App.Properties.setString("user_id",entry.u_id );
 			        	DRAWER.navigation("home",1);
 	        		}else{
@@ -111,6 +116,7 @@ exports.logoutUser = function(ex){
 	        if(res.status == "success"){ 
 	        	Ti.App.Properties.setString("user_id","" );
 				Ti.App.Properties.setString('module',"");
+				Ti.App.Properties.setString('session',"");
 				var mod_product = Alloy.createCollection('products'); 
 				mod_product.resetScanHistory(); 
 				DRAWER.navigation("login",2);
@@ -137,7 +143,7 @@ exports.addProduct = function(ex){
 	var url = addProductUrl + "&name="+ex.name + "&code="+ex.code + "&set="+ex.set + "&category="+ex.category + "&depth="+ex.depth
 			  + "&width="+ex.width + "&height="+ex.height + "&surface_habitable="+ex.surface_habitable + "&weight="+ex.weight 
 			  + "&fabric_used="+ex.fabric_used + "&quantity="+ex.quantity + "&photoLoad="+ex.photoLoad+
-			  "&u_id="+Ti.App.Properties.getString("user_id") ; 
+			  "&u_id="+Ti.App.Properties.getString("user_id") +"&session="+Ti.App.Properties.getString("session");
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -175,7 +181,8 @@ exports.addResource = function(ex){
 	 
 	var url = addResourceUrl + "&name="+ex.name + "&code="+ex.code + "&cate="+ex.category + "&depth="+ex.depth
 			  + "&width="+ex.width + "&height="+ex.height + "&supplier="+ex.supplier + "&weight="+ex.weight + 
-			  "&photoLoad="+ex.photoLoad + "&type="+ex.type + "&u_id="+Ti.App.Properties.getString("user_id") ;
+			  "&photoLoad="+ex.photoLoad + "&type="+ex.type + "&u_id="+Ti.App.Properties.getString("user_id") 
+			  +"&session="+Ti.App.Properties.getString("session");
  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -208,7 +215,7 @@ exports.addResource = function(ex){
 
 //update done product
 exports.updateDoneProduct = function(ex){
-	var url = updateDoneProductUrl+ "&iCard="+ex.iCard;
+	var url = updateDoneProductUrl+ "&iCard="+ex.iCard+"&session="+Ti.App.Properties.getString("session");
 	var client = Ti.Network.createHTTPClient({ 
 	     onload : function(e) {
 	       var res = JSON.parse(this.responseText); 
@@ -232,7 +239,7 @@ exports.updateDoneProduct = function(ex){
 
 //check Announcement
 exports.getAnnouncement = function (ex){
-	var url = announcementUrl ;
+	var url = announcementUrl+"&session="+Ti.App.Properties.getString("session");
 	  
 	var client = Ti.Network.createHTTPClient({ 
 	     onload : function(e) {
@@ -269,9 +276,87 @@ exports.getAnnouncement = function (ex){
 	 client.send(); 
 };
 
+exports.getResourcesiCardList = function(){
+	var url = iCardResourcesUrl +"&session="+Ti.App.Properties.getString("session");
+	  
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	       
+	        if(res.status == "success"){	
+	        	var listData = res.data;
+	        	var mod_resources = Alloy.createCollection('resources'); 
+	        	
+	        	listData.forEach(function(code) { 
+				 	mod_resources.addUpdateResourcesById({
+							id : code['id'], 
+							prefix : code['r_prefix'],
+							item_id : code['item_id'],
+							name : code['name'],
+							code : code['code'],
+							resource: code['resource'],
+							status : 1,
+							created : currentDateTime(),
+							updated : currentDateTime()
+					});
+				});
+	        }
+	     
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 	
+};
+
+
+exports.getProductiCardList = function(){
+	var url = iCardProductsUrl +"&session="+Ti.App.Properties.getString("session");
+	  
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	       
+	        if(res.status == "success"){	
+	        	var listData = res.data;
+	        	var mod_products = Alloy.createCollection('products'); 
+	        	
+	        	listData.forEach(function(code) { 
+				 	mod_products.updateProductById({
+							id : code['id'], 
+							prefix : code['prefix'],
+							item_id : code['item_id'],
+							product : code['product'],
+							code : code['code'], 
+							created : currentDateTime(),
+							updated : currentDateTime()
+					});
+				});
+	        }
+	     
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 	
+};
 //check Category
 exports.getCategory = function (ex){
-	var url = categoryUrl ;
+	var url = categoryUrl +"&session="+Ti.App.Properties.getString("session");
 	  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -331,7 +416,7 @@ exports.updatedCombination = function(ex){
 	var res_data = ex.data; 
 	var count = 0;
 	res_data.forEach(function(reso) { 
-		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&updated="+reso.updated+"&u_id="+Ti.App.Properties.getString("user_id") ;
+		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&updated="+reso.updated+"&u_id="+Ti.App.Properties.getString("user_id") +"&session="+Ti.App.Properties.getString("session");
   		 console.log(url);
 		var client = Ti.Network.createHTTPClient({
 		     // function called when the response data is available
@@ -369,7 +454,7 @@ exports.updatedCombination = function(ex){
 };
 
 exports.updateUserProfile = function(ex){
-	var url = updateProfileUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&field="+ex.field+"&value="+ex.value;
+	var url = updateProfileUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&field="+ex.field+"&value="+ex.value+"&session="+Ti.App.Properties.getString("session");
  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -406,7 +491,7 @@ exports.updateUserProfile = function(ex){
 
 exports.changePassword= function(ex){
 	
-	var url = changePwdUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&current_password="+ex.current_password+"&password="+ex.password;
+	var url = changePwdUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&current_password="+ex.current_password+"&password="+ex.password+"&session="+Ti.App.Properties.getString("session");
  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -448,7 +533,7 @@ exports.getInventoryResources = function(ex){
 	if(isUpdate != "" ){
 		last_updated = isUpdate.updated;
 	} 
-	var url =inventoryResourcesUrl+"&last_updated="+last_updated;
+	var url =inventoryResourcesUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
  	 console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -504,7 +589,7 @@ exports.getInventoryProducts = function(ex){
 		last_updated = isUpdate.updated;
 	}
 	 
-	var url =inventoryProductsUrl+"&last_updated="+last_updated;
+	var url =inventoryProductsUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
 	 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -561,7 +646,7 @@ exports.getStockOutList = function(ex){
 		last_updated = isUpdate.updated;
 	}
 	 
-	var url =stockOutUrl+"&last_updated="+last_updated;
+	var url =stockOutUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
 	 
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -616,7 +701,7 @@ exports.getStockOutList = function(ex){
 };
 
 exports.syncScanByUser= function(ex){
-	var url = syncScanByUserUrl + "&u_id="+Ti.App.Properties.getString("user_id");  
+	var url = syncScanByUserUrl + "&u_id="+Ti.App.Properties.getString("user_id")+"&session="+Ti.App.Properties.getString("session");
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

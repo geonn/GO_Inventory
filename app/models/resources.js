@@ -3,6 +3,7 @@ exports.definition = {
 		columns: {
 			"id": "INTEGER",
 			"iCard": "TEXT",
+			"resource": "TEXT",
 		    "prefix": "TEXT",
 		    "item_id": "INTEGER",
 		    "name": "TEXT",
@@ -41,6 +42,7 @@ exports.definition = {
 					    prefix: res.fieldByName('prefix'),
 					    item_id: res.fieldByName('item_id'),
 					    name: res.fieldByName('name'),
+					    resource : res.fieldByName('resource'),
 					    code: res.fieldByName('code'),
 					    status: res.fieldByName('status'),
 					    created: res.fieldByName('created'),
@@ -50,6 +52,35 @@ exports.definition = {
 					count++;
 				} 
 				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getResourcesByCode : function(code){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE code='"+code+"' " ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                
+ 				var arr = []; 
+               
+                if (res.isValidRow()){
+					arr = {
+					    id: res.fieldByName('id'),
+					    iCard: res.fieldByName('iCard'),
+					    prefix: res.fieldByName('prefix'),
+					    item_id: res.fieldByName('item_id'),
+					    name: res.fieldByName('name'),
+					    resource : res.fieldByName('resource'),
+					    code: res.fieldByName('code'),
+					    status: res.fieldByName('status'),
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated') 
+					};
+					
+				} 
+				res.close(); 
                 db.close();
                 collection.trigger('sync');
                 return arr;
@@ -64,7 +95,24 @@ exports.definition = {
                 if (res.isValidRow()){
              		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE code='"+ e.code + "' AND id='"+e.id+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, iCard, prefix, item_id, name,code, `status`, created, updated) VALUES ('"+e.id+"','"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, iCard, prefix, item_id, name,code,resource, `status`, created, updated) VALUES ('"+e.id+"','"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"','"+e.resource+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
+				}
+           		
+	            db.execute(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+            },
+            addUpdateResourcesById : function(e) {
+                var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id+"' " ;
+                 
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                
+                if (res.isValidRow()){
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE id='"+e.id+"'";
+                }else{
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, name,code,resource, `status`, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"','"+e.resource+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
 				}
            		
 	            db.execute(sql_query);
@@ -104,6 +152,7 @@ exports.definition = {
 					    prefix: res.fieldByName('prefix'),
 					    item_id: res.fieldByName('item_id'),
 					    name: res.fieldByName('name'),
+					    resource : res.fieldByName('resource'),
 					    code: res.fieldByName('code'),
 					    status: res.fieldByName('status'),
 					    created: res.fieldByName('created'),
@@ -129,6 +178,7 @@ exports.definition = {
 					    id: res.fieldByName('id'),
 					    item_id: res.fieldByName('item_id'),
 					    name: res.fieldByName('name'),
+					    resource : res.fieldByName('resource'),
 					    code: res.fieldByName('code'), 
 					    status : res.fieldByName('status'), 
 					    created: res.fieldByName('created'),
