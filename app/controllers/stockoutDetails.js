@@ -12,7 +12,7 @@ COMMON.construct($);
 COMMON.showLoading();  
 
 //setTimeout(function(){   
-	STOCKOUT.displayDetails(order_id);   
+STOCKOUT.displayDetails(order_id);   
 //}, 300);
 
 function goBack(){

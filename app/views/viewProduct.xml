@@ -14,7 +14,7 @@
 		<View height="Ti.UI.SIZE" layout="vertical" >
 			<Label class="black_text medium_text" height="34" width="80%">Fill in iCard or iResource code to search the item</Label>
 			<TextField id="searchField" height="50"  value="" hintText="" width="100%" textAlign="center" />
-			<View  width="55%" id="search_btn" backgroundColor="#375540" height="30" top="5"><Label>SEARCH CODE</Label></View>
+			<View  width="55%" id="search_btn" backgroundColor="#375540" height="40" top="5"><Label>SEARCH CODE</Label></View>
 		</View>
 	</View>
 	

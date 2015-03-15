@@ -42,11 +42,12 @@ exports.createAlert = function(tt,msg){
 exports.noRecord = function(){
 	var data = [];
 	var row = Titanium.UI.createTableViewRow({
-		touchEnabled: false 
+		touchEnabled: false,
+		backgroundColor: 'transparent' 
 	});
 		 
 	var tblView = Ti.UI.createView({
-		height: parseInt(Ti.Platform.displayCaps.platformHeight) -100
+		height: 'auto'//parseInt(Ti.Platform.displayCaps.platformHeight) -100
 	}); 
 
 	var noRecord = Ti.UI.createLabel({ 

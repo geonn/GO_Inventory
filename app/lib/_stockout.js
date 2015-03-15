@@ -10,6 +10,7 @@ exports.deconstruct = function(){
 };
 
 function viewDetails(e, orderNo){
+	console.log(e.source.source+"=="+orderNo);
 	DRAWER.navigation("stockoutDetails",1 ,{order: e.source.source, orderNo: orderNo});
 }
 
@@ -227,21 +228,14 @@ function displayList(list){
 
 function displayDetails(order_id){
 	var list = mod_product.getProductByOrder(order_id); 
+	 
 	var data=[]; 
 	var compile = [];
 	 //hide loading bar
 	COMMON.hideLoading();
    	var counter = 0;
-   	if(list.length < 1){
-		var noRecord = Ti.UI.createLabel({ 
-			text: "No record found", 
-			color: '#375540', 
-			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		 	font:{fontSize:14,fontStyle:'italic'},
-			top: 15,
-			width: "100%"
-		});
-		mainView.orderView.add(noRecord);
+   	if(list.length < 1){ 
+		mainView.orderDetailsTable.setData(COMMON.noRecord());
 	}else{
 		var mainContentView = Titanium.UI.createView({
 			layout : "vertical",  
@@ -350,7 +344,7 @@ function displayDetails(order_id){
 			
 		}  
 		mainView.orderDetailsTable.setData(tableData);
-		mainView.orderDetailsView.add(mainView.orderDetailsTable);
+		//mainView.orderDetailsView.add(mainView.orderDetailsTable);
 	}
 }
 
