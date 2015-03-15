@@ -9,7 +9,7 @@ var xhr = new XHR();
 var USER  = 'goInventory';
 var KEY   = '06b53047cf294f7207789ff5293ad2dc'; 
 var loginUrl            = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
-var logoutUrl			= "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY;
+var logoutUrl			= "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY+"&skipSession=1";
 var changePwdUrl        = "http://"+API_DOMAIN+"/api/changePassword?user="+USER+"&key="+KEY;
 var updateProfileUrl    = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
 var announcementUrl     = "http://"+API_DOMAIN+"/api/getAnnoucement?user="+USER+"&key="+KEY;
@@ -565,6 +565,13 @@ exports.getInventoryResources = function(ex){
 	         	});
 	       		checker.updateModule("3","inventoryResources",currentDateTime()); 
 	       		COMMON.hideLoading();
+	        }else{
+	        	Ti.App.Properties.setString("user_id","" );
+				Ti.App.Properties.setString('module',"");
+				Ti.App.Properties.setString('session',"");
+				var mod_product = Alloy.createCollection('products'); 
+				mod_product.resetScanHistory(); 
+	        	DRAWER.navigation("login",1);
 	        }
 	     },
 	     // function called when an error occurs, including a timeout
