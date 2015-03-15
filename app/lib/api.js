@@ -167,6 +167,7 @@ exports.addProduct = function(ex){
 	 
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	 client.open("POST", url);  
+	 
 	 if(ex.photoLoad == "1"){
 	 	client.send({Filedata: ex.photo}); 
 	 }else{

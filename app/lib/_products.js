@@ -272,14 +272,27 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	        //then we are getting image from camera
 	        Titanium.Media.showCamera({ 
 	            success:function(event) { 
-	                var image = event.media; 
-	                  
+	               var image = event.media;
+        		console.log(image);
+	        		if(image.width > image.height){
+	        			var newWidth = 320;
+	        			var ratio =   320 / image.width;
+	        			var newHeight = image.height * ratio;
+	        		}else{
+	        			var newHeight = 320;
+	        			var ratio =   320 / image.height;
+	        			var newWidth = image.width * ratio;
+	        		}
+	        		
+					image = image.imageAsResized(newWidth, newHeight);
+	                  console.log(image);
 	                if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
 	                   //var nativePath = event.media.nativePath;
-	                   var image = event.media;  
+	                   
+						
 		            	if(Ti.Platform.osname == "android"){
 			            	//mainView.previewImage.image = image.nativePath;
-			            	preview.image = image.nativePath;
+			            	preview.image = image;
 			            	blobContainer = image;
 			            }else{
 			            	//iOS
@@ -291,7 +304,7 @@ function loadPhoto(preview, removeBtn,saveBtn){
 		            	if(saveBtn != ""){
 				            saveBtn.visible = true;
 				        }
-			            
+			            console.log(blobContainer);
 			            //mainView.undoPhoto.visible = true;
 	                }
 	            },
@@ -321,10 +334,23 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	        Titanium.Media.openPhotoGallery({
 	            success:function(event){
 	            	// set image view
-	            	var image = event.media;  
+	            	var image = event.media;
+	            	
+	            	if(image.width > image.height){
+	        			var newWidth = 320;
+	        			var ratio =   320 / image.width;
+	        			var newHeight = image.height * ratio;
+	        		}else{
+	        			var newHeight = 320;
+	        			var ratio =   320 / image.height;
+	        			var newWidth = image.width * ratio;
+	        		}
+	        		
+					image = image.imageAsResized(newWidth, newHeight);
+					
 	            	if(Ti.Platform.osname == "android"){
 		            	//mainView.previewImage.image = image.nativePath;
-		            	preview.image = image.nativePath;
+		            	preview.image = image;
 		            	blobContainer = image; 
 		            }else{
 		            	//iOS
