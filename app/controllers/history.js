@@ -22,101 +22,103 @@ function displayProduct(products){
 	
 	if(products.length < 1){ 
 		$.hisTable.setData(COMMON.noRecord());
-	}else{
-	
+	}else{ 
 		products.forEach(function(entry) {
-			var toSync = mod_resources.getResourcesToSync({iCard: entry.code});
-			var prodDetails = mod_InventoryProd.getProductDetails(entry.product); 
-			var row = Titanium.UI.createTableViewRow({
-		    touchEnabled: true,
-		    height: 70,
-		    source: entry.code,
-		    selectedBackgroundColor: "#ECFFF9",
-			backgroundGradient: {
-		      type: 'linear',
-		      colors: ['#FEFEFB','#F7F7F6'],
-		      startPoint: {x:0,y:0},
-		      endPoint:{x:0,y:70},
-		      backFillStart:false},
-		    });
-			
-			var tblView = Ti.UI.createView({
-				layout: "vertical",
-				height:"80",
-				width:"100%" 
-			}); 
-			
-			var leftImage =  Titanium.UI.createImageView({
-				image:prodDetails.image,
-				source: entry.code,
-				width:"20%",
-				height:50,
-				left:10,
-				top:10
-			});	
-	 
-			var popUpTitle = Titanium.UI.createLabel({
-				text:prodDetails.name,
-				font:{fontSize:16},
-				source: entry.code,
-				color: "#848484",
-				width:'50%',
-				textAlign:'left',
-				top:15,
-				left:80,
-				height:Ti.UI.SIZE
-			});
-			
-			var category =  Titanium.UI.createLabel({
-				text:entry.code,
-				source: entry.code,
-				font:{fontSize:12,fontWeight:'bold'},
-				width:'auto',
-				color: "#848484",
-				textAlign:'left',
-				width:'50%', 
-				left:80,
-				height:Ti.UI.SIZE
-			});
-			
-			var distance =  Titanium.UI.createLabel({
-				text:timeFormat(entry.updated),
-				source: entry.code,
-				font:{fontSize:12,fontWeight:'bold'},
-				width:'50%',
-				color: "#848484",
-				textAlign:'left',  
-				left:80,
-				height:Ti.UI.SIZE
-			}); 
-			 
-			row.addEventListener('click', function(e) {
-			 	viewDetails(e);
-			});
-		 
-			row.add(leftImage);
-			tblView.add(popUpTitle);
-			tblView.add(category);
-		 	tblView.add(distance);  
-		 	row.add(tblView);
-		 	
-		 	//Add Sync button
-		 	if(toSync.length > 0){ 
-				var syncButton =  Titanium.UI.createButton({
-					title:"Sync",
-					source: entry.code, 
-					width:'20%',
-					color: "#848484", 
-					right:5,
-					height:Ti.UI.SIZE
+			if(entry.updated != "null"){
+				
+				var toSync = mod_resources.getResourcesToSync({iCard: entry.code});
+				var prodDetails = mod_InventoryProd.getProductDetails(entry.product); 
+				var row = Titanium.UI.createTableViewRow({
+			    touchEnabled: true,
+			    height: 70,
+			    source: entry.code,
+			    selectedBackgroundColor: "#ECFFF9",
+				backgroundGradient: {
+			      type: 'linear',
+			      colors: ['#FEFEFB','#F7F7F6'],
+			      startPoint: {x:0,y:0},
+			      endPoint:{x:0,y:70},
+			      backFillStart:false},
+			    });
+				
+				var tblView = Ti.UI.createView({
+					layout: "vertical",
+					height:"80",
+					width:"100%" 
 				}); 
 				
-				syncButton.addEventListener('click', function(e){ 
-					syncScanToServer(entry.code,toSync);
+				var leftImage =  Titanium.UI.createImageView({
+					image:prodDetails.image,
+					source: entry.code,
+					width:"20%",
+					height:50,
+					left:10,
+					top:10
+				});	
+		 
+				var popUpTitle = Titanium.UI.createLabel({
+					text:prodDetails.name,
+					font:{fontSize:16},
+					source: entry.code,
+					color: "#848484",
+					width:'50%',
+					textAlign:'left',
+					top:15,
+					left:80,
+					height:Ti.UI.SIZE
 				});
-				row.add(syncButton);
-			} 
-			data.push(row);
+				
+				var category =  Titanium.UI.createLabel({
+					text:entry.code,
+					source: entry.code,
+					font:{fontSize:12,fontWeight:'bold'},
+					width:'auto',
+					color: "#848484",
+					textAlign:'left',
+					width:'50%', 
+					left:80,
+					height:Ti.UI.SIZE
+				});
+				
+				var distance =  Titanium.UI.createLabel({
+					text:timeFormat(entry.updated),
+					source: entry.code,
+					font:{fontSize:12,fontWeight:'bold'},
+					width:'50%',
+					color: "#848484",
+					textAlign:'left',  
+					left:80,
+					height:Ti.UI.SIZE
+				}); 
+				 
+				row.addEventListener('click', function(e) {
+				 	viewDetails(e);
+				});
+			 
+				row.add(leftImage);
+				tblView.add(popUpTitle);
+				tblView.add(category);
+			 	tblView.add(distance);  
+			 	row.add(tblView);
+			 	
+			 	//Add Sync button
+			 	if(toSync.length > 0){ 
+					var syncButton =  Titanium.UI.createButton({
+						title:"Sync",
+						source: entry.code, 
+						width:'20%',
+						color: "#848484", 
+						right:5,
+						height:Ti.UI.SIZE
+					}); 
+					
+					syncButton.addEventListener('click', function(e){ 
+						syncScanToServer(entry.code,toSync);
+					});
+					row.add(syncButton);
+				} 
+				data.push(row);
+			}
 		});
 		
 		$.hisTable.setData(data);  	

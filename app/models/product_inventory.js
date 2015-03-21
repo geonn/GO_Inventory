@@ -54,6 +54,35 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getProductIdByCategory : function(cate){
+				var collection = this;
+				var sql = "SELECT id FROM " + collection.config.adapter.collection_name + " WHERE category='"+cate+"' " ;
+                 
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					arr[count] = { 
+						id: res.fieldByName('id') 
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+				
+			},
+			removeProduct: function(ids){ 
+                var collection = this;
+                var sql = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id IN ("+ids+")   " ;
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                db.execute(sql);
+                db.close();
+                collection.trigger('sync');
+			},
 			getProductByCategory : function(cate){
 				 
 				var collection = this;
@@ -220,7 +249,17 @@ exports.definition = {
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');
-            } 
+            },
+            updateProductQty : function(e) {
+                var collection = this;
+                 
+                db = Ti.Database.open(collection.config.adapter.db_name); 
+             	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  quantity='"+e.quantity+"'  WHERE id='" +e.id+"'";
+                
+	            db.execute(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+            }  
 			 
 		});
 

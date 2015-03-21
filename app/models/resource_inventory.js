@@ -52,6 +52,26 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getResourcesIdByCategory : function(cate){
+				var collection = this;
+				var sql = "SELECT id FROM " + collection.config.adapter.collection_name + " WHERE `type`='"+cate+"' " ;
+                 
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					arr[count] = { 
+						id: res.fieldByName('id') 
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr; 
+			},
 			getResourceByCategory : function(cate){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `type`='"+cate+"' AND `status` = 1 " ;
@@ -127,6 +147,14 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			removeResource: function(ids){ 
+                var collection = this;
+                var sql = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id IN ("+ids+")   " ;
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                db.execute(sql);
+                db.close();
+                collection.trigger('sync');
+			},
 			searchResources : function(searchKey,cate){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (`status` = 1) AND (`type`='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR supplier LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
@@ -164,7 +192,7 @@ exports.definition = {
 			getResourceDetails : function(id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+id+"' " ;
-        console.log(sql);
+         
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql); 
                 var arr = []; 
@@ -209,7 +237,17 @@ exports.definition = {
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');
-            } 
+            },
+            updateResourceQty : function(e) {
+                var collection = this;
+                 
+                db = Ti.Database.open(collection.config.adapter.db_name); 
+             	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  quantity='"+e.quantity+"'  WHERE id='" +e.id+"'";
+                
+	            db.execute(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+            }   
 			 
 		});
 

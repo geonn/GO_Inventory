@@ -25,6 +25,9 @@ var addResourceUrl		= "http://"+API_DOMAIN+"/api/addResource?user="+USER+"&key="
 var updateDoneProductUrl= "http://"+API_DOMAIN+"/api/assignDone?user="+USER+"&key="+KEY;
 var stockOutUrl         = "http://"+API_DOMAIN+"/api/getStockOutList?user="+USER+"&key="+KEY;
 var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key="+KEY;
+var checkProductItemsUrl= "http://"+API_DOMAIN+"/api/checkProductItems?user="+USER+"&key="+KEY;
+var checkResourceItemsUrl= "http://"+API_DOMAIN+"/api/checkResourceItems?user="+USER+"&key="+KEY;
+var createiCardUrl		= "http://"+API_DOMAIN+"/api/createiCard?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
@@ -181,7 +184,7 @@ exports.addResource = function(ex){
 	 
 	var url = addResourceUrl + "&name="+ex.name + "&code="+ex.code + "&cate="+ex.category + "&depth="+ex.depth
 			  + "&width="+ex.width + "&height="+ex.height + "&supplier="+ex.supplier + "&weight="+ex.weight + 
-			  "&photoLoad="+ex.photoLoad + "&type="+ex.type + "&u_id="+Ti.App.Properties.getString("user_id") 
+			  "&photoLoad="+ex.photoLoad + "&type="+ex.type + "&quantity="+ex.quantity+ "&u_id="+Ti.App.Properties.getString("user_id") 
 			  +"&session="+Ti.App.Properties.getString("session");
  
 	var client = Ti.Network.createHTTPClient({
@@ -211,6 +214,73 @@ exports.addResource = function(ex){
 	 }else{
 	 	client.send(); 
 	 }
+};
+
+exports.createiCard = function(ex){  
+	
+	var url = createiCardUrl+ "&category="+ex.type+"&id="+ex.item+"&quantity="+ex.qty+"&details=1&session="+Ti.App.Properties.getString("session");
+	 
+	var client = Ti.Network.createHTTPClient({ 
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	       
+	        if(res.status == "success"){
+	        	//update to local Db
+	        	if(ex.type == "product"){
+	        		var mod_products = Alloy.createCollection('products'); 
+	        		var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
+	        		var productInfo = res.data;
+					productInfo.forEach(function(prodDetail){ 
+			        	mod_products.addUpdateProduct({
+							id: prodDetail.id,
+			         		prefix : prodDetail.prefix,
+						    item_id : prodDetail.item_id,
+						    product : prodDetail.product,
+						    code : prodDetail.code, 
+						    order : "",
+						    done : "0",
+						    created : prodDetail.updated,
+						    updated : prodDetail.updated,
+			         	});
+		         	});
+		         	var totalCard = mod_products.getTotaliCardByProduct({id: ex.item});
+		         	mod_InventoryProd.updateProductQty({quantity : totalCard.total, id : ex.item});
+		         	COMMON.createAlert("Success","iCards are added successfully!");
+					DRAWER.navigation("productDetails",1,{p_id: ex.item});
+	        	}else{
+	        		var mod_resources = Alloy.createCollection('resources'); 
+	        		var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
+	        		var listData = res.data; 
+		        	
+		        	listData.forEach(function(code) { 
+					 	mod_resources.addUpdateResourcesById({
+								id : code['id'], 
+								prefix : code['r_prefix'],
+								iCard : code['iCard'],
+								item_id : code['item_id'],
+								name : code['name'],
+								code : code['code'],
+								resource: code['resource'],
+								status : 1,
+								created : currentDateTime(),
+								updated : currentDateTime()
+						});
+					});
+					var totalCard = mod_resources.getTotaliCardByResource({id: ex.item});
+		         	mod_InventoryRes.updateResourceQty({quantity : totalCard.total, id : ex.item});
+					COMMON.createAlert("Success","iResource Cards are added successfully!");
+					DRAWER.navigation("resourceDetails",1,{p_id: ex.item});
+	        	} 
+	        }
+	     
+	     }, 
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  
+	 }); 
+	 client.open("GET", url); 
+	 client.send(); 
 };
 
 //update done product
@@ -276,6 +346,78 @@ exports.getAnnouncement = function (ex){
 	 client.send(); 
 };
 
+exports.checkResourceItems = function(cate){
+	var mod_InventoryRes = Alloy.createCollection('resource_inventory');  
+	var ids = mod_InventoryRes.getResourcesIdByCategory(cate);
+	
+	var list = "";
+	ids.forEach(function(idd) {
+		list += idd.id+",";
+	}); 
+	 
+	var url = checkResourceItemsUrl +"&session="+Ti.App.Properties.getString("session")+"&cate="+cate+"&list="+list;
+	 
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	       
+	        if(res.status == "success"){	
+	        	 var itemToDelete = res.data;
+	        	 if(itemToDelete != ""){
+	        	 	mod_InventoryRes.removeResource(itemToDelete);
+	        	 }
+	        }
+	     
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 	
+};
+
+exports.checkProductItems = function(cate){
+	var mod_InventoryProd = Alloy.createCollection('product_inventory');  
+	var ids = mod_InventoryProd.getProductIdByCategory(cate);
+	
+	var list = "";
+	ids.forEach(function(idd) {
+		list += idd.id+",";
+	}); 
+	 
+	var url = checkProductItemsUrl +"&session="+Ti.App.Properties.getString("session")+"&cate="+cate+"&list="+list;
+	   
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	       var res = JSON.parse(this.responseText); 
+	       
+	        if(res.status == "success"){	
+	        	 var itemToDelete = res.data;
+	        	 if(itemToDelete != ""){
+	        	 	mod_InventoryProd.removeProduct(itemToDelete);
+	        	 }
+	        }
+	     
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	//alert("An error occurs");
+	     },
+	     timeout : 10000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 	
+};
+
 exports.getResourcesiCardList = function(){
 	var url = iCardResourcesUrl +"&session="+Ti.App.Properties.getString("session");
 	  
@@ -292,6 +434,7 @@ exports.getResourcesiCardList = function(){
 				 	mod_resources.addUpdateResourcesById({
 							id : code['id'], 
 							prefix : code['r_prefix'],
+							iCard : code['iCard'],
 							item_id : code['item_id'],
 							name : code['name'],
 							code : code['code'],
@@ -315,7 +458,6 @@ exports.getResourcesiCardList = function(){
 	 // Send the request.
 	 client.send(); 	
 };
-
 
 exports.getProductiCardList = function(){
 	var url = iCardProductsUrl +"&session="+Ti.App.Properties.getString("session");

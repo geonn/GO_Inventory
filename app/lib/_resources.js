@@ -275,13 +275,25 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	        Titanium.Media.showCamera({ 
 	            success:function(event) { 
 	                var image = event.media; 
-	                  
+	                
+	                if(image.width > image.height){
+	        			var newWidth = 320;
+	        			var ratio =   320 / image.width;
+	        			var newHeight = image.height * ratio;
+	        		}else{
+	        			var newHeight = 320;
+	        			var ratio =   320 / image.height;
+	        			var newWidth = image.width * ratio;
+	        		}
+	        		
+	        		image = image.imageAsResized(newWidth, newHeight);
+
 	                if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
 	                   //var nativePath = event.media.nativePath;
 	                   var image = event.media;  
 		            	if(Ti.Platform.osname == "android"){
 			            	//mainView.previewImage.image = image.nativePath;
-			            	preview.image = image.nativePath;
+			            	preview.image = image;
 			            	blobContainer = image;
 			            }else{
 			            	//iOS
@@ -324,9 +336,20 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	            success:function(event){
 	            	// set image view
 	            	var image = event.media;  
+	            	if(image.width > image.height){
+	        			var newWidth = 320;
+	        			var ratio =   320 / image.width;
+	        			var newHeight = image.height * ratio;
+	        		}else{
+	        			var newHeight = 320;
+	        			var ratio =   320 / image.height;
+	        			var newWidth = image.width * ratio;
+	        		}
+	        		
+					image = image.imageAsResized(newWidth, newHeight);
 	            	if(Ti.Platform.osname == "android"){
 		            	//mainView.previewImage.image = image.nativePath;
-		            	preview.image = image.nativePath;
+		            	preview.image = image;
 		            	blobContainer = image; 
 		            }else{
 		            	//iOS
@@ -361,13 +384,7 @@ function viewResourcesList(e){
 function viewDetails(e){
 	DRAWER.navigation("resourceDetails",1 ,{p_id: e.source.source});
 }
-
-function closeCategory(){
-	mainView.categoryView.height = 0;
-	mainView.categoryView.setVisible(false);  
-	mainView.categoryPicker.setVisible(false);
-	return false;
-} 
+ 
 
 exports.loadPhoto = function(preview,removeBtn,saveBtn){
 	loadPhoto(preview,removeBtn,saveBtn);	
@@ -386,44 +403,5 @@ exports.refreshTableList = function(){
 	displayResources(details);	  
 };
 
-
-exports.hideProductFormKeyboard = function(e){
-	if (e.source.id != 'TextField'  ) {
-    	 
-    	if(e.source.id == 'name'){
-			return false;
-		}
-		if(e.source.id == 'prodCode'){
-			return false;
-		} 
-		if(e.source.id == 'prodDepth'){
-			return false;
-		}
-		if(e.source.id == 'prodWidth'){
-			return false;
-		}
-		if(e.source.id == 'prodHeight'){
-			return false;
-		}
-		if(e.source.id == 'prodWeight'){
-			return false;
-		} 
-		if(e.source.id == 'prodSupplier'){
-			return false;
-		}
-		if(e.source.id == 'categoryLabel'){
-			return false;
-		}
-		mainView.name.blur();
-		mainView.prodCode.blur(); 
-		mainView.prodDepth.blur();
-		mainView.prodWidth.blur();
-		mainView.prodHeight.blur();
-		mainView.prodWeight.blur(); 
-		mainView.prodSupplier.blur();
-		if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){ 
-			closeCategory();
-		}
-	}
-};
+ 
 

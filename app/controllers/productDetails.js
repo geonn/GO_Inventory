@@ -1,11 +1,11 @@
 var args = arguments[0] || {};
-var p_id = args.p_id || {};
+var p_id = args.p_id || "";
 var code = args.code || "";
-var from = args.from || ""; 
+var from = args.from || "";  
 Ti.App.Properties.setString('parent',from);
+var curCate;
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var PRODUCT = require('_products');
-var curCate;
 var PROD_CONTENTS = require('_product_contents');
 PROD_CONTENTS.construct($);
 COMMON.construct($);
@@ -73,8 +73,7 @@ function goBack(){
  * Clear object and memory
  **********************/
 var clearObject = function(){
-	PROD_CONTENTS.deconstruct(); 
-	
+	 
 	mod_InventoryProd = null;
 	curCate = null;
 	getProductDetails = null;

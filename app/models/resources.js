@@ -56,6 +56,24 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getTotaliCardByResource : function(e){
+				var collection = this;
+                var sql = "SELECT  COUNT(DISTINCT(code)) as total FROM " + collection.config.adapter.collection_name + " WHERE resource='"+e.id+"' " ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                var arr = []; 
+                
+                if (res.isValidRow()){
+					arr = { 
+					    total: res.fieldByName('total')
+					};
+				}  
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getResourcesByCode : function(code){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE code='"+code+"' " ;
@@ -104,15 +122,15 @@ exports.definition = {
             },
             addUpdateResourcesById : function(e) {
                 var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id+"' " ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id+"' AND iCard='"+e.iCard+"' " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE id='"+e.id+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE id='"+e.id+"' AND iCard='"+e.iCard+"' ";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, name,code,resource, `status`, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"','"+e.resource+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, iCard, prefix, item_id, name,code,resource, `status`, created, updated) VALUES ('"+e.id+"','"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"','"+e.resource+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
 				}
            		
 	            db.execute(sql_query);

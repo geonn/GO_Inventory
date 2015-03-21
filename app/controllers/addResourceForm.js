@@ -26,19 +26,19 @@ function addProd(){
 	var prodHeight  = $.prodHeight.value;
 	var prodWeight  = $.prodWeight.value; 
 	var supplier 	= $.prodSupplier.value; 
-	
+	var prodQty     = $.prodQty.value;
 	API.addResource({
 		name : prodName, code : prodCode, 
 		category : prodType, depth : prodDepth, width : prodWidth,
 		height : prodHeight, supplier : supplier, weight : prodWeight,
-		curCate : cate , photoLoad : photoLoad, photo : imgBlob, type : "resources" 
+		curCate : cate, quantity:prodQty , photoLoad : photoLoad, photo : imgBlob, type : "resources" 
 	});
 	 
 }
 
 function back(e){ 
 	DRAWER.navigation("resourceLists",1,{type: cate});
-	$.productFormView.removeEventListener('click', RESOURCE.hideProductFormKeyboard);
+	$.productFormView.removeEventListener('click', hideProductFormKeyboard);
 };
 
 function hideCategory(e) { 
@@ -83,15 +83,60 @@ function undoPhoto(){
 	$.previewImage.image = "";
 	$.undoPhoto.visible = false;
 }
+function hideProductFormKeyboard(e){
+	if (e.source.id != 'TextField'  ) {
+    	 
+    	if(e.source.id == 'name'){
+			return false;
+		}
+		if(e.source.id == 'prodCode'){
+			return false;
+		} 
+		if(e.source.id == 'prodDepth'){
+			return false;
+		}
+		if(e.source.id == 'prodWidth'){
+			return false;
+		}
+		if(e.source.id == 'prodHeight'){
+			return false;
+		}
+		if(e.source.id == 'prodWeight'){
+			return false;
+		} 
+		if(e.source.id == 'prodSupplier'){
+			return false;
+		}
+		if(e.source.id == 'categoryLabel'){
+			return false;
+		}
+		if(e.source.id == 'prodQty'){
+			return false;
+		}
+		$.name.blur();
+		$.prodCode.blur(); 
+		$.prodDepth.blur();
+		$.prodWidth.blur();
+		$.prodHeight.blur();
+		$.prodWeight.blur(); 
+		$.prodSupplier.blur();
+		$.prodQty.blur();
+		if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){ 
+			$.categoryView.height = 0;
+			$.categoryView.setVisible(false);  
+			$.categoryPicker.setVisible(false);
+		}
+	}
+};
 $.previewImage.addEventListener('click', takePhoto);
 $.undoPhoto.addEventListener('click', undoPhoto);
-$.productFormView.addEventListener('click', RESOURCE.hideProductFormKeyboard);
+$.productFormView.addEventListener('click', hideProductFormKeyboard);
 
 /**********************
  * Clear object and memory
  **********************/
 var clearObject = function(){ 
-	RESOURCE.deconstruct();
+	//RESOURCE.deconstruct();
 	
 	photoLoad = null;
 	prodCateKey = null;

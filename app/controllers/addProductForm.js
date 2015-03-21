@@ -39,7 +39,7 @@ function addProd(){
 
 function back(e){ 
 	DRAWER.navigation("productLists",1,{category: cate});
-	$.productFormView.removeEventListener('click', PRODUCT.hideProductFormKeyboard);
+	$.productFormView.removeEventListener('click', hideProductFormKeyboard);
 };
 
 function hideCategory(e) { 
@@ -87,6 +87,59 @@ function undoPhoto(){
 	$.previewImage.image = "";
 	$.undoPhoto.visible = false;
 }
+var hideProductFormKeyboard = function(e){
+	if (e.source.id != 'TextField'  ) {
+    	 
+    	if(e.source.id == 'name'){
+			return false;
+		}
+		if(e.source.id == 'prodCode'){
+			return false;
+		}
+		if(e.source.id == 'prodSet'){
+			return false;
+		}
+		if(e.source.id == 'prodDepth'){
+			return false;
+		}
+		if(e.source.id == 'prodWidth'){
+			return false;
+		}
+		if(e.source.id == 'prodHeight'){
+			return false;
+		}
+		if(e.source.id == 'prodWeight'){
+			return false;
+		}
+		if(e.source.id == 'prodHab'){
+			return false;
+		}
+		if(e.source.id == 'prodFab'){
+			return false;
+		}
+		if(e.source.id == 'categoryLabel'){
+			return false;
+		}
+		if(e.source.id == 'prodQty'){
+			return false;
+		}
+		$.name.blur();
+		$.prodCode.blur();
+		$.prodSet.blur();
+		$.prodDepth.blur();
+		$.prodWidth.blur();
+		$.prodHeight.blur();
+		$.prodWeight.blur();
+		$.prodHab.blur();
+		$.prodFab.blur();
+		$.prodQty.blur();
+		if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){ 
+			$.categoryView.height = 0;
+			$.categoryView.setVisible(false);  
+			$.categoryPicker.setVisible(false);
+		}
+	}
+};
 
 $.categoryPicker.addEventListener('change', function(e){ 
     prodCateKey = e.row.key; 
@@ -94,14 +147,13 @@ $.categoryPicker.addEventListener('change', function(e){
 
 $.previewImage.addEventListener('click', takePhoto);
 $.undoPhoto.addEventListener('click', undoPhoto);
-$.productFormView.addEventListener('click', PRODUCT.hideProductFormKeyboard);
+$.productFormView.addEventListener('click', hideProductFormKeyboard);
 
 /**********************
  * Clear object and memory
  **********************/
 var clearObject = function(){ 
 	 
-	COMMON.deconstruct();
 	photoLoad = null;
 	prodCateKey = null;
 	mod_category = null;  

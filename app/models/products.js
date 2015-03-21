@@ -55,6 +55,24 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getTotaliCardByProduct : function(e){
+				var collection = this;
+                var sql = "SELECT COUNT(*) as total FROM " + collection.config.adapter.collection_name + " WHERE product='"+e.id+"' " ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                var res = db.execute(sql);
+                var arr = []; 
+               
+                if (res.isValidRow()){
+					arr = {
+					    total: res.fieldByName('total') 
+					};
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			searchProducts : function(searchKey){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE item_id LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;

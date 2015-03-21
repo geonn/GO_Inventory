@@ -8,13 +8,13 @@ var RESOURCE = require('_resources');
 var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
 var mod_Category  = Alloy.createCollection('category'); 
 var allType = mod_Category.getCategoryByType("resource");
-$.appTitle.text = cate;
-	
+$.appTitle.text = cate; 
 
 COMMON.construct($);
 COMMON.showLoading();
 RESOURCE.construct($);
-  
+API.checkResourceItems(cate);
+
 setTimeout(function(){   
 	if(presetSearch != ""){  
 		var searchResult = mod_InventoryRes.searchResources(presetSearch,cate); 

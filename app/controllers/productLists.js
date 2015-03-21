@@ -13,6 +13,7 @@ $.appTitle.text = cate;
 COMMON.construct($);
 COMMON.showLoading();
 PRODUCT.construct($);
+API.checkProductItems(cate);
 
 setTimeout(function(){   
 	if(presetSearch != ""){  

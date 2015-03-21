@@ -1,5 +1,5 @@
 var args = arguments[0] || {};
-var p_id = args.p_id || {};
+var p_id = args.p_id || "";
 var from = args.from || "";
 
 var mod_InventoryRes = Alloy.createCollection('resource_inventory');  
@@ -80,8 +80,7 @@ function goBack(){
 /**********************
  * Clear object and memory
  **********************/
-var clearObject = function(){
-	RES_CONTENTS.deconstruct();
+var clearObject = function(){ 
 	
 	mod_InventoryRes = null;
 	presetSearch = null;

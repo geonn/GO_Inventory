@@ -159,11 +159,54 @@ exports.displayResourceContents = function(items){
 	mainContentView.add(saperatorLine());
 	
 	/*** RESOURCE STOCK QUANTITY***/
+	var addImage = Titanium.UI.createImageView({
+		image: "/images/add_green.png",
+		width: 25,
+		left:20
+	});
+	
 	var contentView  = horizontalView(); 
 	contentView.add(contentTitleLabel("Resource Stock Quantity"));
 	contentView.add(contentLabel(items.quantity));
+	contentView.add(addImage );
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
+	
+	addImage.addEventListener('click', function(){
+		if(Ti.Platform.osname == "android"){
+			var textfield = Ti.UI.createTextField({keyboardType : Ti.UI.KEYBOARD_PHONE_PAD});
+			var dialog = Ti.UI.createAlertDialog({
+			    title: 'Enter quantity of iCard',
+			   	androidView: textfield,
+			    buttonNames: ['Confirm', 'Cancel'], 
+			}); 
+		}else{ 
+			var dialog = Ti.UI.createAlertDialog({
+			    title: 'Enter quantity of iCard', 
+			    buttonNames: ['Confirm', 'Cancel'],
+			    style: Ti.UI.iPhone.AlertDialogStyle.PLAIN_TEXT_INPUT,
+			    keyboardType : Ti.UI.KEYBOARD_PHONE_PAD
+			}); 
+		}
+		
+		dialog.show(); 
+		dialog.addEventListener('click', function(e){  
+			if(e.index == 0) { 
+				var qty;
+				if(Ti.Platform.osname == "android"){
+					qty = textfield.value;
+				}else{
+					qty = e.text;
+				}
+				 
+				API.createiCard({
+					item : items.id,
+					qty  : qty,
+					type : 'resource'
+				});
+			}
+		}); 
+	});
 	
 	return mainContentView;
 };

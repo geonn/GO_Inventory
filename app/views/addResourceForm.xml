@@ -55,6 +55,10 @@
 						<Label width="40%" class="gray_text">Supplier</Label>
 						<TextField id="prodSupplier" hintText="Resource supplier"  />
 					</View>
+					<View layout="horizontal" height="Ti.UI.SIZE" width="90%" top="5" >
+						<Label width="40%" class="gray_text" >Quantity</Label>
+						<TextField id="prodQty" text="0"  hintText="Quantity of iResource"  />
+					</View>
 					<Button id="btnLogin" onClick="addProd"  title="ADD" borderColor="#FAFAFA" borderRadius="10"  /> 
 				</ScrollView>
 				

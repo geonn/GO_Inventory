@@ -273,7 +273,7 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	        Titanium.Media.showCamera({ 
 	            success:function(event) { 
 	               var image = event.media;
-        		console.log(image);
+        		 
 	        		if(image.width > image.height){
 	        			var newWidth = 320;
 	        			var ratio =   320 / image.width;
@@ -385,14 +385,7 @@ function viewProductList(e){
 function viewDetails(e){
 	DRAWER.navigation("productDetails",1 ,{p_id: e.source.source});
 }
-
-function closeCategory(){
-	mainView.categoryView.height = 0;
-	mainView.categoryView.setVisible(false);  
-	mainView.categoryPicker.setVisible(false);
-	return false;
-} 
-
+ 
 exports.construct = function(mv){
 	mainView = mv;
 };
@@ -414,55 +407,7 @@ exports.displayCategory = function(){
 exports.refreshTableList = function(){ 
 	displayProduct(products);	  
 };
-
-exports.hideProductFormKeyboard = function(e){
-	if (e.source.id != 'TextField'  ) {
-    	 
-    	if(e.source.id == 'name'){
-			return false;
-		}
-		if(e.source.id == 'prodCode'){
-			return false;
-		}
-		if(e.source.id == 'prodSet'){
-			return false;
-		}
-		if(e.source.id == 'prodDepth'){
-			return false;
-		}
-		if(e.source.id == 'prodWidth'){
-			return false;
-		}
-		if(e.source.id == 'prodHeight'){
-			return false;
-		}
-		if(e.source.id == 'prodWeight'){
-			return false;
-		}
-		if(e.source.id == 'prodHab'){
-			return false;
-		}
-		if(e.source.id == 'prodFab'){
-			return false;
-		}
-		if(e.source.id == 'categoryLabel'){
-			return false;
-		}
-		mainView.name.blur();
-		mainView.prodCode.blur();
-		mainView.prodSet.blur();
-		mainView.prodDepth.blur();
-		mainView.prodWidth.blur();
-		mainView.prodHeight.blur();
-		mainView.prodWeight.blur();
-		mainView.prodHab.blur();
-		mainView.prodFab.blur();
-		if(Ti.Platform.osname == "iphone" || Ti.Platform.osname == "ipad"){ 
-			closeCategory();
-		}
-	}
-};
-
+ 
 exports.loadPhoto = function(preview,removeBtn,saveBtn){
 	loadPhoto(preview,removeBtn,saveBtn);	
 };
