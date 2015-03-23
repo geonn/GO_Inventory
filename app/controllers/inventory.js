@@ -1,6 +1,9 @@
 var args = arguments[0] || {}; 
 var pageTab = args.tab || "0";
 //$.searchProduct.value = presetSearch;
+API.getResourcesiCardList();
+API.getProductiCardList();
+
 var PRODUCT = require('_products');
 var RESOURCE = require('_resources');
 Ti.App.Properties.setString('parent',"");

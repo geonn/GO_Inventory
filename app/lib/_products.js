@@ -284,28 +284,17 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	        			var newWidth = image.width * ratio;
 	        		}
 	        		
-					image = image.imageAsResized(newWidth, newHeight);
-	                  console.log(image);
+					image = image.imageAsResized(newWidth, newHeight); 
 	                if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-	                   //var nativePath = event.media.nativePath;
-	                   
-						
-		            	if(Ti.Platform.osname == "android"){
-			            	//mainView.previewImage.image = image.nativePath;
-			            	preview.image = image;
-			            	blobContainer = image;
-			            }else{
-			            	//iOS
-			            	//mainView.previewImage.image = image;
-			            	preview.image = image;
-			            	blobContainer = image;
-			            }
+	                   //var nativePath = event.media.nativePath; 
+		            	preview.image = image;
+			            blobContainer = image;
+			            	
 		            	removeBtn.visible = true; 
 		            	if(saveBtn != ""){
 				            saveBtn.visible = true;
 				        }
-			            console.log(blobContainer);
-			            //mainView.undoPhoto.visible = true;
+			              
 	                }
 	            },
 	            cancel:function(){
@@ -347,17 +336,9 @@ function loadPhoto(preview, removeBtn,saveBtn){
 	        		}
 	        		
 					image = image.imageAsResized(newWidth, newHeight);
-					
-	            	if(Ti.Platform.osname == "android"){
-		            	//mainView.previewImage.image = image.nativePath;
-		            	preview.image = image;
-		            	blobContainer = image; 
-		            }else{
-		            	//iOS
-		            	//mainView.previewImage.image = image;
-		            	preview.image = image;
-		            	blobContainer = image;
-		            }
+					preview.image = image;
+		            blobContainer = image; 
+	            	
 	            	removeBtn.visible = true; 
 	            	if(saveBtn != ""){
 			            saveBtn.visible = true;

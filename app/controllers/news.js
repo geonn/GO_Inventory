@@ -10,28 +10,15 @@ setTimeout(function(){
 }, 1000);
 
 function displayAnnouncement(listing){
-	 
-	var TheTable = Titanium.UI.createTableView({
-		width:'100%',
-		backgroundImage: "/images/bg.jpg",
-		separatorColor: '#375540'
-	});
+	  
 	
 	var data=[]; 
 		//hide loading bar 
  		COMMON.hideLoading();
    		var counter = 0;
    		
-   		if(listing.length < 1){
-			var noRecord = Ti.UI.createLabel({ 
-			    text: "No record found", 
-			    color: '#375540', 
-			    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-			    font:{fontSize:14,fontStyle:'italic'},
-			    top: 15,
-			    width: "100%"
-			 });
-			$.announcementScrollView.add(noRecord);
+   		if(listing.length < 1){ 
+			$.newsTable.add(COMMON.noRecord());
 		}else{
 
 	   		listing.forEach(function(entry) {
@@ -109,8 +96,7 @@ function displayAnnouncement(listing){
 				data.push(row);
 	   		});
 	   		
-	   		TheTable.setData(data); 
-			$.announcementScrollView.add(TheTable);
+	   		$.newsTable.setData(data);  
 		} 
 };
 
@@ -228,7 +214,7 @@ $.searchItem.addEventListener('cancel', function(e){
 	$.searchItem.blur();  
 	var str = $.searchItem.getValue();
 	if(str == ""){
-		removeAllChildren($.announcementScrollView);
+		$.newsTable.data = [];
 		displayAnnouncement(listing);	
 	}
 		
@@ -240,7 +226,7 @@ var searchResult = function(){
 	var str = $.searchItem.getValue();
 	 
 	var searchResult = mod_announcement.searchAnnouncement(str); 
-	removeAllChildren($.announcementScrollView);
+	$.newsTable.data = [];
 	displayAnnouncement(searchResult);		
 };
 $.searchItem.addEventListener("return", searchResult);

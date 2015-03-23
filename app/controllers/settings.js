@@ -12,16 +12,13 @@ function generateSettingTable(){
 		{ title: 'Auto Sync', hasChild:false, id: "1", action:'sync' ,value: syncVal['value']},
 		{ title: 'Push Notification', hasChild:false ,id: "2", action: 'push', value: pushVal['value']}
 	]; 
-	
-	var separatorColor = "#ffffff";
- 	if(Ti.Platform.osname == "android"){
- 		separatorColor = "#375540";
- 	}
+	 
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%', 
-		backgroundImage: "/images/bg.jpg",
-		separatorColor: separatorColor ,
-		scrollable: false
+		backgroundImage: "/images/bg.jpg", 
+		separatorColor:"#375540",
+		scrollable: false,
+		height: 200
 	});
 
 	var regData=[];
@@ -73,7 +70,20 @@ function generateSettingTable(){
 	}
 
 	RegTable.setData(regData);  
+	
+	var versionView =  Titanium.UI.createView({ 
+		width:"100%",
+		height:50, 
+		top:10
+	});	
+	var versionLabel =  Titanium.UI.createLabel({ 
+		text:"Version : "+Alloy.Globals.version,
+		class: ["gray_text"],
+		height:30 
+	});		
+	versionView.add(versionLabel);	
 	$.setting.add(RegTable);
+	$.setting.add(versionView);
 }
 
 function switchEvent(rightAction,a_id, action){

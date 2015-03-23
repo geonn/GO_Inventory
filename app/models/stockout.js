@@ -30,6 +30,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + "  ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -57,6 +58,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE sales_order LIKE '%"+searchKey+"%' OR delivery_order LIKE '%"+searchKey+"%' OR customer_name LIKE '%"+searchKey+"%' OR company_name LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -84,6 +86,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+id+"' " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql); 
                 var arr = []; 
                
@@ -110,6 +113,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){

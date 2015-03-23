@@ -29,6 +29,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name +"  order by updated DESC";
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var listArr = []; 
                 var count = 0;
@@ -57,6 +58,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ id+ "'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                
@@ -81,6 +83,7 @@ exports.definition = {
 				var collection = this;
                 var sql = "DELETE FROM " + collection.config.adapter.collection_name;
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');
@@ -90,6 +93,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE title LIKE '%"+ query+ "%' OR message LIKE '%"+ query+"%'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var listArr = []; 
                 var count = 0;
@@ -114,7 +118,7 @@ exports.definition = {
 			addAnnouncement : function(arr) {
 				var collection = this;
                 db = Ti.Database.open(collection.config.adapter.db_name);
-	           
+	            db.file.setRemoteBackup(false);
 	            db.execute("BEGIN");
 				arr.forEach(function(entry) {
 					var title = entry.title;

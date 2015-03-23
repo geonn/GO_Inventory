@@ -43,20 +43,20 @@ exports.uploadImage = function(ex){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log(e); 
+	     	//console.log(e); 
 	     },
 	     timeout : 10000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-	 client.open("POST", url); 
+	 client.open("POST", url);  
 	 client.send({Filedata: ex.image}); 
 };
 
 //login to app
 exports.login = function (ex){ 
 	var url = loginUrl+"&username="+ex.username+"&password="+ex.password; 
- console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -217,7 +217,14 @@ exports.addResource = function(ex){
 };
 
 exports.createiCard = function(ex){  
-	
+	if(isNaN(ex.qty) !== false){
+		COMMON.createAlert("Error","Please enter correct quantity");
+		return false;
+	}else if(ex.qty <= 0){
+		COMMON.createAlert("Error","Please enter more than 0");
+		return false;
+	}
+
 	var url = createiCardUrl+ "&category="+ex.type+"&id="+ex.item+"&quantity="+ex.qty+"&details=1&session="+Ti.App.Properties.getString("session");
 	 
 	var client = Ti.Network.createHTTPClient({ 
@@ -419,7 +426,14 @@ exports.checkProductItems = function(cate){
 };
 
 exports.getResourcesiCardList = function(){
-	var url = iCardResourcesUrl +"&session="+Ti.App.Properties.getString("session");
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("5");
+	var last_updated ="";
+	 
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	var url = iCardResourcesUrl+"&last_updated="+last_updated +"&session="+Ti.App.Properties.getString("session");
 	  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -429,7 +443,7 @@ exports.getResourcesiCardList = function(){
 	        if(res.status == "success"){	
 	        	var listData = res.data;
 	        	var mod_resources = Alloy.createCollection('resources'); 
-	        	
+	        	var mod_InventoryRes = Alloy.createCollection('resource_inventory');  
 	        	listData.forEach(function(code) { 
 				 	mod_resources.addUpdateResourcesById({
 							id : code['id'], 
@@ -443,7 +457,16 @@ exports.getResourcesiCardList = function(){
 							created : currentDateTime(),
 							updated : currentDateTime()
 					});
+					 
 				});
+				
+				var cr = mod_resources.countResources();
+				if(cr.length > 0){
+					cr.forEach(function(c) { 
+						mod_InventoryRes.updateResourceQty({quantity : c.total, id : c.resource});
+					});
+				}
+				checker.updateModule("5","resourceCardList",currentDateTime());  
 	        }
 	     
 	     },
@@ -460,8 +483,15 @@ exports.getResourcesiCardList = function(){
 };
 
 exports.getProductiCardList = function(){
-	var url = iCardProductsUrl +"&session="+Ti.App.Properties.getString("session");
-	  
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("6");
+	var last_updated ="";
+	 
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	var url = iCardProductsUrl+"&last_updated="+last_updated +"&session="+Ti.App.Properties.getString("session");
+	//console.log(url);  
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -470,7 +500,7 @@ exports.getProductiCardList = function(){
 	        if(res.status == "success"){	
 	        	var listData = res.data;
 	        	var mod_products = Alloy.createCollection('products'); 
-	        	
+	        	var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
 	        	listData.forEach(function(code) { 
 				 	mod_products.updateProductById({
 							id : code['id'], 
@@ -482,6 +512,14 @@ exports.getProductiCardList = function(){
 							updated : currentDateTime()
 					});
 				});
+				
+				var cr = mod_products.countProducts();
+				if(cr.length > 0){
+					cr.forEach(function(c) { 
+						mod_InventoryProd.updateProductQty({quantity : c.total, id : c.product});
+					});
+				}
+				checker.updateModule("6","productiCardList",currentDateTime());  
 	        }
 	     
 	     },
@@ -672,7 +710,7 @@ exports.getInventoryResources = function(ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url =inventoryResourcesUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
- 	 console.log(url);
+ 	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -735,7 +773,7 @@ exports.getInventoryProducts = function(ex){
 	}
 	 
 	var url =inventoryProductsUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
-	  console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

@@ -22,13 +22,10 @@ function loadTable(){
 	{ title:'Email',  value:details.email, mod:"email",hasChild:true },
 	];
 	
-	var separatorColor = "#ffffff";
- 	if(Ti.Platform.osname == "android"){
- 		separatorColor = "#375540";
- 	}
+	 
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%',
-		separatorColor: separatorColor ,
+		separatorColor: "#375540" ,
 		scrollable: false
 	});
 	

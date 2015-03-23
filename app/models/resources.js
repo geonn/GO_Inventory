@@ -32,6 +32,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE iCard='"+code+"' " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -61,6 +62,7 @@ exports.definition = {
                 var sql = "SELECT  COUNT(DISTINCT(code)) as total FROM " + collection.config.adapter.collection_name + " WHERE resource='"+e.id+"' " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 
@@ -74,11 +76,34 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			countResources : function(){
+				var collection = this;
+                var sql = "SELECT  resource , COUNT(DISTINCT(code)) as total FROM " + collection.config.adapter.collection_name + " GROUP BY resource " ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0; 
+				while (res.isValidRow()){
+					arr[count] = {
+						resource : res.fieldByName('resource'),
+					    total: res.fieldByName('total')
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getResourcesByCode : function(code){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE code='"+code+"' " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 
  				var arr = []; 
@@ -108,6 +133,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE code='"+ e.code + "' AND iCard='"+e.iCard+"' " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
@@ -125,6 +151,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id+"' AND iCard='"+e.iCard+"' " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
@@ -141,7 +168,7 @@ exports.definition = {
             	var collection = this;
                 var sql = "UPDATE " + collection.config.adapter.collection_name + " SET `status`='2', updated='"+currentDateTime()+"' WHERE iCard='" +e.code+"'";
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                 
+                db.file.setRemoteBackup(false); 
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');
@@ -150,7 +177,7 @@ exports.definition = {
             	var collection = this;
                 var sql = "UPDATE " + collection.config.adapter.collection_name + " SET `status`='3', updated='"+currentDateTime()+"' WHERE prefix='" +e.prefix+"' AND item_id='"+e.item_id+"' ";
                 db = Ti.Database.open(collection.config.adapter.db_name);
-               
+                db.file.setRemoteBackup(false);
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');
@@ -160,6 +187,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE iCard='"+e.iCard+"' AND status=2" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -189,6 +217,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE iCard='"+ e.code + "' AND `status`='1' ORDER BY updated DESC LIMIT 1 " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
               	var res = db.execute(sql); 
                 var arr = [];  
                 if (res.isValidRow()){
@@ -213,6 +242,7 @@ exports.definition = {
             	var collection = this;
                 var sql = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id='"+e.id+"' ";
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');

@@ -6,6 +6,8 @@ ID       type Name
 2 		getInventoryProduct 	 
 3 		getInventoryResources
 4 		getStockOut	
+5       getResourceCardList
+6		getProductiCardList
 ************************************/
 
 exports.definition = {
@@ -35,6 +37,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ id+ "'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                
@@ -44,7 +47,7 @@ exports.definition = {
 					    updated: res.fieldByName('updated')
 					};
 				} 
-				console.log(arr);
+			 
 				res.close();
                 db.close();
                 collection.trigger('sync');
@@ -55,6 +58,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id="+ id ;
                 var sql_query =  "";
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
              
                 if (res.isValidRow()){

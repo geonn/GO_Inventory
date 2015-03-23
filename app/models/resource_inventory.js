@@ -36,6 +36,7 @@ exports.definition = {
 				var sql = "SELECT `type`,COUNT(1) AS total FROM " + collection.config.adapter.collection_name + " WHERE `status` = 1 GROUP BY `type`" ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -57,6 +58,7 @@ exports.definition = {
 				var sql = "SELECT id FROM " + collection.config.adapter.collection_name + " WHERE `type`='"+cate+"' " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -77,6 +79,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE `type`='"+cate+"' AND `status` = 1 " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -119,6 +122,7 @@ exports.definition = {
                 }
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -151,6 +155,7 @@ exports.definition = {
                 var collection = this;
                 var sql = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id IN ("+ids+")   " ;
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');
@@ -160,6 +165,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE (`status` = 1) AND (`type`='"+cate+"') AND (name LIKE '%"+searchKey+"%' OR supplier LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%') ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -194,6 +200,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+id+"' " ;
          
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql); 
                 var arr = []; 
                
@@ -226,6 +233,7 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name);
+                db.file.setRemoteBackup(false);
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
@@ -242,6 +250,7 @@ exports.definition = {
                 var collection = this;
                  
                 db = Ti.Database.open(collection.config.adapter.db_name); 
+                db.file.setRemoteBackup(false);
              	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  quantity='"+e.quantity+"'  WHERE id='" +e.id+"'";
                 
 	            db.execute(sql_query);
