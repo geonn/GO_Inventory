@@ -40,10 +40,9 @@ function getNotificationNumber(payload){
 	
 // Process incoming push notifications
 function receivePush(e) { 
-	// nav.navigateWithArgs("survey", {
-		// url: e.data.target
-	// });
- 	alert("receivePush");
+	 
+	DRAWER.navigation(e.data.target,1,{news_id:e.data.extra });
+ 	//alert("receivePush");
 	return false;
 }
 

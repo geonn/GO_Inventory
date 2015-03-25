@@ -1,4 +1,5 @@
 var args = arguments[0] || {}; 
+var news_id = args.news_id || "";
 var pop;
 var mod_announcement = Alloy.createCollection('announcement'); 
 Ti.App.Properties.setString('parent',"");
@@ -7,11 +8,12 @@ COMMON.construct($);
 COMMON.showLoading();
 setTimeout(function(){ 
 	displayAnnouncement(listing);
+	if(news_id != ""){
+		viewDetails("");
+	}
 }, 1000);
 
 function displayAnnouncement(listing){
-	  
-	
 	var data=[]; 
 		//hide loading bar 
  		COMMON.hideLoading();
@@ -79,8 +81,7 @@ function displayAnnouncement(listing){
 					font:{fontSize:12,fontWeight:'bold'},
 					width:'auto',
 					color: "#848484",
-					textAlign:'left',
-				//	bottom:5,
+					textAlign:'left', 
 					left:20,
 					height:Ti.UI.SIZE
 				}); 
@@ -101,7 +102,12 @@ function displayAnnouncement(listing){
 };
 
 function viewDetails(e){  
-	var res_news = mod_announcement.getAnnouncementById(e.rowData.source);
+	if(news_id != ""){
+		var res_news = mod_announcement.getAnnouncementById(news_id);
+	}else{
+		var res_news = mod_announcement.getAnnouncementById(e.rowData.source);
+	}
+	
 	var title = res_news.title;
 	title = title.replace(/&quot;/g,"'");
 				
@@ -160,8 +166,7 @@ function viewDetails(e){
 			});
 			contentView.add(resource_label);
  		} 
- 	}
- 		
+ 	} 
   
 	var centerImageView = Ti.UI.createView({
 		layout: "composite",
@@ -190,7 +195,6 @@ function viewDetails(e){
 	pop = COMMON.popup(containerView,config);
 	pop.open({fullscreen:true, navBarHidden: true}); 
 	addDoneEvent(okayBtn,pop);  
-		
 }
 
 function addDoneEvent(myView, popView){
