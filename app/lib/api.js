@@ -28,11 +28,33 @@ var uploadImageUrl 		= "http://"+API_DOMAIN+"/api/uploadMedia?user="+USER+"&key=
 var checkProductItemsUrl= "http://"+API_DOMAIN+"/api/checkProductItems?user="+USER+"&key="+KEY;
 var checkResourceItemsUrl= "http://"+API_DOMAIN+"/api/checkResourceItems?user="+USER+"&key="+KEY;
 var createiCardUrl		= "http://"+API_DOMAIN+"/api/createiCard?user="+USER+"&key="+KEY;
+var updateTokenUrl 		= "http://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
+
 /*********************
 **** API FUNCTION*****
 **********************/
-exports.uploadImage = function(ex){
-	 
+// update user device token
+exports.updateNotificationToken = function(e){
+	var mod_settings = Alloy.createCollection('settings');  
+	var pushVal = mod_settings.getSettingById("2"); 
+	var pushStatus = 1;
+	if(pushVal.value == "false"){
+		pushStatus = 0;
+	}
+	var deviceToken = Ti.App.Properties.getString('deviceToken');
+	if(deviceToken != ""){ 
+		var url = updateTokenUrl+"&token="+deviceToken+"&session="+Ti.App.Properties.getString("session")+"&status="+pushStatus; 
+		console.log(url);
+		var _result = contactServer(url);  
+		_result.onload = function(e) { 
+		 };
+		
+		_result.onerror = function(e) { 
+		};
+	} 
+};
+
+exports.uploadImage = function(ex){ 
 	var url = uploadImageUrl+"&type="+ex.type+"&u_id="+Ti.App.Properties.getString("user_id")+"&item_id="+ ex.item_id+"&session="+Ti.App.Properties.getString("session");
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -56,16 +78,14 @@ exports.uploadImage = function(ex){
 //login to app
 exports.login = function (ex){ 
 	var url = loginUrl+"&username="+ex.username+"&password="+ex.password; 
-	//console.log(url);
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	var res = JSON.parse(this.responseText); 
-	        if(res.status == "success"){
-	        	var entry = res.user;
-	        	if( entry.roles != "admin"){
-	        		if(entry.last_login == "0000-00-00 00:00:00"){
-	        			/***User Info***/
+	var _result = contactServer(url);   
+	_result.onload = function(e) {
+		var res = JSON.parse(this.responseText); 
+		if(res.status == "success"){
+			var entry = res.user;
+	        if( entry.roles != "admin"){
+				if(entry.last_login == "0000-00-00 00:00:00"){
+			    		/***User Info***/
 					    var mod_user = Alloy.createModel('user', { 
 					    	id: entry.u_id, 
 							fullname: entry.fullname, 
@@ -80,40 +100,30 @@ exports.login = function (ex){
 						Ti.App.Properties.setString("session",res.data );
 						var myses = Ti.App.Properties.getString("session"); 
 						Ti.App.Properties.setString("user_id",entry.u_id );
-			        	DRAWER.navigation("home",1);
-	        		}else{
-	        			COMMON.createAlert('Authentication warning',"This account has been used by another devices. Please logout from the device that used this account and try login again.");
-	        			Ti.App.fireEvent('hideLoading');
-	        		}
-	        		
-	        	}else{
-	        		COMMON.createAlert('Authentication warning',"Your user account doesn't have permission to access this app.");
-	        		Ti.App.fireEvent('hideLoading');
-	        	}	  
-	        }else{
-	        	COMMON.createAlert('Authentication warning',res.data);
-	        	Ti.App.fireEvent('hideLoading');
-	        }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	alert("Unable to login");
-	     	
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+				    	DRAWER.navigation("home",1);
+			    	}else{
+			    		COMMON.createAlert('Authentication warning',"This account has been used by another devices. Please logout from the device that used this account and try login again.");
+			    		Ti.App.fireEvent('hideLoading');
+			    	}
+			    	
+			    }else{
+			    	COMMON.createAlert('Authentication warning',"Your user account doesn't have permission to access this app.");
+			    	Ti.App.fireEvent('hideLoading');
+			    }	  
+		}else{
+			COMMON.createAlert('Authentication warning',res.data);
+			Ti.App.fireEvent('hideLoading');
+		}
+	}; 
+	onerror = function(e) {
+		alert("Unable to login");	 	
+	}; 
 };
 
 exports.logoutUser = function(ex){
 	var url = logoutUrl+"&session="+Ti.App.Properties.getString("session");
- 
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
+ 	var _result = contactServer(url);   
+	_result.onload = function(e) {
 	     	var res = JSON.parse(this.responseText); 
 	        if(res.status == "success"){ 
 	        	Ti.App.Properties.setString("user_id","" );
@@ -126,18 +136,10 @@ exports.logoutUser = function(ex){
 	        	COMMON.createAlert('Authentication warning',res.data);
 	        	Ti.App.fireEvent('hideLoading');
 	        }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	alert("Unable to login");
-	     	
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+	}; 
+	_result.onerror = function(e) {
+		alert("Unable to login");
+	}; 
 };
 
 //Add product
@@ -597,108 +599,80 @@ exports.updatedCombination = function(ex){
 	var count = 0; 
 	res_data.forEach(function(reso) { 
 		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&updated="+reso.updated+"&session="+Ti.App.Properties.getString("session");
-  		
-		var client = Ti.Network.createHTTPClient({
-		     onload : function(e) {
-		       var res = JSON.parse(this.responseText);  
-		        if(res.status == "success"){
-					var mod_products = Alloy.createCollection('products'); 
-					var mod_resources = Alloy.createCollection('resources'); 
-		        	mod_resources.updatedSync({
-		        		prefix : reso.prefix,
-		        		item_id : reso.item_id
-		        	});
-		        	count++; 
-		        	if(res_data.length == count){ 
-		        		Ti.App.fireEvent("refreshTableList");
-		        	}
-		        }
-		     },
-		     // function called when an error occurs, including a timeout
-		     onerror : function(e) {
-		     	//alert("An error occurs");
-		     },
-		     timeout : 10000  // in milliseconds
-		 });
-		 // Prepare the connection.
-		 client.open("GET", url);
-		 // Send the request.
-		 client.send();
-	});
-  	
+  		var _result = contactServer(url);  
+		_result.onload = function(e) {
+			var res = JSON.parse(this.responseText);  
+		    if(res.status == "success"){
+				 var mod_products = Alloy.createCollection('products'); 
+				 var mod_resources = Alloy.createCollection('resources'); 
+			   	 mod_resources.updatedSync({
+			   		 prefix : reso.prefix,
+			   		 item_id : reso.item_id
+			   	 });
+			    	count++; 
+			   	 if(res_data.length == count){ 
+			   	 	Ti.App.fireEvent("refreshTableList");
+			   	 }
+		    }
+		};
+		// function called when an error occurs, including a timeout
+		_result.onerror = function(e) {
+			//alert("An error occurs");
+		};    
+	}); 
 	
 };
 
 exports.updateUserProfile = function(ex){
 	var url = updateProfileUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&field="+ex.field+"&value="+ex.value+"&session="+Ti.App.Properties.getString("session");
- 
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	         var res = JSON.parse(this.responseText);
-	         
-	         if(res.status == "success"){
-	         	
-				var mod_users = Alloy.createCollection('user'); 
-				var details = mod_users.changeProfile({
-					id: Ti.App.Properties.getString("user_id"),
-					field :  ex.field,
-					value :  ex.value
-				}); 
-	         	 
-	         	COMMON.hideLoading();
-	         }else{
-	         	COMMON.createAlert('Update failed',res.data.error_msg);
-	         }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	COMMON.hideLoading();
-	     	isSubmit = 0;
-	        COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+ 	var _result = contactServer(url);  
+	 _result.onload = function(e) {
+	    var res = JSON.parse(this.responseText);
+	    
+	    if(res.status == "success"){ 
+			var mod_users = Alloy.createCollection('user'); 
+			var details = mod_users.changeProfile({
+				id: Ti.App.Properties.getString("user_id"),
+				field :  ex.field,
+				value :  ex.value
+			}); 
+	    	 
+	    	COMMON.hideLoading();
+	    }else{
+	    	COMMON.createAlert('Update failed',res.data.error_msg);
+	    }
+	};
+	// function called when an error occurs, including a timeout
+	_result.onerror = function(e) {
+		COMMON.hideLoading();
+		isSubmit = 0;
+	   COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+	};  
 };
 
-exports.changePassword= function(ex){
-	
+exports.changePassword= function(ex){ 
 	var url = changePwdUrl +"&u_id="+Ti.App.Properties.getString("user_id")+"&current_password="+ex.current_password+"&password="+ex.password+"&session="+Ti.App.Properties.getString("session");
- 
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	         var res = JSON.parse(this.responseText);
-	         
-	         if(res.status == "success"){
-	         	
-				var mod_users = Alloy.createCollection('user'); 
-				var details = mod_users.changePassword({
-					id: Ti.App.Properties.getString("user_id"),
-					password :  ex.password
-				}); 
-	         	COMMON.createAlert('Change Password','Password updated successfully.');
-	         	COMMON.hideLoading();
-	         }else{
-	         	COMMON.createAlert('Update failed',res.data.error_msg);
-	         }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	COMMON.hideLoading();
-	     	isSubmit = 0;
-	        COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+ 	var _result = contactServer(url);  
+	_result.onload = function(e) {
+	    var res = JSON.parse(this.responseText); 
+	    if(res.status == "success"){ 
+			var mod_users = Alloy.createCollection('user'); 
+			var details = mod_users.changePassword({
+				id: Ti.App.Properties.getString("user_id"),
+				password :  ex.password
+			}); 
+	    	COMMON.createAlert('Change Password','Password updated successfully.');
+	    	COMMON.hideLoading();
+	    }else{
+	    	COMMON.createAlert('Update failed',res.data.error_msg);
+	    }
+	};
+	// function called when an error occurs, including a timeout
+	_result.onerror = function(e) {
+		COMMON.hideLoading();
+		isSubmit = 0;
+	   COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+	}; 
 };
 
 exports.getInventoryResources = function(ex){
@@ -710,57 +684,46 @@ exports.getInventoryResources = function(ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url =inventoryResourcesUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
- 	//console.log(url);
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	var res = JSON.parse(this.responseText);
-	    
-	        if(res.status == "success"){ 
-				var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
-				var resource  = res.data;
-	         	resource.forEach(function(resDetail){
-	     
-	         		mod_InventoryRes.addUpdateResource({
-		       			id: resDetail.id, 
-						name: resDetail.name,
-						type: resDetail.type,
-						code: resDetail.code,
-						supplier: resDetail.supplier,
-						image: resDetail.image,
-						depth: resDetail.depth,
-						width: resDetail.width,
-						height: resDetail.height,
-						weight: resDetail.weight,
-						status: resDetail.status,
-						quantity: resDetail.quantity,
-						created: resDetail.created,
-						updated: resDetail.updated
-	         			 
-	        		});	
-	         		
-	         	});
-	       		checker.updateModule("3","inventoryResources",currentDateTime()); 
-	       		COMMON.hideLoading();
-	        }else{
-	        	Ti.App.Properties.setString("user_id","" );
-				Ti.App.Properties.setString('module',"");
-				Ti.App.Properties.setString('session',"");
-				var mod_product = Alloy.createCollection('products'); 
-				mod_product.resetScanHistory(); 
-	        	DRAWER.navigation("login",1);
-	        }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	//alert("An error occurs");
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+ 	var _result = contactServer(url);
+	_result.onload = function(e) {
+		var res = JSON.parse(this.responseText);
+	
+	   if(res.status == "success"){ 
+		var mod_InventoryRes = Alloy.createCollection('resource_inventory'); 
+		var resource  = res.data;
+	    	resource.forEach(function(resDetail){ 
+	    		mod_InventoryRes.addUpdateResource({
+	      			id: resDetail.id, 
+					name: resDetail.name,
+					type: resDetail.type,
+					code: resDetail.code,
+					supplier: resDetail.supplier,
+					image: resDetail.image,
+					depth: resDetail.depth,
+					width: resDetail.width,
+					height: resDetail.height,
+					weight: resDetail.weight,
+					status: resDetail.status,
+					quantity: resDetail.quantity,
+					created: resDetail.created,
+					updated: resDetail.updated 
+		   		});	
+	    		
+	    	});
+	  		checker.updateModule("3","inventoryResources",currentDateTime()); 
+	  		COMMON.hideLoading();
+	   }else{
+	   	Ti.App.Properties.setString("user_id","" );
+		Ti.App.Properties.setString('module',"");
+		Ti.App.Properties.setString('session',"");
+		var mod_product = Alloy.createCollection('products'); 
+		mod_product.resetScanHistory(); 
+	   	DRAWER.navigation("login",1);
+	   }
+	}; 
+	_result.onerror = function(e) {
+		//alert("An error occurs");
+	}; 
 };
 
 exports.getInventoryProducts = function(ex){
@@ -773,51 +736,40 @@ exports.getInventoryProducts = function(ex){
 	}
 	 
 	var url =inventoryProductsUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
-	//console.log(url);
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	var res = JSON.parse(this.responseText);
-	       
-	        if(res.status == "success"){ 
-				var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
-				var product  = res.data;
-	         	product.forEach(function(prodDetail){
-	         	
-	         		mod_InventoryProd.addUpdateProduct({
-		       			id: prodDetail.id, 
-						name: prodDetail.name,
-						prodSet: prodDetail.set,
-						code: prodDetail.code,
-						category: prodDetail.category,
-						image: prodDetail.image,
-						depth: prodDetail.depth,
-						width: prodDetail.width,
-						height: prodDetail.height,
-						weight: prodDetail.weight,
-						surface_habitable: prodDetail.surface_habitable,
-						fabric_used: prodDetail.fabric_used,
-						quantity: prodDetail.quantity,
-						status: prodDetail.status,
-						created: prodDetail.created,
-						updated: prodDetail.updated
-	         			 
-	        		});	
-	         		
-	         	});
-	       		checker.updateModule("2","inventoryProduct",currentDateTime()); 
-	        }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	//alert("An error occurs");
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+	var _result = contactServer(url);
+	_result.onload = function(e) { 
+		var res = JSON.parse(this.responseText);
+	  	
+	   if(res.status == "success"){ 
+		var mod_InventoryProd = Alloy.createCollection('product_inventory'); 
+		var product  = res.data;
+	    	product.forEach(function(prodDetail){
+	    	
+	    		mod_InventoryProd.addUpdateProduct({
+	      			id: prodDetail.id, 
+					name: prodDetail.name,
+					prodSet: prodDetail.set,
+					code: prodDetail.code,
+					category: prodDetail.category,
+					image: prodDetail.image,
+					depth: prodDetail.depth,
+					width: prodDetail.width,
+					height: prodDetail.height,
+					weight: prodDetail.weight,
+					surface_habitable: prodDetail.surface_habitable,
+					fabric_used: prodDetail.fabric_used,
+					quantity: prodDetail.quantity,
+					status: prodDetail.status,
+					created: prodDetail.created,
+					updated: prodDetail.updated 
+		   		});	 
+	    	});
+	  		checker.updateModule("2","inventoryProduct",currentDateTime()); 
+	   }
+	}; 
+	_result.onerror = function(e) {
+		//alert("An error occurs");
+	};  
 };
 
 exports.getStockOutList = function(ex){
@@ -830,12 +782,9 @@ exports.getStockOutList = function(ex){
 	}
 	 
 	var url =stockOutUrl+"&last_updated="+last_updated+"&session="+Ti.App.Properties.getString("session");
-	 
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	var res = JSON.parse(this.responseText);
-	       
+	var _result = contactServer(url);  
+	_result.onload = function(e) { 
+	     	var res = JSON.parse(this.responseText); 
 	        if(res.status == "success"){ 
 				var mod_stockout = Alloy.createCollection('stockout'); 
 				var mod_product = Alloy.createCollection('products'); 
@@ -870,24 +819,16 @@ exports.getStockOutList = function(ex){
 	         	});
 	       		checker.updateModule("4","stockOut",currentDateTime()); 
 	        }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
+	     }; 
+	     _result.onerror = function(e) { 
 	     	//alert("An error occurs");
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+	     }; 
 };
 
 exports.syncScanByUser= function(ex){
 	var url = syncScanByUserUrl + "&u_id="+Ti.App.Properties.getString("user_id")+"&session="+Ti.App.Properties.getString("session");
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
+	var _result = contactServer(url);
+	_result.onload = function(e) {
 	     	var res = JSON.parse(this.responseText);
 	         
 	     	if(res.status == "success"){
@@ -926,25 +867,30 @@ exports.syncScanByUser= function(ex){
 	         		});
 	         	});
 	       }
-	      
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
+	     };
+	     
+	     _result.onerror = function(e) {
 	     	//alert("An error occurs");
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+	     };
 };
  
 exports.getDomain = function(){
 	return "http://"+API_DOMAIN+"/";	
 };
 
-//private function
+
+/*********************
+ * Private function***
+ *********************/
+function contactServer(url) { 
+	var client = Ti.Network.createHTTPClient({
+		timeout : 10000
+	});
+	client.open("GET", url);
+	client.send(); 
+	return client;
+};
+
 function onErrorCallback(e) { 
 	// Handle your errors in here
 	COMMON.createAlert("Error", e);

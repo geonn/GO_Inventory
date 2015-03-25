@@ -11,12 +11,9 @@ function logout(){
 	Ti.App.Properties.setString("user_id","" );
 	Ti.App.Properties.setString('module',"");
 	DRAWER.navigation("login",1);
-	
 }
 
 API.getInventoryProducts();
 API.getInventoryResources();
 API.getStockOutList();
-API.syncScanByUser();
-
-
+API.syncScanByUser(); 

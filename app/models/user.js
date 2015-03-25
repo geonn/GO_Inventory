@@ -29,7 +29,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ id+ "'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                 var arr = []; 
                
@@ -54,7 +56,9 @@ exports.definition = {
 				var collection = this; 
                 var sql_query =  "";
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET "+e.field+"='"+e.value+"' WHERE id='" +e.id+"'";
        
 	            db.execute(sql_query);
@@ -65,7 +69,9 @@ exports.definition = {
 				var collection = this; 
                 var sql_query =  "";
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET password='"+e.password+"' WHERE id='" +e.id+"'";
        
 	            db.execute(sql_query);

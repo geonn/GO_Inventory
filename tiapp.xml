@@ -11,6 +11,16 @@
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
+    <property name="acs-oauth-secret-development" type="string">iLeuO9NZhZhcoMIlRwV8rlVbdJmVXIMa</property>
+    <property name="acs-oauth-key-development" type="string">Re7Wh0RNIBbLqxWFKF8FGUBY5mWqsE8s</property>
+    <property name="acs-api-key-development" type="string">TJZ3d3Eiss7MPh0PqPChApbQOP6KUYiu</property>
+    <property name="acs-oauth-secret-production" type="string">XnpqYy8Gh2JxGqPOTfyOA59o1HmuotIE</property>
+    <property name="acs-oauth-key-production" type="string">4eV1pvz6eZOehuxMGEOSEdYgECNQl9KP</property>
+    <property name="acs-api-key-production" type="string">1U8qRc3ZdwgwV5BcaMjqS4100zLDZjzQ</property>
+    <property name="acs-push-type-development" type="string">gcm</property>
+    <property name="acs-push-type-production" type="string">gcm</property>
+    <property name="acs-push-type" type="string">gcm</property>
+    <property name="acs-grouped-notification-message" type="string">You have $number$ unread messages.</property>
     <guid>76b396bd-827e-43f1-9ad4-e1414ea14dc9</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
     <ios>
@@ -43,8 +53,10 @@
         <manifest>
             <application android:theme="@style/Theme.NoActionBar"/>
             <uses-sdk android:minSdkVersion="14"/>
-            <application android:icon="@drawable/appicon" android:label="GO Inventory" android:name="GoInventoryApplication" android:debuggable="true" android:theme="@style/Theme.NoActionBar">
-            </application>
+            <application android:debuggable="true"
+                android:icon="@drawable/appicon"
+                android:label="GO Inventory"
+                android:name="GoInventoryApplication" android:theme="@style/Theme.NoActionBar"/>
         </manifest>
     </android>
     <mobileweb>
@@ -60,6 +72,8 @@
         <module platform="iphone" version="4.3.0">com.mirasense.scanditsdk</module>
         <module platform="android" version="4.3.0">com.mirasense.scanditsdk</module>
         <module platform="android">dk.napp.drawer</module>
+        <module platform="android">ti.cloudpush</module>
+        <module platform="commonjs">ti.cloud</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>

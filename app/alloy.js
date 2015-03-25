@@ -11,6 +11,7 @@
 // Alloy.Globals.someGlobalFunction = function(){}; 
 var API = require('api');
 var COMMON = require('common');
+var PUSH = require('push');
 var DRAWER = require('drawer');
 Alloy.Globals.version = "1.0.0";
 
@@ -137,3 +138,13 @@ function validateEmail(email) {
 	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 } 
+
+//push notification
+/**********************************************
+ * ****PUSH NOTIFICATION ***************
+ * *******************************************/
+if(Ti.Platform.osname != "android"){
+	Titanium.UI.iPhone.setAppBadge("0");
+}
+
+PUSH.registerPush();

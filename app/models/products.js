@@ -32,7 +32,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE myScan='1' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -61,7 +63,9 @@ exports.definition = {
                 var sql = "SELECT COUNT(*) as total FROM " + collection.config.adapter.collection_name + " WHERE product='"+e.id+"' " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                 var arr = []; 
                
@@ -80,7 +84,9 @@ exports.definition = {
                 var sql = "SELECT  product , COUNT(DISTINCT(code)) as total FROM " + collection.config.adapter.collection_name + " GROUP BY product " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0; 
@@ -102,7 +108,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE item_id LIKE '%"+searchKey+"%' OR code LIKE '%"+searchKey+"%' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -131,7 +139,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE code='"+code+"' " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql); 
                 var arr = []; 
                
@@ -158,7 +168,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE orders='"+order+"' " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql); 
                  var arr = []; 
                 var count = 0;
@@ -187,7 +199,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE myScan='1' ORDER BY updated DESC " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                 if (res.isValidRow()){
                 	while (res.isValidRow()){
@@ -206,7 +220,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+e.id+"' " ;
  
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                 if (res.isValidRow()){
 	            	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  done='1', updated='"+currentDateTime()+"' WHERE id='"+e.id+"' " ;
@@ -221,7 +237,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name  ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql); 
                  var arr = []; 
                 var count = 0;
@@ -250,7 +268,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;
  
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                  
                 if (res.isValidRow()){
@@ -268,7 +288,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ e.id + "' " ;
  
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
                 var res = db.execute(sql);
                  
                 if(e.myScan != ""){
