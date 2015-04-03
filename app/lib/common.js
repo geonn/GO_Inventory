@@ -30,6 +30,26 @@ exports.showLoading = function(){
 	}  
 };
 
+
+exports.showImageIndicator = function(){
+	var ind = Ti.UI.createActivityIndicator({  
+				style:Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT,
+				bottom:10,
+				right:20,
+				height:Ti.UI.SIZE,
+				width:Ti.UI.SIZE,
+				zIndex: 11,
+			  });
+	ind.show();
+	return ind;
+};
+
+exports.imageIndicatorEvent = function(theImage,activityIndicator){
+	theImage.addEventListener('load', function(e) {
+		activityIndicator.hide();
+	});
+};
+
 exports.createAlert = function(tt,msg){
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,

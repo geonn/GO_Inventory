@@ -4,6 +4,7 @@ var pop;
 var mod_announcement = Alloy.createCollection('announcement'); 
 Ti.App.Properties.setString('parent',"");
 var listing = mod_announcement.getAnnouncementList();
+
 COMMON.construct($);
 COMMON.showLoading();
 setTimeout(function(){ 
@@ -20,7 +21,7 @@ function displayAnnouncement(listing){
    		var counter = 0;
    		
    		if(listing.length < 1){ 
-			$.newsTable.add(COMMON.noRecord());
+			$.newsTable.setData(COMMON.noRecord());
 		}else{
 
 	   		listing.forEach(function(entry) {
@@ -99,6 +100,9 @@ function displayAnnouncement(listing){
 	   		
 	   		$.newsTable.setData(data);  
 		} 
+		// removeAllChildren($.aView);
+		// var calendar = require('calendar');
+		// $.aView.add(calendar.getCalendar());
 };
 
 function viewDetails(e){  

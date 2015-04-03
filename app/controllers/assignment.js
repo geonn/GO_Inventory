@@ -41,8 +41,7 @@ function populateData(){
 	var det = mod_products.getProductDetails(iCard);
 	var res_det = mod_resources.getResourcesByicard(iCard);
 	var prod_det = mod_InventoryProd.getProductDetails(det.product); 
-	console.log(det);
-	
+	 
 	if(det.done == "1"){  
 		$.infoContainer.backgroundColor = "#375540";
 		$.infoLabel.text = "COMPLETED";

@@ -155,11 +155,15 @@ exports.displayResources = function(resource){
 				var leftImage = Ti.UI.createImageView({
 					image: entry.image, 
 					source: entry.id, 
+					defaultImage: "/images/warm-grey-bg.png",
 					width:"80%"
 				});
 			}
 			
-			imageContainer.add(leftImage);
+			var activityIndicator = COMMON.showImageIndicator(); 
+			imageContainer.add(leftImage); 
+			imageContainer.add(activityIndicator);
+			COMMON.imageIndicatorEvent(leftImage,activityIndicator); 
 			  
 			var popUpTitle = Titanium.UI.createLabel({
 				text:entry.name,

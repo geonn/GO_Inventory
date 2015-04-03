@@ -148,11 +148,15 @@ function displayProduct(products){
 				var leftImage = Ti.UI.createImageView({
 					image: entry.image,  
 					source: entry.id, 
+					defaultImage: "/images/warm-grey-bg.png",
 					width:"80%"
 				});
 			}
+			var activityIndicator = COMMON.showImageIndicator(); 
 			imageContainer.add(leftImage); 
-		
+			imageContainer.add(activityIndicator);
+			COMMON.imageIndicatorEvent(leftImage,activityIndicator);
+			
 			var popUpTitle = Titanium.UI.createLabel({
 				text:entry.name,
 				font:{fontSize:14, fontWeight:'bold'},

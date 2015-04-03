@@ -82,15 +82,20 @@ exports.displayProductImage = function (image,item_id){
 	}else{
 		var resImage = Titanium.UI.createImageView({
 			image: image, 
+			defaultImage: "/images/warm-grey-bg.png",
 			top:0,
 			width:"83%"
 		});
 		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}
+	var activityIndicator = COMMON.showImageIndicator(); 
+	
 	editorContainer.add(undoBtn);  
 	editorContainer.add(saveBtn);  
-	imageContainer.add(resImage);
+	imageContainer.add(resImage); 
 	imageContainer.add(editorContainer); 
+	imageContainer.add(activityIndicator);
+	COMMON.imageIndicatorEvent(resImage,activityIndicator); 
 	resImage.addEventListener('click', function(){
 		PRODUCT.loadPhoto(resImage,undoBtn,saveBtn);
 	});

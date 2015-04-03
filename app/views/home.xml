@@ -1,4 +1,5 @@
 <Alloy>
+	
 	<View>
 		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15"  backgroundColor="#2E2E2E" >
 	        <ActivityIndicator  id="activityIndicator" />

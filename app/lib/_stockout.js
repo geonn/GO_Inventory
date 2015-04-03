@@ -278,6 +278,7 @@ function displayDetails(order_id){
 			});
 			var prodImage = Titanium.UI.createImageView({
 				image: productInfo.image, 
+				defaultImage: "/images/warm-grey-bg.png",
 				top:0,
 				left:0,
 				width:"100%"
@@ -306,9 +307,14 @@ function displayDetails(order_id){
 			 	font: { fontSize:26 },
 				text:  obj[k].length,  
 			});	
+			
+			var activityIndicator = COMMON.showImageIndicator(); 
+			  
 			qtyLabelView.add(qtyLabel);
 			titleLabelView.add(titleLabel);
 			imageContainer.add(prodImage);
+			imageContainer.add(activityIndicator);
+			COMMON.imageIndicatorEvent(prodImage,activityIndicator); 
 			horiView.add(imageContainer); 
 			horiView.add(titleLabelView);
 			horiView.add(qtyLabelView);

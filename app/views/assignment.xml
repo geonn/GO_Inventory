@@ -14,7 +14,7 @@
 	 		<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >ICARD DETAILS</Label></View>
 			<View layout="horizontal" height="150">
 				<ScrollView width="150" height="150">
-					<ImageView id="productImage" width="150" />
+					<ImageView id="productImage" defaultImage="/images/warm-grey-bg.png" width="150" />
 				</ScrollView>
 				<View layout="vertical" left="10" height="Ti.UI.SIZE" width="auto">
 					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" w class="black_text bold_text">iCard No :</Label>
