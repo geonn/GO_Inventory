@@ -34,7 +34,9 @@ var getProductDetails = function(items){
 	row = $.UI.create('scrollView', {
 		classes: ["row"],  
 		id:"view"+items['position'],
-		layout: "vertical"
+		layout: "vertical",
+		height:Ti.UI.SIZE,
+		bottom:20
 	}); 
 		
 	$.item_Details.title=items['name'];

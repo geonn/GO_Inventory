@@ -226,8 +226,7 @@ exports.displayProductContents = function(items){
 exports.displayProductResources = function(code){
 	var mod_res = Alloy.createCollection('resources');  
 	var proRes  = mod_res.getResourcesByicard(code);
-	console.log(proRes);
-	
+	 
 	var mainContentView = Titanium.UI.createView({
 		layout : "vertical",  
 		bottom:5, 
