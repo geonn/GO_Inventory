@@ -49,6 +49,7 @@ function displayProduct(products){
 				
 				var leftImage =  Titanium.UI.createImageView({
 					image:prodDetails.image,
+					defaultImage: "/images/warm-grey-bg.png",
 					source: entry.code,
 					width:"20%",
 					height:50,
@@ -96,6 +97,10 @@ function displayProduct(products){
 				});
 			 
 				row.add(leftImage);
+				var activityIndicator = COMMON.showImageIndicator();  
+				row.add(activityIndicator);
+				COMMON.imageIndicatorEvent(leftImage,activityIndicator); 
+			
 				tblView.add(popUpTitle);
 				tblView.add(category);
 			 	tblView.add(distance);  

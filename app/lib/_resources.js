@@ -58,7 +58,7 @@ function displayCategory(){
 			});
 			
 			var rightImage =  Titanium.UI.createImageView({
-				image:"/images/btn-forward",
+				image:"/images/btn-forward.png",
 				source: entry.type,
 				width: 20,
 				right: 10,
