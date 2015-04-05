@@ -14,7 +14,8 @@
 			</View>
 			<View class="content" height="auto">
 				<View backgroundColor="#ffffff" height="Ti.UI.FILL" left="5" top="5" right="5" bottom="5" layout="vertical">
-					<View onClick="goTo" top="0" mod="assignment" backgroundImage="/images/menu/menu_assignment.jpg" width="Ti.UI.FILL" height="33%"></View>
+					<View onClick="goTo" mod="assignment" top="0" backgroundImage="/images/menu/menu_assignment.jpg" width="Ti.UI.FILL" height="33%"></View>
+ 
 					<View width="Ti.UI.FILL" height="33%" top="5" layout="horizontal">
 						<View onClick="goTo" mod="history" backgroundImage="/images/menu/menu_scan_history.jpg" width="49%" right="5"></View>
 						<View onClick="goTo" mod="viewProduct" backgroundImage="/images/menu/menu_view_product.jpg" width="auto"></View>
