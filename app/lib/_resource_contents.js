@@ -165,9 +165,26 @@ exports.displayResourceContents = function(items){
 		left:20
 	});
 	
+	var mod_res = Alloy.createCollection('resources');  
+	var icardsTotal = mod_res.getiCardTotalByResource(items.id);
+	console.log(icardsTotal);
 	var contentView  = horizontalView(); 
 	contentView.add(contentTitleLabel("Resource Stock Quantity"));
-	contentView.add(contentLabel(items.quantity));
+	if(icardsTotal.length > 0){
+		var str = ""; 
+		icardsTotal.forEach(function(tq) {
+			if(tq.status == "1"){
+				str += "Available : " + tq.total + "\r\n"; 
+			}else{
+				str += "Used : " + tq.total + "\r\n"; 
+			}
+		});
+		
+		contentView.add(contentLabel(str));
+	}else{
+		contentView.add(contentLabel("N/A"));
+	}
+	 
 	contentView.add(addImage );
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());

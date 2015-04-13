@@ -163,6 +163,41 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getiCardTotalByProduct : function(product_id){
+				var collection = this;
+                var sql = "SELECT DISTINCT(done), COUNT(*) as total  FROM " + collection.config.adapter.collection_name + " WHERE product='"+product_id+"' GROUP BY done" ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql); 
+                var arr = []; 
+                var count = 0;
+                var myDoneTotal = 0;
+                var myPendingTotal = 0;
+                while (res.isValidRow()){ 
+                	if(res.fieldByName('done') == "1"){
+                		myDoneTotal += res.fieldByName('total') ;
+                		arr[count] = {
+						    done: res.fieldByName('done'),
+						    total: myDoneTotal
+						};
+                	}else{
+                		myPendingTotal += res.fieldByName('total');
+                		arr[count] = {
+						    done: "0",
+						    total: myPendingTotal
+						}; 
+                	} 
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getProductByOrder : function(order){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE orders='"+order+"' " ;
@@ -274,9 +309,9 @@ exports.definition = {
                 var res = db.execute(sql);
                  
                 if (res.isValidRow()){
-	             	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
+	             	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  done='"+e.done+"',item_id='"+e.item_id+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
 	            }else{
-	              	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"' , '"+e.created+"','"+e.updated+"')" ;
+	              	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"','"+e.done+"' , '"+e.created+"','"+e.updated+"')" ;
 				}
                  
 	            db.execute(sql_query);

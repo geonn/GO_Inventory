@@ -129,6 +129,7 @@ exports.displayResources = function(resource){
 		    	right: 5,
 		    	bottom: 5,
 		    	height: 80,
+		    	source: entry.id, 
 		    	width: Ti.UI.FILL,
 		    	layout: "horizontal",
 			});
@@ -136,6 +137,7 @@ exports.displayResources = function(resource){
 			var tblView = Ti.UI.createView({
 				layout: "vertical",
 				height:"80",
+				source: entry.id, 
 				width:"auto",
 			}); 
 			

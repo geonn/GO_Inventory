@@ -157,7 +157,7 @@ exports.displayProductContents = function(items){
 	var  depth =  items.depth || "-";
 	var  width =  items.width || "-";
 	var  height = items.height || "-";
-	var sizeText = "(Depth)"+depth + ", (Width)"+width + ", (Height)"+height;
+	var sizeText = "Depth : "+depth + "\r\nWidth : "+width + "\r\nHeight : "+height;
 	var contentView  = horizontalView(); 
 	contentView.add(contentTitleLabel("Product Size"));
 	contentView.add(contentLabel(sizeText));
@@ -177,10 +177,27 @@ exports.displayProductContents = function(items){
 		width: 25,
 		left:20
 	});
-		
+	
+	var mod_prod = Alloy.createCollection('products');  
+	var icardsTotal = mod_prod.getiCardTotalByProduct(items.id);
+//console.log(icardsTotal);
 	var contentView  = horizontalView(); 
 	contentView.add(contentTitleLabel("Product Stock Quantity"));
-	contentView.add(contentLabel(items.quantity));
+	if(icardsTotal.length > 0){
+		var str = ""; 
+		icardsTotal.forEach(function(tq) {
+			if(tq.done == "1"){
+				str += "Done : " + tq.total + "\r\n"; 
+			}else{
+				str += "In Progress : " + tq.total + "\r\n"; 
+			}
+		});
+		
+		contentView.add(contentLabel(str));
+	}else{
+		contentView.add(contentLabel("N/A"));
+	}
+	 
 	contentView.add(addImage );
 	mainContentView.add(contentView); 
 	mainContentView.add(saperatorLine());
@@ -317,6 +334,7 @@ function contentTitleLabel(textTitle){
 	return mainView.UI.create('Label',{ 
 		classes: ['bold_text', 'gray_text','medium_text'], 
 		text: textTitle,
+		top:0,
 		width:"40%"
 	});
 } 
@@ -325,7 +343,8 @@ function contentLabel(textContent){
 	var textContent = textContent || "-";
 	return mainView.UI.create('Label',{ 
 		classes: ['bold_text', 'gray_text','medium_text'], 
-		text: textContent
+		top:0,
+		text: textContent 
 	});	
 }
 

@@ -21,6 +21,7 @@ setTimeout(function(){
  		PRODUCT.displayProduct(searchResult);
 	}else{  
 		var cateResult = mod_InventoryProd.getProductByCategory(cate); 
+		//console.log(cateResult);
 		PRODUCT.displayProduct(cateResult); 
 	} 
 }, 300);  

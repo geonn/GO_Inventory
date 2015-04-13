@@ -3,13 +3,14 @@ var p_id = args.p_id || "";
 var code = args.code || "";
 var from = args.from || "";  
 Ti.App.Properties.setString('parent',from);
-var curCate;
+var curCate; 
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
 var PRODUCT = require('_products');
 var PROD_CONTENTS = require('_product_contents');
 PROD_CONTENTS.construct($);
 COMMON.construct($);
 COMMON.showLoading(); 
+
 var prodDetails = mod_InventoryProd.getProductDetails(p_id);
 Ti.App.Properties.setString('parent',"productLists||"+prodDetails.category);
 if(Ti.Platform.osname == "android"){ 

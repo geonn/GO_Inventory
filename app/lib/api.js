@@ -228,7 +228,7 @@ exports.createiCard = function(ex){
 	}
 
 	var url = createiCardUrl+ "&category="+ex.type+"&id="+ex.item+"&quantity="+ex.qty+"&details=1&session="+Ti.App.Properties.getString("session");
-	 
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({ 
 	     onload : function(e) {
 	       var res = JSON.parse(this.responseText); 
@@ -275,8 +275,8 @@ exports.createiCard = function(ex){
 								updated : currentDateTime()
 						});
 					});
-					var totalCard = mod_resources.getTotaliCardByResource({id: ex.item});
-		         	mod_InventoryRes.updateResourceQty({quantity : totalCard.total, id : ex.item});
+					//var totalCard = mod_resources.getTotaliCardByResource({id: ex.item});
+		         	mod_InventoryRes.updateResourceQty({quantity : res.total, id : ex.item});
 					COMMON.createAlert("Success","iResource Cards are added successfully!");
 					DRAWER.navigation("resourceDetails",1,{p_id: ex.item});
 	        	} 
@@ -510,6 +510,7 @@ exports.getProductiCardList = function(){
 							item_id : code['item_id'],
 							product : code['product'],
 							code : code['code'], 
+							done : code['done'], 
 							created : currentDateTime(),
 							updated : currentDateTime()
 					});
@@ -860,6 +861,7 @@ exports.syncScanByUser= function(ex){
 		         			item_id : resoDetail.code,
 						    name    : resoDetail.name,
 						    code    : resoDetail.item_id, 
+						    resource: resoDetail.resource, 
 						    status  : 3,
 						    created : resoDetail.scandate,
 						    updated : resoDetail.scandate,

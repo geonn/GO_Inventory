@@ -68,17 +68,27 @@ exports.openScanner = function(scanType) {
 					COMMON.createAlert("Error","Please scan finish product first.");
 					return false;
 				}else{
-					var resouceData = mod_resources.getResourcesByicard(iCard);
-					console.log(resouceData);
+					var resouceData = mod_resources.getResourcesByicard(iCard); 
 					if(resouceData.length == 0){
 						COMMON.createAlert("Error","No resources attached to this product yet.");
 					}else{
-						//update to server
-						API.updateDoneProduct({
-							iCard : iCard 
+						mod_resources.confirmScan({code:Ti.App.Properties.getString("iCard") });
+						 
+						var data = mod_resources.getResourcesToSync({iCard: iCard});
+						API.updatedCombination({
+								iCard : iCard,
+								data : data,
 						});
+						 
+						setTimeout(function(){  
+							//update to server
+							API.updateDoneProduct({
+								iCard : iCard 
+							});
+						}, 300); 
 					}
-					
+					Ti.App.fireEvent('populateData');
+					 
 				}
 			}else if(code['type'] == "resource"){ 
 				if(iCard === null){
@@ -103,7 +113,7 @@ exports.openScanner = function(scanType) {
 				Ti.App.fireEvent('populateData');
 			}else if(code['type'] == "product"){
 				//Scan product
-				var prodDetails = mod_products.getProductDetails(iCard);
+				var prodDetails = mod_products.getProductDetails(code['code']);
 				
 				if(prodDetails.done == "1"){
 					COMMON.createAlert("Scan Failed","This product is already completed."); 

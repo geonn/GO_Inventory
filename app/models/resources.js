@@ -80,9 +80,45 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getiCardTotalByResource : function(resource_id){
+				var collection = this;
+                var sql = "SELECT DISTINCT(status), COUNT(*) as total  FROM " + collection.config.adapter.collection_name + " WHERE resource='"+resource_id+"' GROUP BY status" ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql); 
+                var arr = []; 
+                var count = 0; 
+                var usedTotal = 0;
+                var availableTotal = 0;
+                while (res.isValidRow()){ 
+                	 
+					if(res.fieldByName('status') == "1"){
+                		availableTotal += res.fieldByName('total') ;
+                		arr[count] = {
+						    status: res.fieldByName('status'),
+						    total: availableTotal
+						};
+                	}else{
+                		usedTotal += res.fieldByName('total');
+                		arr[count] = {
+						    done: "0",
+						    total: usedTotal
+						}; 
+                	} 
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			countResources : function(){
 				var collection = this;
-                var sql = "SELECT  resource , COUNT(DISTINCT(code)) as total FROM " + collection.config.adapter.collection_name + " GROUP BY resource " ;
+                var sql = "SELECT  resource , COUNT(DISTINCT(code)) as total FROM " + collection.config.adapter.collection_name + " WHERE iCard is NULL GROUP BY resource " ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
