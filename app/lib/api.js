@@ -455,7 +455,7 @@ exports.getResourcesiCardList = function(){
 							name : code['name'],
 							code : code['code'],
 							resource: code['resource'],
-							status : 1,
+							status : code['status'],
 							created : currentDateTime(),
 							updated : currentDateTime()
 					});

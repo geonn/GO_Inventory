@@ -59,6 +59,38 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getiCardByResource : function(resource_id){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE resource='"+resource_id+"' " ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					arr[count] = {
+						id: res.fieldByName('id'),
+					    iCard: res.fieldByName('iCard'),
+					    prefix: res.fieldByName('prefix'),
+					    item_id: res.fieldByName('item_id'),
+					    name: res.fieldByName('name'),
+					    resource : res.fieldByName('resource'),
+					    code: res.fieldByName('code'),
+					    status: res.fieldByName('status'),
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated') 
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getTotaliCardByResource : function(e){
 				var collection = this;
                 var sql = "SELECT  COUNT(DISTINCT(code)) as total FROM " + collection.config.adapter.collection_name + " WHERE resource='"+e.id+"' " ;
@@ -82,34 +114,23 @@ exports.definition = {
 			},
 			getiCardTotalByResource : function(resource_id){
 				var collection = this;
-                var sql = "SELECT DISTINCT(status), COUNT(*) as total  FROM " + collection.config.adapter.collection_name + " WHERE resource='"+resource_id+"' GROUP BY status" ;
+                var sql = "SELECT DISTINCT(code),status  FROM " + collection.config.adapter.collection_name + " WHERE resource='"+resource_id+"' " ;//GROUP BY status
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
                 var res = db.execute(sql); 
-                var arr = []; 
-                var count = 0; 
-                var usedTotal = 0;
-                var availableTotal = 0;
+                var arr = {};  
+                arr['available'] = 0;
+                arr['used']      = 0;
                 while (res.isValidRow()){ 
-                	 
-					if(res.fieldByName('status') == "1"){
-                		availableTotal += res.fieldByName('total') ;
-                		arr[count] = {
-						    status: res.fieldByName('status'),
-						    total: availableTotal
-						};
-                	}else{
-                		usedTotal += res.fieldByName('total');
-                		arr[count] = {
-						    done: "0",
-						    total: usedTotal
-						}; 
+                	if(res.fieldByName('status') == "1"){ 
+                		arr['available']++;
+                	}else{ 
+                		arr['used']++;
                 	} 
-					res.next();
-					count++;
+					res.next(); 
 				} 
 				res.close();
                 db.close();

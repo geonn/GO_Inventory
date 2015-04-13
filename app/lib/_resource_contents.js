@@ -166,20 +166,14 @@ exports.displayResourceContents = function(items){
 	});
 	
 	var mod_res = Alloy.createCollection('resources');  
-	var icardsTotal = mod_res.getiCardTotalByResource(items.id);
-	console.log(icardsTotal);
+	var icardsTotal = mod_res.getiCardTotalByResource(items.id);// mod_res.getiCardByResource(items.id);//
+	//console.log(icardsTotal);
 	var contentView  = horizontalView(); 
 	contentView.add(contentTitleLabel("Resource Stock Quantity"));
-	if(icardsTotal.length > 0){
+	if(icardsTotal != ""){
 		var str = ""; 
-		icardsTotal.forEach(function(tq) {
-			if(tq.status == "1"){
-				str += "Available : " + tq.total + "\r\n"; 
-			}else{
-				str += "Used : " + tq.total + "\r\n"; 
-			}
-		});
-		
+		str += "Available : " + icardsTotal.available + "\r\n"; 
+		str += "Used : " + icardsTotal.used + "\r\n";
 		contentView.add(contentLabel(str));
 	}else{
 		contentView.add(contentLabel("N/A"));
@@ -242,6 +236,7 @@ function contentTitleLabel(textTitle){
 	return mainView.UI.create('Label',{ 
 		classes: ['bold_text', 'gray_text','medium_text'], 
 		text: textTitle,
+		top:0,
 		width:"40%"
 	});
 } 
@@ -249,6 +244,7 @@ function contentTitleLabel(textTitle){
 function contentLabel(textContent){
 	var textContent = textContent || "-";
 	return mainView.UI.create('Label',{ 
+		top:0,
 		classes: ['bold_text', 'gray_text','medium_text'], 
 		text: textContent
 	});	
