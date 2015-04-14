@@ -80,7 +80,7 @@ exports.displayProductImage = function (image,item_id){
 			image: image, 
 			defaultImage: "/images/warm-grey-bg.png",
 			top:0,
-			width:"83%"
+			width:Ti.UI.SIZE
 		});
 		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}

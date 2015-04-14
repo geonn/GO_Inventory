@@ -2,11 +2,11 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.geonn.goinventory</id>
     <name>GO Inventory</name>
-    <version>1.0</version>
-    <publisher>geomilano</publisher>
+    <version>1.0.1</version>
+    <publisher>Geonn Solution</publisher>
     <url>http://</url>
     <description>Manage, records, organize your inventory and goods with QR scanner. Able to view products info by scanning designated QR on each products.</description>
-    <copyright>2015 by geomilano</copyright>
+    <copyright>2015 by Geonn Solution</copyright>
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
@@ -21,7 +21,7 @@
     <property name="acs-push-type-production" type="string">gcm</property>
     <property name="acs-push-type" type="string">gcm</property>
     <property name="acs-grouped-notification-message" type="string">You have $number$ unread messages.</property>
-    <guid>76b396bd-827e-43f1-9ad4-e1414ea14dc9</guid>
+    <guid>988A0A89-8B74-4AFD-9864-D3DB3034F1DA</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
     <ios>
         <plist>

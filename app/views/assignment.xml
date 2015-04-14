@@ -7,7 +7,7 @@
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			<View height="Ti.UI.SIZE" layout="vertical">
-				<Label class="black_text medium_text" height="34">Please press "SCAN" to scan iCard or iResources</Label> 
+				<Label class="black_text medium_text" height="34">Press "SCAN CODE" to scan iCard or iResources</Label> 
 				<View  width="55%" id="scanner" backgroundColor="#375540" height="40" bottom="10" top="5"><Label>SCAN CODE</Label></View>
 			</View>
 		
@@ -26,7 +26,7 @@
 			<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >RESOURCE LIST</Label></View>
 			<ScrollView id="detailScrollView"  layout="vertical" height="auto" contentHeight="Ti.UI.SIZE" top="10" bottom="10">
 				<View layout="horizontal" height=Ti.UI.SIZE top="5" >
-					<Label class="black_text bold_text" top="0"  width="30%">Resources :</Label>
+					<Label class="black_text bold_text" top="0" left="5"  width="30%">Resources :</Label>
 					<View id="resource_info" layout="vertical" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT"></View> 
 				</View>
 			</ScrollView>

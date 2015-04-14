@@ -130,9 +130,9 @@ exports.openScanner = function(scanType) {
 						updated : currentDateTime()
 					});
 					Ti.App.Properties.setString("iCard", code['code']); 
-					Ti.App.fireEvent('populateData');
+					
 				}
-				
+				Ti.App.fireEvent('populateData');
 			}else{
 				COMMON.createAlert("Error","Invalid Code.");
 			}

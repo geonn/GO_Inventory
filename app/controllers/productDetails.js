@@ -27,8 +27,9 @@ var getProductDetails = function(items){
 	/***Set ads items***/ 
 	curCate = items['category']; 
 	$.appTitle.text = items['category'];
-	var scrollView = Ti.UI.createScrollView({   
-	  	width: '100%'
+	var scrollView = Ti.UI.createView({   
+	  	width: '100%',
+		height : Ti.Platform.displayCaps.platformHeight-30
 	});
 	console.log('b');
 	row = $.UI.create('scrollView', {
