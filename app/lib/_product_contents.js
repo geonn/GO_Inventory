@@ -46,7 +46,6 @@ exports.displayProductImage = function (image,item_id){
 		width:"100%",
 		layout : "horizontal" 
 	});
-	
 	var editorContainer = Ti.UI.createView({
 		height:"100%",
 		top: 0,
@@ -54,7 +53,6 @@ exports.displayProductImage = function (image,item_id){
 		width:"15%", 
 		layout : "vertical"   
 	});
-	
 	var undoBtn = Titanium.UI.createButton({
 			height : 30,
 			width : 30,
@@ -62,7 +60,6 @@ exports.displayProductImage = function (image,item_id){
 			visible : "false",
 			backgroundImage : "/images/cross.png"
 	});
-	
 	var saveBtn = Titanium.UI.createButton({ 
 			height : 30,
 			width : 30,
@@ -71,7 +68,6 @@ exports.displayProductImage = function (image,item_id){
 			visible : "false", 
 			backgroundImage : "/images/tick.png"
 	});
-	
 	if(image == ""){
 		var resImage = Ti.UI.createImageView({
 			image: "/images/noImage.png", 
@@ -89,13 +85,13 @@ exports.displayProductImage = function (image,item_id){
 		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}
 	var activityIndicator = COMMON.showImageIndicator(); 
-	
 	editorContainer.add(undoBtn);  
 	editorContainer.add(saveBtn);  
 	imageContainer.add(resImage); 
 	imageContainer.add(editorContainer); 
 	imageContainer.add(activityIndicator);
 	COMMON.imageIndicatorEvent(resImage,activityIndicator); 
+	
 	resImage.addEventListener('click', function(){
 		PRODUCT.loadPhoto(resImage,undoBtn,saveBtn);
 	});

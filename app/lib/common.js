@@ -16,9 +16,9 @@ exports.hideLoading = function(){
 
 exports.showLoading = function(){ 
 	mainView.activityIndicator.show();
-	mainView.loadingBar.opacity = "1";
-	mainView.loadingBar.zIndex = "100";
-	mainView.loadingBar.height = "120";
+	mainView.loadingBar.opacity = 1;
+	mainView.loadingBar.zIndex = 100;
+	mainView.loadingBar.height = 120;
 	 
 	if(Ti.Platform.osname == "android"){
 		mainView.loadingBar.top =  (DPUnitsToPixels(Ti.Platform.displayCaps.platformHeight) / 2) -50; 
@@ -32,14 +32,19 @@ exports.showLoading = function(){
 
 
 exports.showImageIndicator = function(){
-	var ind = Ti.UI.createActivityIndicator({  
-				style:Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT,
+	var ind = Ti.UI.createActivityIndicator({
 				bottom:10,
 				right:20,
 				height:Ti.UI.SIZE,
 				width:Ti.UI.SIZE,
 				zIndex: 11,
 			  });
+	if(Ti.Platform.osname == "android"){
+		ind.style = Ti.UI.ActivityIndicatorStyle.DARK;
+		//mainView.activityIndicator.top = 0; 
+	}else if (Ti.Platform.name === 'iPhone OS'){
+		ind.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+	}
 	ind.show();
 	return ind;
 };

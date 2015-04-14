@@ -143,6 +143,7 @@ function validateEmail(email) {
 /**********************************************
  * ****PUSH NOTIFICATION ***************
  * *******************************************/
+console.log(Ti.Platform.osname);
 if(Ti.Platform.osname != "android"){
 	Titanium.UI.iPhone.setAppBadge("0");
 }

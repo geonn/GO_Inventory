@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 var p_id = args.p_id || "";
 var code = args.code || "";
 var from = args.from || "";  
+
 Ti.App.Properties.setString('parent',from);
 var curCate; 
 var mod_InventoryProd = Alloy.createCollection('product_inventory');  
@@ -9,19 +10,17 @@ var PRODUCT = require('_products');
 var PROD_CONTENTS = require('_product_contents');
 PROD_CONTENTS.construct($);
 COMMON.construct($);
-COMMON.showLoading(); 
-
+COMMON.showLoading();
 var prodDetails = mod_InventoryProd.getProductDetails(p_id);
+
 Ti.App.Properties.setString('parent',"productLists||"+prodDetails.category);
 if(Ti.Platform.osname == "android"){ 
 	$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -50;  
-}
-	 
-setTimeout(function(){  
+}	 
+setTimeout(function(){
 	var items = prodDetails;
  	getProductDetails(items); 
 }, 100); 
-
 var getProductDetails = function(items){ 
 	var row = '', position; 
 	
@@ -31,7 +30,7 @@ var getProductDetails = function(items){
 	var scrollView = Ti.UI.createScrollView({   
 	  	width: '100%'
 	});
-	
+	console.log('b');
 	row = $.UI.create('scrollView', {
 		classes: ["row"],  
 		id:"view"+items['position'],
@@ -41,13 +40,13 @@ var getProductDetails = function(items){
 	}); 
 		
 	$.item_Details.title=items['name'];
-		
+		console.log('b');
 	/***Create and Add Product Image***/
 	row.add(PROD_CONTENTS.displayProductImage(items['image'],items['id']));
-		
+		console.log('b');
 	/***Create and Add Header***/
 	row.add(PROD_CONTENTS.displayHeader()); 
-		
+	console.log('b');	
 	/***Create and Add Product Contents***/
 	row.add(PROD_CONTENTS.displayProductContents(items)); 
 	
@@ -57,11 +56,12 @@ var getProductDetails = function(items){
 		/***List Product Resources if any***/
 		row.add(PROD_CONTENTS.displayProductResources(code)); 
 	}
-	
+	console.log('b');
 	scrollView.add(row); 
-
+	console.log('b');
 	$.item_Details.add(scrollView); 
 	COMMON.hideLoading();
+	console.log('b');
 };
 
 function goBack(){

@@ -32,7 +32,7 @@ $.search_btn.addEventListener('click',function(e){
 		//PRODUCT
 		var mod_prod = Alloy.createCollection('products');   
 		var code = mod_prod.getProductDetails(searchCode); 
-		
+		console.log(code);
 		if(code == ""){ 
 			COMMON.createAlert("Error","Cannot find PRODUCT code.");
 			return false;	
