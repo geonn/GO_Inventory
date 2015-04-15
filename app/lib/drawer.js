@@ -7,7 +7,7 @@ var menu_no = "1";
 
 function createMyDrawer(rightMenuWindow,method){
 	nappDrawer = NappDrawerModule.createDrawer({
-			fullscreen:true,  
+			fullscreen: true,  
 			rightWindow: rightMenuWindow,
 			centerWindow: createCenterNavWindow(method), 
 			//closeDrawerGestureMode: NappDrawerModule.CLOSE_MODE_ALL,

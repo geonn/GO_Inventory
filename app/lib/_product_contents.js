@@ -28,7 +28,7 @@ exports.displayResourceHeader = function(){
 	var titleLabelView = Titanium.UI.createView({
 		backgroundColor: "#375540", 
 		top:0,
-		height:"5%"
+		height: 50
 	});
 	 
 	 var titleLabel = mainView.UI.create('Label',{
@@ -46,6 +46,7 @@ exports.displayProductImage = function (image,item_id){
 		width:"100%",
 		layout : "horizontal" 
 	});
+	
 	var editorContainer = Ti.UI.createView({
 		height:"100%",
 		top: 0,
@@ -53,6 +54,7 @@ exports.displayProductImage = function (image,item_id){
 		width:"15%", 
 		layout : "vertical"   
 	});
+	
 	var undoBtn = Titanium.UI.createButton({
 			height : 30,
 			width : 30,
@@ -60,6 +62,7 @@ exports.displayProductImage = function (image,item_id){
 			visible : "false",
 			backgroundImage : "/images/cross.png"
 	});
+	
 	var saveBtn = Titanium.UI.createButton({ 
 			height : 30,
 			width : 30,
@@ -68,6 +71,7 @@ exports.displayProductImage = function (image,item_id){
 			visible : "false", 
 			backgroundImage : "/images/tick.png"
 	});
+	
 	if(image == ""){
 		var resImage = Ti.UI.createImageView({
 			image: "/images/noImage.png", 
@@ -80,18 +84,18 @@ exports.displayProductImage = function (image,item_id){
 			image: image, 
 			defaultImage: "/images/warm-grey-bg.png",
 			top:0,
-			width:Ti.UI.SIZE
+			width:"83%"
 		});
 		hideSaveAndUndoBtn(undoBtn,saveBtn);
 	}
 	var activityIndicator = COMMON.showImageIndicator(); 
+	
 	editorContainer.add(undoBtn);  
 	editorContainer.add(saveBtn);  
 	imageContainer.add(resImage); 
 	imageContainer.add(editorContainer); 
 	imageContainer.add(activityIndicator);
 	COMMON.imageIndicatorEvent(resImage,activityIndicator); 
-	
 	resImage.addEventListener('click', function(){
 		PRODUCT.loadPhoto(resImage,undoBtn,saveBtn);
 	});
@@ -303,7 +307,7 @@ exports.displayProductResources = function(code){
 				left: 0 
 			});
 			
-			
+			console.log(entry.name);
 			contentResView3.add(contentLabel(entry.name));
 			contentResView4.add(contentLabel(entry.code));
 			mainResDataView.add(contentResView3);
@@ -339,6 +343,7 @@ function contentLabel(textContent){
 	var textContent = textContent || "-";
 	return mainView.UI.create('Label',{ 
 		classes: ['bold_text', 'gray_text','medium_text'], 
+		height: Ti.UI.SIZE,
 		top:0,
 		text: textContent 
 	});	
@@ -349,6 +354,7 @@ function contentWhiteLabel(textContent){
 	return mainView.UI.create('Label',{ 
 		color: "#ffffff", 
 		text: textContent, 
+		height: Ti.UI.SIZE,
 		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
 	});	
 }

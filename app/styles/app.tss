@@ -1,7 +1,7 @@
 Window :{
 	backgroundImage: "/images/bg.jpg",
-	navHidderBar : true,
-	fullscreen  : true,
+	navHidderBar : false,
+	fullscreen  : false,
 },
 TextField : {
 	 height : 30, 
@@ -51,7 +51,7 @@ TextField : {
     }
 },
 ".white_text" :{
-	color: "#FFFFFF"
+	color: "#FFFFFF" 
 },
 ".black_text" :{ 
 	color: "#000000"

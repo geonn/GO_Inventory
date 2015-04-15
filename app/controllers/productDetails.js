@@ -15,7 +15,7 @@ var prodDetails = mod_InventoryProd.getProductDetails(p_id);
 
 Ti.App.Properties.setString('parent',"productLists||"+prodDetails.category);
 if(Ti.Platform.osname == "android"){ 
-	$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  -50;  
+	//$.item_Details.height =   PixelsToDPUnits(Ti.Platform.displayCaps.platformHeight)  ;//-50;  
 }	 
 setTimeout(function(){
 	var items = prodDetails;
@@ -29,38 +29,39 @@ var getProductDetails = function(items){
 	$.appTitle.text = items['category'];
 	var scrollView = Ti.UI.createView({   
 	  	width: '100%',
-		height : Ti.Platform.displayCaps.platformHeight-30
+	  	top:0
+		//height : Ti.Platform.displayCaps.platformHeight-30
 	});
-	console.log('b');
-	row = $.UI.create('scrollView', {
-		classes: ["row"],  
+
+	row = $.UI.create('View', {
 		id:"view"+items['position'],
 		layout: "vertical",
 		height:Ti.UI.SIZE,
-		bottom:20
+		bottom:20,
+		top: 0
 	}); 
 		
 	$.item_Details.title=items['name'];
-		console.log('b');
+	 
 	/***Create and Add Product Image***/
 	row.add(PROD_CONTENTS.displayProductImage(items['image'],items['id']));
-		console.log('b');
+	 
 	/***Create and Add Header***/
 	row.add(PROD_CONTENTS.displayHeader()); 
-	console.log('b');	
+	 
 	/***Create and Add Product Contents***/
 	row.add(PROD_CONTENTS.displayProductContents(items)); 
+	
 	
 	if(code != ""){
 		/***Create iResource Header***/
 		row.add(PROD_CONTENTS.displayResourceHeader());  
 		/***List Product Resources if any***/
 		row.add(PROD_CONTENTS.displayProductResources(code)); 
-	}
-	console.log('b');
-	scrollView.add(row); 
-	console.log('b');
-	$.item_Details.add(scrollView); 
+	} 
+	//scrollView.add(); 
+	
+	$.item_Details.add(row); 
 	COMMON.hideLoading();
 	console.log('b');
 };
