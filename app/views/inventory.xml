@@ -19,15 +19,11 @@
 			 <ScrollableView id="scrollableView" showPagingControl="false" scrollingEnabled="false">
 	            <View id="view1" layout="vertical" height="Ti.UI.SIZE">
 	               
-	            	<ScrollView id="productView">
 						<TableView width="100%"  id="prodTable" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-	            	</ScrollView>
+	            	
 	            </View>
 	            <View id="view2" layout="vertical">
-	            	 
-	            	<ScrollView id="resourceView" contentHeight="Ti.UI.SIZE">
-						<TableView width="100%"  id="resTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-	            	</ScrollView>
+					<TableView width="100%"  id="resTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	            </View>
 	             
 	        </ScrollableView>

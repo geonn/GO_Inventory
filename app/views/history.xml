@@ -13,9 +13,7 @@
 			
 			<View id="hView" top='50' layout="vertical"> 
 				<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50"  hintText="Search Scan Code..." /> 
-			 	<ScrollView id="historyScrollView" layout="horizontal" height="Ti.UI.SIZE" width="100%" >
-			 		<TableView width="100%"  id="hisTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-			 	</ScrollView>
+			 		<TableView width="100%" id="hisTable" height="auto" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 			</View> 
 			 
 		</View>

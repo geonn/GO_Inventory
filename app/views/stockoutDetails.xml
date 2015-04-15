@@ -14,9 +14,7 @@
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			 <View id="view1" layout="vertical" height="Ti.UI.SIZE">
-	        	<ScrollView id="orderDetailsView" >
-					<TableView width="100%" top="0"  id="orderDetailsTable"  backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-	            </ScrollView> 
+			 <TableView width="100%" top="0" id="orderDetailsTable"  backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	        </View>
 			  
 		</View>

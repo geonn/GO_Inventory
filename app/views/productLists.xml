@@ -14,10 +14,8 @@
 				<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 			</View>
 			 <View id="view1" layout="vertical" height="auto">
-	        	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." /> 
-	            <ScrollView id="productView" height="auto" contentHeight="Ti.UI.SIZE">
-					<TableView width="100%" top="0" id="prodTable" height="Ti.UI.SIZE" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-	            </ScrollView> 
+	        	<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchProduct" text="" top="0" height="50"  hintText="Search Products..." />
+	        	<TableView width="100%" top="0" id="prodTable"  height="auto" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	        </View>
 		</View>
 	</View>

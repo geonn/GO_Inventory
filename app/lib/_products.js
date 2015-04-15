@@ -102,6 +102,7 @@ function displayProduct(products){
 			var row = Titanium.UI.createTableViewRow({
 		    touchEnabled: true,
 		    source: entry.id, 
+		    height: Ti.UI.SIZE,
 		    position: counter,
 		    backgroundColor: "#ffffff",
 		    backgroundSelectedColor: "#ECFFF9",

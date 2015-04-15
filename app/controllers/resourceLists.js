@@ -43,8 +43,8 @@ function back(e){
 /***SEARCH PRODUCTS***/
 $.searchResource.addEventListener('focus', function(e){
 	$.searchResource.showCancel =  true; 
-	$.resourceView.opacity = 1;
-	$.resourceView.height = "auto";
+	$.resTable.opacity = 1;
+	$.resTable.height = "auto";
 });
 
 $.searchResource.addEventListener('blur', function(e){
@@ -79,11 +79,11 @@ var refreshTableList = function(){
 };
  
 //Ti.App.addEventListener('refreshTableList' , refreshTableList);
-$.resourceView.addEventListener('touchend', function(e){
+$.resTable.addEventListener('touchend', function(e){
     $.searchResource.blur(); 
 });
 
-$.resourceView.addEventListener('touchend', function(e){
+$.resTable.addEventListener('touchend', function(e){
     $.searchResource.blur(); 
 });
  

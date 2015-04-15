@@ -5,7 +5,6 @@ var mod_products = Alloy.createCollection('products');
 var mod_resources = Alloy.createCollection('resources'); 
 Ti.App.Properties.setString('parent',""); 
 $.hView.height = Ti.Platform.displayCaps.platformHeight - 50;
-$.historyScrollView.height = Ti.Platform.displayCaps.platformHeight - 100;
 
 COMMON.construct($);
 COMMON.showLoading();
@@ -263,8 +262,8 @@ function addDoneEvent(myView, popView){
 /***SEARCH PRODUCTS***/
 $.searchItem.addEventListener('focus', function(e){
 	$.searchItem.showCancel =  true; 
-	$.historyScrollView.opacity = 1;
-	$.historyScrollView.height = "auto";
+	$.hisTable.opacity = 1;
+	$.hisTable.height = "auto";
 });
 
 $.searchItem.addEventListener('blur', function(e){

@@ -41,8 +41,8 @@ function back(e){
 /***SEARCH PRODUCTS***/
 $.searchProduct.addEventListener('focus', function(e){
 	$.searchProduct.showCancel =  true; 
-	$.productView.opacity = 1;
-	$.productView.height = "auto";
+	$.prodTable.opacity = 1;
+	$.prodTable.height = "auto";
 });
 
 $.searchProduct.addEventListener('blur', function(e){
@@ -76,11 +76,11 @@ var refreshTableList = function(){
 };
  
 //Ti.App.addEventListener('refreshTableList' , refreshTableList);
-$.productView.addEventListener('touchend', function(e){
+$.prodTable.addEventListener('touchend', function(e){
     $.searchProduct.blur(); 
 });
 
-$.productView.addEventListener('touchend', function(e){
+$.prodTable.addEventListener('touchend', function(e){
     $.searchProduct.blur(); 
 });
 

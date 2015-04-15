@@ -20,8 +20,8 @@ setTimeout(function(){
 /***SEARCH PRODUCTS***/
 $.searchOrder.addEventListener('focus', function(e){
 	$.searchOrder.showCancel =  true; 
-	$.orderView.opacity = 1;
-	$.orderView.height = "auto";
+	$.orderTable.opacity = 1;
+	$.orderTable.height = "auto";
 });
 
 $.searchOrder.addEventListener('blur', function(e){
@@ -34,7 +34,7 @@ $.searchOrder.addEventListener('cancel', function(e){
 	$.searchOrder.blur();  
 	var str = $.searchOrder.getValue();
 	if(str == ""){
-		removeAllChildren($.orderView); 
+		removeAllChildren($.orderTable); 
 		STOCKOUT.displayList(list);  
 	}
 });
@@ -45,7 +45,7 @@ var searchResult = function(){
 	var str = $.searchOrder.getValue();
 	Ti.App.Properties.setString("order_search",str);
 	var result = mod_stockout.searchStockOut(str); 
-	removeAllChildren($.orderView);
+	removeAllChildren($.orderTable);
 	STOCKOUT.displayList(result);		
 };
 $.searchOrder.addEventListener("return", searchResult);

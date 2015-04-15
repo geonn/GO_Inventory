@@ -210,8 +210,8 @@ function addDoneEvent(myView, popView){
 /***SEARCH PRODUCTS***/
 $.searchItem.addEventListener('focus', function(e){
 	$.searchItem.showCancel =  true; 
-	$.announcementScrollView.opacity = 1;
-	$.announcementScrollView.height = "auto";
+	$.newsTable.opacity = 1;
+	$.newsTable.height = "auto";
 });
 
 $.searchItem.addEventListener('blur', function(e){

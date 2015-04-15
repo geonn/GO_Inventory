@@ -5,8 +5,6 @@ if(Ti.Platform.osname == "android"){
 	var CloudPush = require('ti.cloudpush');
 	// notification callback function (important)
 	CloudPush.addEventListener('callback', function (evt) { 
-		alert("receivePush");
-		
 		var payload = JSON.parse(evt.payload); 
 		console.log(payload);
 		Ti.App.Payload = payload;

@@ -27,7 +27,7 @@ COMMON.showLoading();
  
 
 function refreshTableList(){
-	removeAllChildren($.productView);
+	removeAllChildren($.prodTable);
 	PRODUCT.displayProduct(products);	  
 }
 

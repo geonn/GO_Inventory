@@ -42,7 +42,7 @@ exports.displayResourceHeader = function(){
  
 exports.displayProductImage = function (image,item_id){
 	var imageContainer = Ti.UI.createView({
-		height:"40%", 
+		height: "150sp", 
 		width:"100%",
 		layout : "horizontal" 
 	});

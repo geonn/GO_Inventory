@@ -11,10 +11,8 @@
         </View>
         
 		<View id="aView" top='50'  layout="vertical"> 
-			<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50" hintText="Search News & Events..." /> 
-		 	<ScrollView id="announcementScrollView" layout="horizontal" height="Ti.UI.SIZE" width="100%" >
-		 		<TableView width="100%"  id="newsTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
-		 	</ScrollView>
+			<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50" hintText="Search News & Events..." />
+		 	<TableView width="100%"  id="newsTable" height="auto" width="Ti.UI.FILL" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 		</View> 
 	</View>
 </Alloy>
