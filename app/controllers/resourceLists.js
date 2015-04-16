@@ -91,12 +91,9 @@ $.resTable.addEventListener('touchend', function(e){
  * Clear object and memory
  **********************/
 var clearObject = function(){ 
-	RESOURCE.deconstruct(); 
-	
-	mod_InventoryRes = null;
-	presetSearch = null;
-	RESOURCE = null;
-	mod_Category = null;
+	//RESOURCE.deconstruct(); 
+	 
+	presetSearch = null;  
 	allType = null;
 	searchResourceResult = null;
 	refreshTableList = null;

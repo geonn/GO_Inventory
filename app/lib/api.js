@@ -193,6 +193,7 @@ exports.addResource = function(ex){
 	     // function called when the response data is available
 	     onload : function(e) {
 	     	var res = JSON.parse(this.responseText);  
+	 
 	        if(res.status == "success"){
 	        	 API.getInventoryResources(); 
 	        	 DRAWER.navigation("resourceLists",1 ,{type: ex.curCate});
@@ -210,7 +211,7 @@ exports.addResource = function(ex){
 	 });
  
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 client.open("POST", url); 
+	 client.open("POST", url);  
 	 if(ex.photoLoad == "1"){ 
 	 	client.send({Filedata: ex.photo}); 
 	 }else{

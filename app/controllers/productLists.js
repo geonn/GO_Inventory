@@ -88,10 +88,9 @@ $.prodTable.addEventListener('touchend', function(e){
  * Clear object and memory
  **********************/
 var clearObject = function(){ 
-	PRODUCT.deconstruct(); 
+	//PRODUCT.deconstruct(); 
 	 
-	allType = null; 
-	PRODUCT = null; 
+	allType = null;  
 	searchProductResult = null;
 	refreshTableList = null;
 	Ti.App.removeEventListener("clearObject", clearObject);
