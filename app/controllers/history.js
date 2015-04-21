@@ -31,7 +31,7 @@ function displayProduct(products){
 			    touchEnabled: true,
 			    height: 70,
 			    source: entry.code,
-			    selectedBackgroundColor: "#ECFFF9",
+			    backgroundSelectedColor: "#ECFFF9",
 				backgroundGradient: {
 			      type: 'linear',
 			      colors: ['#FEFEFB','#F7F7F6'],

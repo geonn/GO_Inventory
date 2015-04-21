@@ -95,19 +95,47 @@ exports.openScanner = function(scanType) {
 					COMMON.createAlert("Error","Please scan product first.");
 					return false;
 				}else{
-					
-					mod_resources.addUpdateResources({
-						id : code['id'],
-						iCard  : iCard,
-						prefix : code['prefix'],
-						item_id : code['item_id'],
-						name : code['name'],
-						code : code['code'],
-						resource: code['resource'],
-						status : 1,
-						created : currentDateTime(),
-						updated : currentDateTime()
-					});
+					var usage;
+					// create dialog to enter resources usage
+						var usageDialog = Ti.UI.createAlertDialog({
+						    title: 'Enter Resources Usage', 
+						    buttonNames: ['Confirm', 'Cancel']
+						}); 
+						
+						usageDialog.show(); 
+						usageDialog.addEventListener('click', function(e){  
+							if(e.index == 0) { 
+								usage = e.text;
+								mod_resources.addUpdateResources({
+									id : code['id'],
+									iCard  : iCard,
+									prefix : code['prefix'],
+									item_id : code['item_id'],
+									name : code['name'],
+									code : code['code'],
+									usage : usage,
+									resource: code['resource'],
+									status : 1,
+									created : currentDateTime(),
+									updated : currentDateTime()
+								});
+							}else{
+								 mod_resources.addUpdateResources({
+									id : code['id'],
+									iCard  : iCard,
+									prefix : code['prefix'],
+									item_id : code['item_id'],
+									name : code['name'],
+									code : code['code'],
+									resource: code['resource'],
+									usage : "",
+									status : 1,
+									created : currentDateTime(),
+									updated : currentDateTime()
+								});
+							}
+						}); 
+					 
 				}
 				
 				Ti.App.fireEvent('populateData');

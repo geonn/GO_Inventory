@@ -271,6 +271,7 @@ exports.createiCard = function(ex){
 								name : code['name'],
 								code : code['code'],
 								resource: code['resource'],
+								usage: "",
 								status : 1,
 								created : currentDateTime(),
 								updated : currentDateTime()
@@ -863,6 +864,7 @@ exports.syncScanByUser= function(ex){
 						    name    : resoDetail.name,
 						    code    : resoDetail.item_id, 
 						    resource: resoDetail.resource, 
+						    usage   : resoDetail.usage,
 						    status  : 3,
 						    created : resoDetail.scandate,
 						    updated : resoDetail.scandate,

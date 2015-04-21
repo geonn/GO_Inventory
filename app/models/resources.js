@@ -8,6 +8,7 @@ exports.definition = {
 		    "item_id": "INTEGER",
 		    "name": "TEXT",
 		    "code": "TEXT",
+		    "usage": "TEXT",
 		    "status": "TEXT",
 		    "created" : "TEXT",
 		    "updated" : "TEXT"
@@ -27,6 +28,25 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
+			addColumn : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(!fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
+			},
 			getResourcesByicard : function(code){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE iCard='"+code+"' " ;
@@ -47,6 +67,7 @@ exports.definition = {
 					    name: res.fieldByName('name'),
 					    resource : res.fieldByName('resource'),
 					    code: res.fieldByName('code'),
+					    usage: res.fieldByName('usage'),
 					    status: res.fieldByName('status'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -79,6 +100,7 @@ exports.definition = {
 					    name: res.fieldByName('name'),
 					    resource : res.fieldByName('resource'),
 					    code: res.fieldByName('code'),
+					    usage: res.fieldByName('usage'),
 					    status: res.fieldByName('status'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -182,6 +204,7 @@ exports.definition = {
 					    name: res.fieldByName('name'),
 					    resource : res.fieldByName('resource'),
 					    code: res.fieldByName('code'),
+					    usage: res.fieldByName('usage'),
 					    status: res.fieldByName('status'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -206,7 +229,7 @@ exports.definition = {
                 if (res.isValidRow()){
              		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET updated='"+e.updated+"' WHERE code='"+ e.code + "' AND id='"+e.id+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, iCard, prefix, item_id, name,code,resource, `status`, created, updated) VALUES ('"+e.id+"','"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"','"+e.resource+"', '"+e.status+"', '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, iCard, prefix, item_id, name,code,resource, `status`, `usage`, created, updated) VALUES ('"+e.id+"','"+e.iCard+"','"+e.prefix+"','"+e.item_id+"','"+e.name+"','"+e.code+"','"+e.resource+"', '"+e.status+"', '"+e.usage+"', '"+e.created+"','"+e.updated+"')" ;
 				}
            		
 	            db.execute(sql_query);

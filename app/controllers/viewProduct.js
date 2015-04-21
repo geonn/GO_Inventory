@@ -3,7 +3,7 @@ var MODULE = require("scanner");
 $.viewProductView.height = Ti.Platform.displayCaps.platformHeight;
 Ti.App.Properties.setString('parent',"");
 API.getResourcesiCardList();
-API.getProductiCardList();
+API.getProductiCardList(); 
 /***Create Scanner View***/
 // Create a window to add the picker to and display it. 
 var window = MODULE.createScannerWindow();
@@ -32,7 +32,7 @@ $.search_btn.addEventListener('click',function(e){
 		//PRODUCT
 		var mod_prod = Alloy.createCollection('products');   
 		var code = mod_prod.getProductDetails(searchCode); 
-		console.log(code);
+		 
 		if(code == ""){ 
 			COMMON.createAlert("Error","Cannot find PRODUCT code.");
 			return false;	
@@ -43,6 +43,7 @@ $.search_btn.addEventListener('click',function(e){
 		//RESOURCE
 		var mod_res = Alloy.createCollection('resources');   
 		var code =  mod_res.getResourcesByCode(searchCode);
+		console.log(code);
 		if(code == ""){ 
 			COMMON.createAlert("Error","Cannot find resources code.");
 			return false;	

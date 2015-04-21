@@ -13,7 +13,7 @@
 		
 	 		<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >ICARD DETAILS</Label></View>
 			<View layout="horizontal" height="150">
-				<ScrollView width="150" height="150">
+				<ScrollView width="150" height="150" scrollType="vertical">
 					<ImageView id="productImage" defaultImage="/images/warm-grey-bg.png" width="150" />
 				</ScrollView>
 				<View layout="vertical" left="10" height="Ti.UI.SIZE" width="auto">
@@ -24,7 +24,7 @@
 				</View>
 			</View>
 			<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >RESOURCE LIST</Label></View>
-			<ScrollView id="detailScrollView"  layout="vertical" height="auto" contentHeight="Ti.UI.SIZE" top="10" bottom="10">
+			<ScrollView id="detailScrollView" scrollType="vertical"  layout="vertical" height="auto" contentHeight="Ti.UI.SIZE" top="10" bottom="10">
 				<View layout="horizontal" height=Ti.UI.SIZE top="5" >
 					<Label class="black_text bold_text" top="0" left="5"  width="30%">Resources :</Label>
 					<View id="resource_info" layout="vertical" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT"></View> 

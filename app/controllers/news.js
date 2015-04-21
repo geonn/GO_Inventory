@@ -30,7 +30,7 @@ function displayAnnouncement(listing){
 			    height: 80,
 			    source: entry.id, 
 			   // layout: "vertical",
-			    selectedBackgroundColor: "#ECFFF9",
+			    backgroundSelectedColor: "#ECFFF9",
 				backgroundGradient: {
 			      type: 'linear',
 			      colors: ['#FEFEFB','#F7F7F6'],
