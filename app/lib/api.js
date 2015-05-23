@@ -601,7 +601,7 @@ exports.updatedCombination = function(ex){
 	var res_data = ex.data; 
 	var count = 0; 
 	res_data.forEach(function(reso) { 
-		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&updated="+reso.updated+"&session="+Ti.App.Properties.getString("session");
+		var url = updateCombinationUrl + "&iCard="+ex.iCard +"&prefix="+reso.prefix+"&resource="+reso.id+"&usage="+reso.usage+"&updated="+reso.updated+"&session="+Ti.App.Properties.getString("session");
   		var _result = contactServer(url);  
 		_result.onload = function(e) {
 			var res = JSON.parse(this.responseText);  

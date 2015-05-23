@@ -13,7 +13,7 @@ var API = require('api');
 var COMMON = require('common');
 var PUSH = require('push');
 var DRAWER = require('drawer');
-Alloy.Globals.version = "1.0.0";
+Alloy.Globals.version = "1.0.1";
 
 function menuToggle(e){  
 	DRAWER.closeToggle();

@@ -297,6 +297,7 @@ exports.definition = {
 					    item_id: res.fieldByName('item_id'),
 					    name: res.fieldByName('name'),
 					    resource : res.fieldByName('resource'),
+					    usage: res.fieldByName('usage'),
 					    code: res.fieldByName('code'),
 					    status: res.fieldByName('status'),
 					    created: res.fieldByName('created'),

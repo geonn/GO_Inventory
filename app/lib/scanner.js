@@ -9,10 +9,10 @@ var window;
 
 /***Private function***/
 // Stops the scanner, removes it from the window and closes the latter.
-var closeScanner = function() {
+var closeScanner = function() { 
 	if (picker != null) {
 		picker.stopScanning();
-		window.remove(picker);
+		//window.remove(picker);
 	}
 	window.close();
 };
@@ -97,15 +97,29 @@ exports.openScanner = function(scanType) {
 				}else{
 					var usage;
 					// create dialog to enter resources usage
+					if(Ti.Platform.osname == "android"){
+						var textfield = Ti.UI.createTextField();
 						var usageDialog = Ti.UI.createAlertDialog({
 						    title: 'Enter Resources Usage', 
-						    buttonNames: ['Confirm', 'Cancel']
+						   	androidView: textfield,
+						    buttonNames: ['Confirm', 'Cancel'], 
 						}); 
-						
+					}else{  
+						var usageDialog = Ti.UI.createAlertDialog({
+						    title: 'Enter Resources Usage', 
+						    style: Ti.UI.iPhone.AlertDialogStyle.PLAIN_TEXT_INPUT,
+						    buttonNames: ['Confirm', 'Cancel'],
+						    keyboardType : Ti.UI.KEYBOARD_PHONE_PAD
+						}); 
+					} 
 						usageDialog.show(); 
 						usageDialog.addEventListener('click', function(e){  
-							if(e.index == 0) { 
-								usage = e.text;
+							if(e.index == 0) {  
+								if(Ti.Platform.osname == "android"){
+									usage = textfield.value;
+								}else{
+									usage = e.text;
+								} 
 								mod_resources.addUpdateResources({
 									id : code['id'],
 									iCard  : iCard,
@@ -134,6 +148,8 @@ exports.openScanner = function(scanType) {
 									updated : currentDateTime()
 								});
 							}
+							closeScanner();
+							Ti.App.fireEvent('populateData');
 						}); 
 					 
 				}
@@ -192,12 +208,12 @@ exports.openScanner = function(scanType) {
 		// we are using Ti.UI.orientation (which is deprecated and no longer 
 	    // working on Android devices.)
 		if(Ti.Platform.osname == 'iphone' || Ti.Platform.osname == 'ipad'){
-    		picker.setOrientation(Ti.UI.orientation);
+    		//picker.setOrientation(Ti.UI.orientation);
 		}	
 		else {
 			picker.setOrientation(window.orientation);
 		}
-		
+// 		
 		picker.setSize(Ti.Platform.displayCaps.platformWidth,  Ti.Platform.displayCaps.platformHeight);
 		picker.startScanning();		// startScanning() has to be called after the window is opened. 
 	});
