@@ -5,8 +5,7 @@ if(Ti.Platform.osname == "android"){
 	var CloudPush = require('ti.cloudpush');
 	// notification callback function (important)
 	CloudPush.addEventListener('callback', function (evt) { 
-		var payload = JSON.parse(evt.payload); 
-		console.log(payload);
+		var payload = JSON.parse(evt.payload);  
 		Ti.App.Payload = payload;
 		// if trayClickLaunchedApp or trayClickFocusedApp set redirect as true
 		if(redirect){
@@ -51,7 +50,7 @@ function deviceTokenSuccess(ex) {
 	    password: 'geonn2015'
 	}, function (e) {
 		if (e.success) {
-			 
+			  
 			Cloud.PushNotifications.subscribe({
 			    channel: 'general',
 			    type:Ti.Platform.name == 'android' ? 'android' : 'ios', 
@@ -59,6 +58,7 @@ function deviceTokenSuccess(ex) {
 			}, function (e) { 
 			    if (e.success  ) { 
 			    	/** User device token**/
+			    	 
 	         		Ti.App.Properties.setString('deviceToken', deviceToken); 
 					API.updateNotificationToken();
 			    } else {

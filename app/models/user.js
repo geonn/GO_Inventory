@@ -1,13 +1,13 @@
 exports.definition = {
 	config: {
 		columns: {
-		    "id": "string",
-		    "fullname": "string",
-		    "username": "string",
-		    "password": "string",
-		    "email": "string",
-		    "mobile": "string",
-		    "lastlogin" : "string"
+		    "id": "INTEGER",
+		    "fullname": "TEXT",
+		    "username": "TEXT",
+		    "password": "TEXT",
+		    "email": "TEXT",
+		    "mobile": "TEXT",
+		    "lastlogin" : "TEXT"
 		},
 		adapter: {
 			type: "sql",

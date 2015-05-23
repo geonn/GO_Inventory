@@ -17,15 +17,15 @@
 					<ImageView id="productImage" defaultImage="/images/warm-grey-bg.png" width="150" />
 				</ScrollView>
 				<View layout="vertical" left="10" height="Ti.UI.SIZE" width="auto">
-					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" w class="black_text bold_text">iCard No :</Label>
-					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" w class="gray_text" id="iCard_no" />
-					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" w class="black_text bold_text">iCard Name :</Label>
-					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" w class="gray_text" id="iCard_name" />
+					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" class="black_text bold_text">iCard No :</Label>
+					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" class="gray_text" id="iCard_no" />
+					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" class="black_text bold_text">iCard Name :</Label>
+					<Label textAlign="left" width="Ti.UI.FILL" height="Ti.UI.SIZE" class="gray_text" id="iCard_name" />
 				</View>
 			</View>
 			<View backgroundColor="#375540" height="35"><Label class="white_text bold_text" >RESOURCE LIST</Label></View>
 			<ScrollView id="detailScrollView" scrollType="vertical"  layout="vertical" height="auto" contentHeight="Ti.UI.SIZE" top="10" bottom="10">
-				<View layout="horizontal" height=Ti.UI.SIZE top="5" >
+				<View layout="horizontal" height="Ti.UI.SIZE" top="5" >
 					<Label class="black_text bold_text" top="0" left="5"  width="30%">Resources :</Label>
 					<View id="resource_info" layout="vertical" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT"></View> 
 				</View>

@@ -7,11 +7,11 @@
 			<Label class="h1" id="appTitle">Edit Profile</Label>
 			<View backgroundImage="/images/more-button.png" height="35" width="35" onClick="menuToggle" right="10"></View>
 		</View>
-		<View  layout="vertical" height="30" top=10  >
+		<View  layout="vertical" height="30" top="10"  >
         	<Label text="" class="description_content" id="description"  />
         </View> 
         
-		<View id="main" layout="vertical" backgroundColor="#FFFFFF"   height="50" top=15 > 
+		<View id="main" layout="vertical" backgroundColor="#FFFFFF"   height="50" top="15" > 
 			<TextField id="editField" height="50"  value="" hintText="" width="100%" textAlign="center" />
 			<ActivityIndicator id="activityIndicator" color="#ffffff" message="Updating Info..."/>
 		</View> 

@@ -11,17 +11,17 @@
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
-    <property name="acs-oauth-secret-development" type="string">iLeuO9NZhZhcoMIlRwV8rlVbdJmVXIMa</property>
-    <property name="acs-oauth-key-development" type="string">Re7Wh0RNIBbLqxWFKF8FGUBY5mWqsE8s</property>
-    <property name="acs-api-key-development" type="string">TJZ3d3Eiss7MPh0PqPChApbQOP6KUYiu</property>
-    <property name="acs-oauth-secret-production" type="string">XnpqYy8Gh2JxGqPOTfyOA59o1HmuotIE</property>
-    <property name="acs-oauth-key-production" type="string">4eV1pvz6eZOehuxMGEOSEdYgECNQl9KP</property>
-    <property name="acs-api-key-production" type="string">1U8qRc3ZdwgwV5BcaMjqS4100zLDZjzQ</property>
+    <property name="acs-oauth-secret-development" type="string">1S17hNKREZbanzl2Wul6wN5W1MkW8ONz</property>
+    <property name="acs-oauth-key-development" type="string">7l5BYsB7LrUJl071Jsh91qyPOMh6Z27b</property>
+    <property name="acs-api-key-development" type="string">JPiDrEe7XtrXlElYiAk90VTxayZZsrBF</property>
+    <property name="acs-oauth-secret-production" type="string">6eBDF9zxPSQoCLL5AMQd4IciyxhvMyf7</property>
+    <property name="acs-oauth-key-production" type="string">OxVlL7ZO0WsvMws17QnGJkSP1CQJnV6u</property>
+    <property name="acs-api-key-production" type="string">05Vfzq9dFZmsbiLLGEAfMZ47pDdRAZTz</property>
     <property name="acs-push-type-development" type="string">gcm</property>
     <property name="acs-push-type-production" type="string">gcm</property>
     <property name="acs-push-type" type="string">gcm</property>
     <property name="acs-grouped-notification-message" type="string">You have $number$ unread messages.</property>
-    <guid>988A0A89-8B74-4AFD-9864-D3DB3034F1DA</guid>
+    <guid>f88e48f5-eefb-4bc7-9777-2a4dd249ca87</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
     <ios>
         <plist>
@@ -52,7 +52,7 @@
         <tool-api-level>16</tool-api-level>
         <manifest>
             <application android:theme="@style/Theme.NoActionBar"/>
-            <uses-sdk android:minSdkVersion="14"/>
+            <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="21"/>
             <application android:debuggable="true"
                 android:icon="@drawable/appicon"
                 android:label="GO Inventory"
@@ -74,6 +74,8 @@
         <module platform="android">dk.napp.drawer</module>
         <module platform="android">ti.cloudpush</module>
         <module platform="commonjs">ti.cloud</module>
+        <module platform="android">com.appcelerator.apm</module>
+        <module platform="iphone">com.appcelerator.apm</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>
@@ -82,8 +84,19 @@
         <target device="iphone">true</target>
         <target device="mobileweb">true</target>
     </deployment-targets>
-    <sdk-version>3.5.0.GA</sdk-version>
+    <sdk-version>4.0.0.RC4</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
+    <property name="appc-app-id" type="string">55601b0340c47c9a1194b11b</property>
+    <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-username-development" type="string">appc_app_user_dev</property>
+    <property name="acs-password-development" type="string">Ai1yiIFcpECMCmWP6L</property>
+    <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-username-production" type="string">appc_app_user</property>
+    <property name="acs-password-production" type="string">e35vilWdalGdBSybow</property>
+    <property name="appc-org-id" type="string">100016072</property>
+    <property name="appc-creator-user-id" type="string">974ebc0c-0865-4ea6-b748-9098dc431587</property>
 </ti:app>

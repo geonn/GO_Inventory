@@ -23,7 +23,7 @@
 	            	
 	            </View>
 	            <View id="view2" layout="vertical">
-					<TableView width="100%"  id="resTable" height="Ti.UI.SIZE" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+					<TableView width="100%"  id="resTable" height="Ti.UI.SIZE" top="0" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 	            </View>
 	             
 	        </ScrollableView>

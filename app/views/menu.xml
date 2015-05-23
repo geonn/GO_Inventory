@@ -2,31 +2,31 @@
 	<View class="container" layout="vertical" backgroundColor="#262626">
 		<ImageView image="/images/GO_inventory-1.png" top="10" width="50%" />
 		<TableView class="menuTable" onClick="navMenu">
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="HOME" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="Assignment" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="Scan History" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="News & Events" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="Inventory" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="Stock Out" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="View Product" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="Settings" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
-			<TableViewRow height=50>
+			<TableViewRow height="50">
 				<Label text="Logout" class="menuLabel" color="#ffffff" apiName="Button" />
 			</TableViewRow>
 		</TableView>

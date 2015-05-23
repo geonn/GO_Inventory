@@ -13,7 +13,7 @@
 			
 			<View id="hView" top='50' layout="vertical"> 
 				<SearchBar barColor="#ECFFF9" tintColor="#375540"  id="searchItem" text="" top="0" height="50"  hintText="Search Scan Code..." /> 
-			 		<TableView width="100%" id="hisTable" height="auto" top=0 backgroundImage="/images/bg.jpg" separatorColor="#375540" />
+			 		<TableView width="100%" id="hisTable" height="auto" top="0" backgroundImage="/images/bg.jpg" separatorColor="#375540" />
 			</View> 
 			 
 		</View>
