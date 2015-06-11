@@ -29,7 +29,7 @@ var checkProductItemsUrl= "http://"+API_DOMAIN+"/api/checkProductItems?user="+US
 var checkResourceItemsUrl= "http://"+API_DOMAIN+"/api/checkResourceItems?user="+USER+"&key="+KEY;
 var createiCardUrl		= "http://"+API_DOMAIN+"/api/createiCard?user="+USER+"&key="+KEY;
 var updateTokenUrl 		= "http://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
-
+var updateProdInfoUrl   = "http://"+API_DOMAIN+"/api/updateProdInfo?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
@@ -219,6 +219,33 @@ exports.addResource = function(ex){
 	 }
 };
 
+exports.updateProductInformation = function (iType,itemData,code){
+	var url = updateProdInfoUrl+"&code="+code+"&type="+iType+"&itemData="+itemData+"&session="+Ti.App.Properties.getString("session");
+	console.log(url);
+	var _result = contactServer(url);  
+	_result.onload = function(e) {
+	    var res = JSON.parse(this.responseText); 
+	    if(res.status == "success"){ 
+			var mod_products = Alloy.createCollection('products'); 
+			var details = mod_products.changeInformationByType({
+				code: code,
+				itemData :  itemData,
+				iType: iType
+			}); 
+	    	COMMON.createAlert('Update Information','Product '+iType+ ' updated successfully.');
+	    	Ti.App.fireEvent('reloadPage');
+	    	COMMON.hideLoading();
+	    }else{
+	    	COMMON.createAlert('Update failed',res.data.error_msg);
+	    }
+	};
+	// function called when an error occurs, including a timeout
+	_result.onerror = function(e) {
+		COMMON.hideLoading(); 
+	   COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+	}; 
+};
+
 exports.createiCard = function(ex){  
 	if(isNaN(ex.qty) !== false){
 		COMMON.createAlert("Error","Please enter correct quantity");
@@ -326,7 +353,7 @@ exports.getAnnouncement = function (ex){
 	     onload : function(e) {
 	       var res = JSON.parse(this.responseText); 
 	       
-	        if(res.status == "success"){
+	       if(res.status == "success"){
 	        	var checker = Alloy.createCollection('updateChecker'); 
 				var isUpdate = checker.getCheckerById("1"); 
 			 	 if(isUpdate	 !== "" || (res.last_updated != isUpdate.updated)){ 
@@ -512,6 +539,8 @@ exports.getProductiCardList = function(){
 							item_id : code['item_id'],
 							product : code['product'],
 							code : code['code'], 
+							location : code['location'], 
+							price : code['price'], 
 							done : code['done'], 
 							created : currentDateTime(),
 							updated : currentDateTime()

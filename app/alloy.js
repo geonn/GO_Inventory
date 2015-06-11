@@ -44,7 +44,8 @@ var getValueFromPipe = function(myCode){
 		obj['item_id'] = data[3];
 		obj['product'] = data[4];
 		obj['code'] = data[5]; 
- 		
+ 		obj['location'] = data[6]; 
+ 		obj['price'] = data[7]; 
  	}else{
  		obj['type'] = data[0];
 		obj['prefix'] = data[1];

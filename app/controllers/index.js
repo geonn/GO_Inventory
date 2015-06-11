@@ -13,6 +13,12 @@ if(u_id == "" || u_id === null){
 var mod_res = Alloy.createCollection('resources');   
 mod_res.addColumn("usage", "TEXT"); 
 
+var mod_prod = Alloy.createCollection('products');   
+mod_prod.addColumn("price", "TEXT"); 
+
+var mod_prod = Alloy.createCollection('products');   
+mod_prod.addColumn("location", "TEXT"); 
+
 // event 
 Ti.App.addEventListener("app:refreshMenu", function(e) {
 	DRAWER.initMenu();

@@ -27,6 +27,25 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
+			addColumn : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(!fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
+			},
 			getScanProduct : function(){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE myScan='1' ORDER BY updated DESC " ;
@@ -47,6 +66,8 @@ exports.definition = {
 					    code: res.fieldByName('code'), 
 					    orders: res.fieldByName('orders'), 
 					    myScan: res.fieldByName('myScan'), 
+					    location: res.fieldByName('location'), 
+					    price: res.fieldByName('price'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
 					};
@@ -123,6 +144,8 @@ exports.definition = {
 					    product: res.fieldByName('product'),
 					    done : res.fieldByName('done'),
 					    orders: res.fieldByName('orders'), 
+					    location: res.fieldByName('location'), 
+					    price: res.fieldByName('price'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
 					};
@@ -152,6 +175,8 @@ exports.definition = {
 					    code: res.fieldByName('code'),
 					    product: res.fieldByName('product'),
 					    done : res.fieldByName('done'),
+					    location: res.fieldByName('location'), 
+					    price: res.fieldByName('price'), 
 					    orders: res.fieldByName('orders'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -162,6 +187,28 @@ exports.definition = {
                 db.close();
                 collection.trigger('sync');
                 return arr;
+			},
+			changeInformationByType : function(e){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE code='"+e.code+"' " ;
+ 
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql);
+                if (res.isValidRow()){
+                	if(e.iType == "price"){
+                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  price='"+e.itemData+"', updated='"+currentDateTime()+"' WHERE id='"+res.fieldByName('id')+"' " ;
+                	}else{
+                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  location='"+e.itemData+"', updated='"+currentDateTime()+"' WHERE id='"+res.fieldByName('id')+"' " ;
+                	}
+	            	
+	            	db.execute(sql_query);
+	            }
+	            
+	            db.close();
+	            collection.trigger('sync');
 			},
 			getiCardTotalByProduct : function(product_id){
 				var collection = this;
@@ -217,7 +264,9 @@ exports.definition = {
 					    code: res.fieldByName('code'),
 					    product: res.fieldByName('product'),
 					    done : res.fieldByName('done'),
-					    orders: res.fieldByName('orders'), 
+					    orders: res.fieldByName('orders'),
+					    location: res.fieldByName('location'), 
+					    price: res.fieldByName('price'),  
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
 					};
@@ -287,6 +336,8 @@ exports.definition = {
 					    product: res.fieldByName('product'),
 					    done : res.fieldByName('done'),
 					    orders: res.fieldByName('orders'), 
+					    location: res.fieldByName('location'), 
+					    price: res.fieldByName('price'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
 					};
@@ -309,9 +360,9 @@ exports.definition = {
                 var res = db.execute(sql);
                  
                 if (res.isValidRow()){
-	             	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  done='"+e.done+"',item_id='"+e.item_id+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
+	             	sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  done='"+e.done+"',item_id='"+e.item_id+"',location='"+e.location+"',price='"+e.price+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
 	            }else{
-	              	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"','"+e.done+"' , '"+e.created+"','"+e.updated+"')" ;
+	              	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,location,price,done, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"','"+e.location+"','"+e.price+"','"+e.done+"' , '"+e.created+"','"+e.updated+"')" ;
 				}
                  
 	            db.execute(sql_query);
@@ -331,15 +382,15 @@ exports.definition = {
                 if(e.myScan != ""){
                 	
 					if (res.isValidRow()){
-	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', myScan='"+e.myScan+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
+	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', myScan='"+e.myScan+"', location='"+e.location+"', price='"+e.price+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
 	                }else{
-	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, myScan,created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.myScan+"', '"+e.created+"','"+e.updated+"')" ;
+	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, myScan,location, price,created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.myScan+"', '"+e.location+"', '"+e.price+"', '"+e.created+"','"+e.updated+"')" ;
 					}
                 }else{
                 	if (res.isValidRow()){
-	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
+	             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  item_id='"+e.item_id+"', orders='"+e.order+"', location='"+e.location+"', price='"+e.price+"', updated='"+e.updated+"' WHERE id='" +e.id+"'";
 	                }else{
-	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.created+"','"+e.updated+"')" ;
+	                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, prefix, item_id, product,code,done,orders,location,price, created, updated) VALUES ('"+e.id+"','"+e.prefix+"','"+e.item_id+"','"+e.product+"','"+e.code+"', 0, '"+e.order+"', '"+e.location+"', '"+e.price+"', '"+e.created+"','"+e.updated+"')" ;
 					}
                 }
                  

@@ -74,11 +74,22 @@ TextField : {
         fontStyle: 'normal' 
     }
 },
+".medium16_text" :{
+	font: {
+        fontSize: '14dp'
+    }
+},
 ".big_text" :{
 	font: {
         fontSize: '20dp',
         fontStyle: 'normal' 
     }
+},
+".text_center" : {
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+".text_left" : {
+	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
 },
 ".header_text" :{ 
 	color: "#000000",
@@ -88,6 +99,7 @@ TextField : {
         fontWeight: 'bold'
     }
 },
+
 "#header": {
 	width: Ti.UI.FILL,
 	height: 50,

@@ -320,7 +320,134 @@ exports.displayProductResources = function(code){
 	return mainContentView;
 };
 
+exports.displayBottomBar = function(code){
+	
+	var mod_prod = Alloy.createCollection('products');  
+	var proRes  = mod_prod.getProductDetails(code);
+	 
+	var seperatorLine = Titanium.UI.createView({ 
+		backgroundColor: "#D5D5D5",
+		height:1, 
+		width:Ti.UI.FILL
+	});
+	 
+	var mainContentView = Titanium.UI.createView({
+		layout : "horizontal",  
+		bottom:0, 
+		backgroundColor: "#f6f6f6",
+		height:50, 
+		width:Ti.UI.FILL
+	});
+	var leftContentView = Titanium.UI.createView({
+		layout : "vertical",   
+		backgroundColor: "#f6f6f6",
+		content: proRes.price,
+		height:50,
+		width:"25%"
+	});
+	var leftContentLabel = mainView.UI.create('Label',{ 
+		classes: ['bold_text', 'gray_text','medium16_text','text_center'], 
+		text: "RM "+proRes.price,  
+		content: proRes.price,
+		top:0,
+		width:Ti.UI.FILL
+	});
+	leftContentView.add(leftContentLabel);
+	
+	var centerContentView = Titanium.UI.createView({
+		layout : "vertical",   
+		backgroundColor: "#f6f6f6",
+		content: proRes.location,
+		height:50, 
+		width:"45%"
+	});
+	var centerContentLabel = mainView.UI.create('Label',{ 
+		classes: ['bold_text', 'gray_text','medium_text','text_left'], 
+		text: proRes.location, 
+		content: proRes.location,
+		left:5,
+		width:Ti.UI.FILL
+	});
+	centerContentView.add(centerContentLabel);
+	
+	var rightContentView = Titanium.UI.createView({
+		layout : "vertical",   
+		backgroundColor: "#f6f6f6",
+		height:50,
+		
+		width:"auto"
+	});
+	var rightContentLabel = mainView.UI.create('Label',{ 
+		classes: ['bold_text', 'gray_text','medium16_text','text_center'], 
+		text: "Stock Out", 
+		top:15,
+		width:Ti.UI.SIZE
+	});
+	leftContentView.add(leftContentLabel);
+	centerContentView.add(centerContentLabel);
+	rightContentView.add(rightContentLabel);
+	mainContentView.add(seperatorLine);
+	mainContentView.add(leftContentView);
+	mainContentView.add(Titanium.UI.createView({ 
+		backgroundColor: "#D5D5D5",
+		height:Ti.UI.FILL, 
+		width:1
+	}));
+	mainContentView.add(centerContentView);
+	mainContentView.add(Titanium.UI.createView({ 
+		backgroundColor: "#D5D5D5",
+		height:Ti.UI.FILL, 
+		width:1
+	}));
+	mainContentView.add(rightContentView);
+	
+	leftContentView.addEventListener('click', function(e){ 
+		promptInput('price', e.source.content,code);
+	});
+	centerContentView.addEventListener('click', function(e){ 
+		promptInput('location', e.source.content,code);
+	});
+	return mainContentView;
+};
+
 /***PRIVATE FUNCTION***/
+function promptInput(iType, content,code){
+	if(Ti.Platform.osname == "android"){
+		var textfield = Ti.UI.createTextField({ keyboardType : Ti.UI.KEYBOARD_PHONE_PAD});
+		var dialog = Ti.UI.createAlertDialog({
+		    title: 'Product price',
+		     message: 'Current '+iType+' : '+ content,
+		   	androidView: textfield,
+		    buttonNames: ['Confirm', 'Cancel'], 
+		}); 
+	}else{ 
+		var dialog = Ti.UI.createAlertDialog({
+		    title: 'Product '+iType, 
+		    message: 'Current price : '+content,
+		    style: Ti.UI.iPhone.AlertDialogStyle.PLAIN_TEXT_INPUT,
+		    buttonNames: ['Confirm', 'Cancel'],
+		    keyboardType : Ti.UI.KEYBOARD_PHONE_PAD
+		}); 
+	}
+	
+	dialog.show(); 
+	dialog.addEventListener('click', function(e){  
+		if(e.index == 0) { 
+		 
+			var itemData;
+			if(Ti.Platform.osname == "android"){
+				itemData = textfield.value;
+			}else{
+				itemData = e.text;
+			}
+			 
+			API.updateProductInformation(iType,itemData,code);  
+		}else{
+			
+		}
+	}); 
+}
+
 function horizontalView(){
 	return Titanium.UI.createView({
 		layout : "horizontal",  
