@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.geonn.goinventory</id>
     <name>GO Inventory</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <publisher>Geonn Solution</publisher>
     <url>http://</url>
     <description>Manage, records, organize your inventory and goods with QR scanner. Able to view products info by scanning designated QR on each products.</description>
@@ -48,11 +48,11 @@
             </dict>
         </plist>
     </ios>
-    <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <tool-api-level>16</tool-api-level>
+    <android xmlns:android="http://schemas.android.com/apk/res/android"> 
         <manifest>
+        	<tool-api-level>19</tool-api-level>
             <application android:theme="@style/Theme.NoActionBar"/>
-            <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="21"/>
+            <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
             <application android:debuggable="true"
                 android:icon="@drawable/appicon"
                 android:label="GO Inventory"

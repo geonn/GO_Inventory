@@ -1,4 +1,33 @@
 
 ".container" : {
   
-}
+},
+".input" : {
+	 height:'35dp',
+	 font:{
+		fontSize: '14dp'
+	},
+	 left:10,
+	 color: '#000000',
+	 bottom:10,
+	 backgroundColor: '#eee',
+	 width:'90%',
+	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
+     returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
+	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+},
+".textarea" : {
+	  
+	 borderWidth: 1,
+	 font:{
+		fontSize: 'dp'
+	},	
+	  borderColor: '#bbb',
+	  borderRadius: 5,
+	  color: '#000000', 
+	  keyboardType: Ti.UI.KEYBOARD_NUMBER_PAD,
+	  returnKeyType: Ti.UI.RETURNKEY_GO,
+	  textAlign: 'left', 
+	  width: '90%', 
+	  height : 70
+},

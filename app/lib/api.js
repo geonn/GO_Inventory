@@ -30,6 +30,7 @@ var checkResourceItemsUrl= "http://"+API_DOMAIN+"/api/checkResourceItems?user="+
 var createiCardUrl		= "http://"+API_DOMAIN+"/api/createiCard?user="+USER+"&key="+KEY;
 var updateTokenUrl 		= "http://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
 var updateProdInfoUrl   = "http://"+API_DOMAIN+"/api/updateProdInfo?user="+USER+"&key="+KEY;
+var updateStockoutInfoUrl   = "http://"+API_DOMAIN+"/api/updateStockoutInfo?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
@@ -221,7 +222,6 @@ exports.addResource = function(ex){
 
 exports.updateProductInformation = function (iType,itemData,code){
 	var url = updateProdInfoUrl+"&code="+code+"&type="+iType+"&itemData="+itemData+"&session="+Ti.App.Properties.getString("session");
-	console.log(url);
 	var _result = contactServer(url);  
 	_result.onload = function(e) {
 	    var res = JSON.parse(this.responseText); 
@@ -244,6 +244,27 @@ exports.updateProductInformation = function (iType,itemData,code){
 		COMMON.hideLoading(); 
 	   COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
 	}; 
+};
+
+exports.updateStockoutInfo = function(ex){
+	var url = updateStockoutInfoUrl+"&id="+ex.stock_id+"&code="+ex.code+"&customer_name="+ex.customer_name+"&company_name="+ex.company_name+"&sales_order="+ex.sales_order+"&delivery_order="+ex.delivery_order+"&gon="+ex.gon+"&purchase_order="+ex.purchase_order+"&remark="+ex.remark+"&session="+Ti.App.Properties.getString("session");
+	
+	var _result = contactServer(url);  
+	_result.onload = function(e) {
+	    var res = JSON.parse(this.responseText); 
+	    if(res.status == "success"){ 
+			API.getStockOutList();
+	    	COMMON.hideLoading();
+	    }else{
+	    	COMMON.createAlert('Update failed',res.data.error_msg);
+	    }
+	};
+	// function called when an error occurs, including a timeout
+	_result.onerror = function(e) {
+		COMMON.hideLoading(); 
+	   COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+	}; 
+	
 };
 
 exports.createiCard = function(ex){  
@@ -828,6 +849,8 @@ exports.getStockOutList = function(ex){
 						delivery_order: entry.delivery_order,
 						customer_name: entry.customer_name,
 						company_name: entry.company_name,
+						gon: entry.gon,
+						purchase_order: entry.purchase_order,
 						remark: entry.remark, 
 						created: entry.created,
 						updated: entry.updated

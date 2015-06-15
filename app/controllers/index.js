@@ -14,10 +14,12 @@ var mod_res = Alloy.createCollection('resources');
 mod_res.addColumn("usage", "TEXT"); 
 
 var mod_prod = Alloy.createCollection('products');   
-mod_prod.addColumn("price", "TEXT"); 
-
-var mod_prod = Alloy.createCollection('products');   
+mod_prod.addColumn("price", "TEXT");   
 mod_prod.addColumn("location", "TEXT"); 
+
+var mod_prod = Alloy.createCollection('stockout');   
+mod_prod.addColumn("gon", "TEXT");   
+mod_prod.addColumn("purchase_order", "TEXT"); 
 
 // event 
 Ti.App.addEventListener("app:refreshMenu", function(e) {
@@ -27,3 +29,4 @@ Ti.App.addEventListener("app:refreshMenu", function(e) {
 API.updateSettings();
 API.getAnnouncement();
 API.getCategory();
+API.getStockOutList();

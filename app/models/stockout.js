@@ -25,6 +25,25 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
+			addColumn : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(!fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
+			},
 			getStockOutList : function(){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + "  ORDER BY updated DESC " ;
@@ -41,6 +60,8 @@ exports.definition = {
 					    id: res.fieldByName('id'),
 					    sales_order: res.fieldByName('sales_order'), 
 					    delivery_order: res.fieldByName('delivery_order'),
+					    purchase_order : res.fieldByName('purchase_order'),
+					    gon : res.fieldByName('gon'),
 					    customer_name: res.fieldByName('customer_name'),
 					    company_name : res.fieldByName('company_name'),
 					    remark: res.fieldByName('remark'), 
@@ -70,7 +91,9 @@ exports.definition = {
 					arr[count] = { 
 					    id: res.fieldByName('id'),
 					    sales_order: res.fieldByName('sales_order'), 
-					    delivery_order: res.fieldByName('delivery_order'),
+					    delivery_order: res.fieldByName('delivery_order'), 
+					    purchase_order : res.fieldByName('purchase_order'),
+					    gon : res.fieldByName('gon'),
 					    customer_name: res.fieldByName('customer_name'),
 					    company_name : res.fieldByName('company_name'),
 					    remark: res.fieldByName('remark'), 
@@ -101,8 +124,10 @@ exports.definition = {
 					    id: res.fieldByName('id'),
 					    sales_order: res.fieldByName('sales_order'), 
 					    delivery_order: res.fieldByName('delivery_order'),
+					    purchase_order : res.fieldByName('purchase_order'),
+					    gon : res.fieldByName('gon'),
 					    customer_name: res.fieldByName('customer_name'),
-					    company_name : res.fieldByName('company_name'),
+					    company_name : res.fieldByName('company_name'), 
 					    remark: res.fieldByName('remark'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -125,9 +150,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  sales_order='"+e.sales_order+"',delivery_order='"+e.delivery_order+"',customer_name='"+e.customer_name+"',company_name='"+e.company_name+"',remark='"+e.remark+"',updated='"+e.updated+"'  WHERE id='" +e.id+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET  sales_order='"+e.sales_order+"',delivery_order='"+e.delivery_order+"',gon='"+e.gon+"',purchase_order='"+e.purchase_order+"',customer_name='"+e.customer_name+"',company_name='"+e.company_name+"',remark='"+e.remark+"',updated='"+e.updated+"'  WHERE id='" +e.id+"'";
                 }else{ 
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, sales_order, delivery_order, customer_name,company_name,remark, created, updated) VALUES ('"+e.id+"','"+e.sales_order+"','"+e.delivery_order+"','"+e.customer_name+"','"+e.company_name+"', '"+e.remark+"', '"+e.created+"','"+e.updated+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, sales_order, delivery_order,purchase_order,gon, customer_name,company_name,remark, created, updated) VALUES ('"+e.id+"','"+e.sales_order+"','"+e.delivery_order+"','"+e.purchase_order+"','"+e.gon+"','"+e.customer_name+"','"+e.company_name+"', '"+e.remark+"', '"+e.created+"','"+e.updated+"')" ;
 				}
            		 
 	            db.execute(sql_query);
