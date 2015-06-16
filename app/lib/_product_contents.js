@@ -363,7 +363,7 @@ exports.displayBottomBar = function(code){
 		classes: ['bold_text', 'gray_text','medium16_text','text_center'], 
 		text: "Price",
 		//text: "RM "+proRes.price,  
-		//content: proRes.price,
+		content: proRes.price,
 		top:15,
 		width:Ti.UI.FILL
 	});
@@ -382,7 +382,7 @@ exports.displayBottomBar = function(code){
 		classes: ['bold_text', 'gray_text','medium16_text','text_center'], 
 		text: "Location",
 		//text: proRes.location, 
-		//content: proRes.location,
+		content: proRes.location,
 		top: 15,
 		width:Ti.UI.FILL
 	});
@@ -581,7 +581,11 @@ function addDoneEvent(myView, params){
 /***PRIVATE FUNCTION***/
 function promptInput(iType, content,code){
 	if(Ti.Platform.osname == "android"){
-		var textfield = Ti.UI.createTextField({ keyboardType : Ti.UI.KEYBOARD_PHONE_PAD});
+		if(iType == "price"){
+			var textfield = Ti.UI.createTextField({ keyboardType : Ti.UI.KEYBOARD_PHONE_PAD});
+		}else{
+			var textfield = Ti.UI.createTextField({ keyboardType : Ti.UI.KEYBOARD_DEFAULT});
+		}
 		var dialog = Ti.UI.createAlertDialog({
 		    title: 'Product '+iType,
 		     message: 'Current '+iType+' : '+ content,
