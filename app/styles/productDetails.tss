@@ -25,7 +25,7 @@
 	  borderColor: '#bbb',
 	  borderRadius: 5,
 	  color: '#000000', 
-	  keyboardType: Ti.UI.KEYBOARD_NUMBER_PAD,
+	  keyboardType: Ti.UI.KEYBOARD_DEFAULT,
 	  returnKeyType: Ti.UI.RETURNKEY_GO,
 	  textAlign: 'left', 
 	  width: '90%', 

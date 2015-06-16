@@ -20,7 +20,7 @@ mod_prod.addColumn("location", "TEXT");
 var mod_prod = Alloy.createCollection('stockout');   
 mod_prod.addColumn("gon", "TEXT");   
 mod_prod.addColumn("purchase_order", "TEXT"); 
-
+mod_prod.addColumn("status", "TEXT"); 
 // event 
 Ti.App.addEventListener("app:refreshMenu", function(e) {
 	DRAWER.initMenu();

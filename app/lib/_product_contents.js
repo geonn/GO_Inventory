@@ -583,7 +583,7 @@ function promptInput(iType, content,code){
 	if(Ti.Platform.osname == "android"){
 		var textfield = Ti.UI.createTextField({ keyboardType : Ti.UI.KEYBOARD_PHONE_PAD});
 		var dialog = Ti.UI.createAlertDialog({
-		    title: 'Product price',
+		    title: 'Product '+iType,
 		     message: 'Current '+iType+' : '+ content,
 		   	androidView: textfield,
 		    buttonNames: ['Confirm', 'Cancel'], 
@@ -593,8 +593,7 @@ function promptInput(iType, content,code){
 		    title: 'Product '+iType, 
 		    message: 'Current '+iType+' : '+content,
 		    style: Ti.UI.iPhone.AlertDialogStyle.PLAIN_TEXT_INPUT,
-		    buttonNames: ['Confirm', 'Cancel'],
-		    keyboardType : Ti.UI.KEYBOARD_PHONE_PAD
+		    buttonNames: ['Confirm', 'Cancel'] 
 		}); 
 	}
 	

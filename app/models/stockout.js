@@ -65,6 +65,7 @@ exports.definition = {
 					    customer_name: res.fieldByName('customer_name'),
 					    company_name : res.fieldByName('company_name'),
 					    remark: res.fieldByName('remark'), 
+					    status: res.fieldByName('status'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
 					};
@@ -96,6 +97,7 @@ exports.definition = {
 					    gon : res.fieldByName('gon'),
 					    customer_name: res.fieldByName('customer_name'),
 					    company_name : res.fieldByName('company_name'),
+					    status: res.fieldByName('status'), 
 					    remark: res.fieldByName('remark'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
@@ -128,6 +130,7 @@ exports.definition = {
 					    gon : res.fieldByName('gon'),
 					    customer_name: res.fieldByName('customer_name'),
 					    company_name : res.fieldByName('company_name'), 
+					    status: res.fieldByName('status'), 
 					    remark: res.fieldByName('remark'), 
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated') 
