@@ -117,14 +117,28 @@ exports.displayProductImage = function (image,item_id){
 	return imageContainer;
 };
 
-exports.displayProductContents = function(items){ 
+exports.displayProductContents = function(items, code){ 
 	var mainContentView = Titanium.UI.createView({
 		layout : "vertical", 
 		top:5, 
 		bottom:5, 
 		height:Ti.UI.SIZE
 	});
-	 
+	var mod_prod = Alloy.createCollection('products');  
+	var proRes  = mod_prod.getProductDetails(code);
+	
+	var contentView = horizontalView(); 
+	contentView.add(contentTitleLabel("Item Price"));
+	contentView.add(contentLabel(proRes.price));
+	mainContentView.add(contentView); 
+	mainContentView.add(saperatorLine());
+	
+	var contentView = horizontalView(); 
+	contentView.add(contentTitleLabel("Location"));
+	contentView.add(contentLabel(proRes.location));
+	mainContentView.add(contentView); 
+	mainContentView.add(saperatorLine());
+	
  	/*** PRODUCT NAME***/
  	var contentView = horizontalView(); 
 	contentView.add(contentTitleLabel("Product Name"));
@@ -178,7 +192,6 @@ exports.displayProductContents = function(items){
 		left:20
 	});
 	
-	var mod_prod = Alloy.createCollection('products');  
 	var icardsTotal = mod_prod.getiCardTotalByProduct(items.id);
 //console.log(icardsTotal);
 	var contentView  = horizontalView(); 
@@ -345,11 +358,13 @@ exports.displayBottomBar = function(code){
 		height:50,
 		width:"25%"
 	});
+	
 	var leftContentLabel = mainView.UI.create('Label',{ 
 		classes: ['bold_text', 'gray_text','medium16_text','text_center'], 
-		text: "RM "+proRes.price,  
-		content: proRes.price,
-		top:0,
+		text: "Price",
+		//text: "RM "+proRes.price,  
+		//content: proRes.price,
+		top:15,
 		width:Ti.UI.FILL
 	});
 	leftContentView.add(leftContentLabel);
@@ -361,11 +376,14 @@ exports.displayBottomBar = function(code){
 		height:50, 
 		width:"45%"
 	});
+	
 	var centerContentLabel = mainView.UI.create('Label',{ 
-		classes: ['bold_text', 'gray_text','medium_text','text_left'], 
-		text: proRes.location, 
-		content: proRes.location,
-		left:5,
+		//classes: ['bold_text', 'gray_text','medium_text','text_left'], 
+		classes: ['bold_text', 'gray_text','medium16_text','text_center'], 
+		text: "Location",
+		//text: proRes.location, 
+		//content: proRes.location,
+		top: 15,
 		width:Ti.UI.FILL
 	});
 	centerContentView.add(centerContentLabel);

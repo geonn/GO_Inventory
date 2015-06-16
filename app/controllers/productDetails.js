@@ -58,7 +58,7 @@ var getProductDetails = function(items){
 	row.add(PROD_CONTENTS.displayHeader()); 
 	 
 	/***Create and Add Product Contents***/
-	row.add(PROD_CONTENTS.displayProductContents(items)); 
+	row.add(PROD_CONTENTS.displayProductContents(items, code)); 
 	
 	
 	if(code != ""){

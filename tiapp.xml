@@ -48,9 +48,9 @@
             </dict>
         </plist>
     </ios>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"> 
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
         <manifest>
-        	<tool-api-level>19</tool-api-level>
+            <tool-api-level>19</tool-api-level>
             <application android:theme="@style/Theme.NoActionBar"/>
             <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
             <application android:debuggable="true"
@@ -84,7 +84,7 @@
         <target device="iphone">true</target>
         <target device="mobileweb">true</target>
     </deployment-targets>
-    <sdk-version>4.0.0.GA</sdk-version>
+    <sdk-version>3.5.1.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
